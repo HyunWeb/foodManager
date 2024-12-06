@@ -10,10 +10,17 @@ const sequelize = new Sequelize(
 );
 
 const User = require("./User")(sequelize, Sequelize.DataTypes);
+
 const FoodLog = require("./FoodLog")(sequelize, Sequelize.DataTypes);
-const Recipe = require("./Recipe")(sequelize, Sequelize.DataTypes);
-const Posting = require("./Posting")(sequelize, Sequelize.DataTypes);
+
+const Recipe = require("./Recipe/Recipe")(sequelize, Sequelize.DataTypes);
+const Step = require("./Recipe/Step")(sequelize, Sequelize.DataTypes);
+const Ingredient = require("./Recipe/Ingredient")(sequelize, Sequelize.DataTypes);
+
+const Posting = require("./Posting/Posting")(sequelize, Sequelize.DataTypes);
+
 const Grocery = require("./Grocery")(sequelize, Sequelize.DataTypes);
+
 
 
 
@@ -21,8 +28,11 @@ const Grocery = require("./Grocery")(sequelize, Sequelize.DataTypes);
 db.User = User;
 db.FoodLog = FoodLog;
 db.Recipe = Recipe;
+db.Step = Step;
+db.Ingredient = Ingredient;
 db.Posting = Posting;
 db.Grocery = Grocery;
+
 
 
 
