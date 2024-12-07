@@ -9,7 +9,7 @@ const User = (Sequelize, DataTypes) => {
     return Sequelize.define(
       "user",
       {
-        ID: {
+        userID: {
           // id int not null primary key auto_increment,
           type: DataTypes.STRING(20),
           primaryKey: true,

@@ -9,10 +9,15 @@ const Step = (Sequelize, DataTypes) => {
         "step",
         {
             // recipeID: Foreign Key
-            stepNo: {
+            recipeID: {
                 type: DataTypes.NUMBER,
                 primaryKey: true,
-                autoIncrement: true,
+                allowNull: false,
+                autoIncrement: true
+            },
+            stepNo: {
+                type: DataTypes.NUMBER,
+                allowNull: false
             },
             content: {
                 type: DataTypes.TEXT,

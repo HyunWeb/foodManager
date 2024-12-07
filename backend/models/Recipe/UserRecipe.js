@@ -9,7 +9,17 @@
 const UserRecipe = (Sequelize, DataTypes) => {
     return Sequelize.define(
         "userRecipe",
-        {},
+        {
+            recipeID: {
+                type: DataTypes.NUMBER,
+                allowNull: false,
+                primaryKey: true,
+            },
+            userID: {
+                type: DataTypes.STRING(20),
+                allowNull: false,
+            }
+        },
         {
             tableName: "userRecipe",
             freezeTableName: true,

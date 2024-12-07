@@ -30,6 +30,35 @@ const Grocery = require("./Grocery/Grocery")(sequelize, Sequelize.DataTypes);
 const UserGrocery = require("./Grocery/UserGrocery")(sequelize, Sequelize.DataTypes);
 
 
+// User - FoodLog -> UserLog
+User.hasMany(UserLog, {foreignKey: "userID"});
+UserLog.belongsTo(User, {foreignKey: "userID"});
+
+FoodLog.hasOne(UserLog, {foreignKey: "logID"});
+UserLog.belongsTo(FoodLog, {foreignKey: "logID"});
+
+// User - Recipe -> UserRecipe
+User.hasMany(UserRecipe, {foreignKey: "userID"});
+UserRecipe.belongsTo(User, {foreignKey: "userID"});
+
+Recipe.hasOne(UserRecipe, {foreignKey: "recipeID"});
+UserRecipe.belongsTo(Recipe, {foreignKey: "recipeID"});
+
+
+
+// User - Posting -> UserPosting
+User.hasMany(UserPosting, {foreignKey: "userID"});
+UserPosting.belongsTo(User, {foreignKey: "userID"});
+
+Posting.hasOne(UserPosting, {foreignKey: "postingID"});
+UserPosting.belongsTo(Posting, {foreignKey: "postingID"});
+
+// User - Grocery -> UserGrocery
+User.hasMany(UserGrocery, {foreignKey: "userID"});
+UserGrocery.belongsTo(User, {foreignKey: "userID"});
+
+Grocery.hasOne(UserGrocery, {foreignKey: "groceryID"});
+UserGrocery.belongsTo(Grocery, {foreignKey: "groceryID"});
 
 
 
