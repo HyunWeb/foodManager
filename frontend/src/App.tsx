@@ -1,16 +1,17 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MainPage from "./components/MainPage";
+import MainPage from "./components/pages/MainPage";
+import { Provider } from "./components/ui/provider";
 
 function App() {
   return (
-    <div className="App">
+    <Provider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Provider>
   );
 }
 
