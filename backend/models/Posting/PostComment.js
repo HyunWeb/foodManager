@@ -14,9 +14,13 @@ const PostComment = (Sequelize, DataTypes) => {
                 primaryKey: true,
                 allowNull: false,
             },
+            commentID: {
+                type: DataTypes.NUMBER,
+                autoIncrement: true,
+                primaryKey: true,
+            },
             postingID: {
                 type: DataTypes.TEXT,
-                primaryKey: true,
                 allowNull: false,
             },
             content: {
