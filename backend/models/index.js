@@ -9,60 +9,165 @@ const sequelize = new Sequelize(
   config
 );
 
+// User
 const User = require("./User")(sequelize, Sequelize.DataTypes);
 
+// 음식 기록
 const FoodLog = require("./FoodLog/FoodLog")(sequelize, Sequelize.DataTypes);
-// const UserLog = require("./FoodLog/UserLog")(sequelize, Sequelize.DataTypes);
 
+// 냉장고
+const Grocery = require("./Grocery/Grocery")(sequelize, Sequelize.DataTypes);
+
+// 레시피
 const Recipe = require("./Recipe/Recipe")(sequelize, Sequelize.DataTypes);
 const Step = require("./Recipe/Step")(sequelize, Sequelize.DataTypes);
 const Ingredient = require("./Recipe/Ingredient")(sequelize, Sequelize.DataTypes);
 const RecipeReview = require("./Recipe/RecipeReview")(sequelize, Sequelize.DataTypes);
 const RecipeLike = require("./Recipe/RecipeLike")(sequelize, Sequelize.DataTypes);
-// const UserRecipe = require("./Recipe/UserRecipe")(sequelize, Sequelize.DataTypes);
 
+// 게시물
 const Posting = require("./Posting/Posting")(sequelize, Sequelize.DataTypes);
 const PostComment = require("./Posting/PostComment")(sequelize, Sequelize.DataTypes);
 const PostLike = require("./Posting/PostLike")(sequelize, Sequelize.DataTypes);
-// const UserPosting = require("./Posting/UserPosting")(sequelize, Sequelize.DataTypes);
-
-const Grocery = require("./Grocery/Grocery")(sequelize, Sequelize.DataTypes);
-// const UserGrocery = require("./Grocery/UserGrocery")(sequelize, Sequelize.DataTypes);
 
 
-// User - FoodLog -> UserLog
-// User.hasMany(UserLog, {foreignKey: "userID", onDelete: 'cascade'});
-// UserLog.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
+// 관계 설정
 
-// FoodLog.hasOne(UserLog, {foreignKey: "logID", onDelete: 'cascade'});
-// UserLog.belongsTo(FoodLog, {foreignKey: "logID", onDelete: 'cascade'});
+// A user can have many food logs, groceries, recipes, posts, and post comments
+User.hasMany(FoodLog, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+User.hasMany(Grocery, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+User.hasMany(Recipe, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+User.hasMany(Post, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+User.hasMany(PostComment, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
 
-// User - Recipe -> UserRecipe
-// User.hasMany(UserRecipe, {foreignKey: "userID", onDelete: 'cascade'});
-// UserRecipe.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
+// A user can give many recipe reviews and likes
+User.hasMany(RecipeReview, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+User.hasMany(RecipeLike, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+User.hasMany(PostLike, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
 
-// Recipe.hasOne(UserRecipe, {foreignKey: "recipeID", onDelete: 'cascade'});
-// UserRecipe.belongsTo(Recipe, {foreignKey: "recipeID", onDelete: 'cascade'});
+// A food log belongs to a user
+FoodLog.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
 
-Recipe.hasMany(Step, {foreignKey: "recipeID", onDelete: 'cascade'});
-Step.belongsTo(Recipe, {foreignKey: "recipeID", onDelete: 'cascade'});
+// A grocery belongs to a user
+Grocery.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
 
-Recipe.hasMany(Ingredient, {foreignKey: "recipeID", onDelete: 'cascade'});
-Ingredient.belongsTo(Recipe, {foreignKey: "recipeID", onDelete: 'cascade'});
+// A recipe belongs to a user
+Recipe.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+
+// A post belongs to a user
+Post.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+
+// A post comment belongs to a user and a post
+PostComment.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+PostComment.belongsTo(Post, { 
+  foreignKey: "postingID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+
+// A recipe review belongs to a user and a recipe
+RecipeReview.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+RecipeReview.belongsTo(Recipe, { 
+  foreignKey: "recipeID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+
+// A recipe like belongs to a user and a recipe
+RecipeLike.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+RecipeLike.belongsTo(Recipe, { 
+  foreignKey: "recipeID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+
+// A post like belongs to a user and a post
+PostLike.belongsTo(User, { 
+  foreignKey: "userID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+PostLike.belongsTo(Post, { 
+  foreignKey: "postingID",
+  onDelete: "CASCADE",  
+  onUpdate: "CASCADE" 
+});
+
+// A recipe has many ingredients
+Recipe.hasMany(Ingredient, { 
+  foreignKey: "recipeID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
+
+// A step belongs to a recipe
+Step.belongsTo(Recipe, { 
+  foreignKey: "recipeID", 
+  onDelete: "CASCADE", 
+  onUpdate: "CASCADE" 
+});
 
 
-
-// User - Posting -> UserPosting
-// User.hasMany(UserPosting, {foreignKey: "userID", onDelete: 'cascade'});
-// UserPosting.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
-
-
-// User - Grocery -> UserGrocery
-// User.hasMany(UserGrocery, {foreignKey: "userID", onDelete: 'cascade'});
-// UserGrocery.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
-
-// Grocery.hasOne(UserGrocery, {foreignKey: "groceryID", onDelete: 'cascade'});
-// UserGrocery.belongsTo(Grocery, {foreignKey: "groceryID", onDelete: 'cascade'});
 
 
 

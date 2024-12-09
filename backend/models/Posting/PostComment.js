@@ -7,32 +7,42 @@
 
 const PostComment = (Sequelize, DataTypes) => {
     return Sequelize.define(
-        "postComment",
-        {
-            commentID: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true,
-            },
-            userID: {
-                type: DataTypes.STRING(20),
-                allowNull: false,
-            },
-            postingID: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            content: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-            }
+      "postComment",
+      {
+        commentID: {
+          type: DataTypes.INTEGER,
+          autoIncrement: true,
+          primaryKey: true,
         },
-        {
-            tableName: "postComment",
-            freezeTableName: true,
-            timestamps: true,  // createdAt, updatedAt 자동 생성
-        }
+        userID: {
+          type: DataTypes.STRING(20),
+          allowNull: false,
+        },
+        postingID: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        content: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        createdAt: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false,
+        },
+        updatedAt: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+          allowNull: false,
+        },
+      },
+      {
+        tableName: "postComment",
+        freezeTableName: true,
+        timestamps: false,
+      }
     );
-};
+  };
 
 module.exports = PostComment;

@@ -13,25 +13,26 @@
 
 const RecipeLike = (Sequelize, DataTypes) => {
     return Sequelize.define(
-        "recipeLike",
-        {
-            userID: {
-                type: DataTypes.INTEGER,  // NUMBER -> INTEGER
-                primaryKey: true,
-                allowNull: false,
-            },
-            recipeID: {
-                type: DataTypes.INTEGER,  // NUMBER -> INTEGER
-                primaryKey: true,
-                allowNull: false,
-            }
+      "recipeLike",
+      {
+        userID: {
+          type: DataTypes.STRING(20),
+          allowNull: false,
+          primaryKey: true,
         },
-        {
-            tableName: "recipeLike",
-            freezeTableName: true,
-            timestamps: false,
-        }
+        recipeID: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+        },
+      },
+      {
+        tableName: "recipeLike",
+        freezeTableName: true,
+        timestamps: false,
+        primaryKey: ["userID", "recipeID"],
+      }
     );
-};
+  };
 
 module.exports = RecipeLike;

@@ -7,25 +7,31 @@
 
 const PostLike = (Sequelize, DataTypes) => {
     return Sequelize.define(
-        "postLike",
-        {
-            userID: {
-                type: DataTypes.STRING(20), 
-                allowNull: false,
-                primaryKey: true,  // 복합 기본키의 일부로 사용
-            },
-            postingID: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                primaryKey: true,  // 복합 기본키의 일부로 사용
-            }
+      "postLike",
+      {
+        userID: {
+          type: DataTypes.STRING(20),
+          allowNull: false,
+          references: {
+            model: "user",
+            key: "userID",
+          },
         },
-        {
-            tableName: "postLike",
-            freezeTableName: true,
-            timestamps: false,  // createdAt, updatedAt을 사용하지 않음
-        }
+        postingID: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          references: {
+            model: "post",
+            key: "postingID",
+          },
+        },
+      },
+      {
+        tableName: "postLike",
+        freezeTableName: true,
+        timestamps: false,
+      }
     );
-};
+  };
 
 module.exports = PostLike;

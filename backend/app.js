@@ -11,7 +11,7 @@ app.use(cors());
 const indexRouter = require("./routes/index");
 app.use("/", indexRouter);
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   app.listen(8000, () => {
     try {
       console.log(`http://localhost:${PORT}`);
