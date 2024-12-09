@@ -6,25 +6,25 @@
 
 
 const PostLike = (Sequelize, DataTypes) => {
-    return Sequelie.define(
+    return Sequelize.define(
         "postLike",
         {
-            userid: {
-                type: DataTypes.NUMBER,
-                primaryKey: true,
+            userID: {
+                type: DataTypes.STRING(20), 
                 allowNull: false,
+                primaryKey: true,  // 복합 기본키의 일부로 사용
             },
             postingID: {
-                type: DataTypes.NUMBER,
-                primaryKey: true,
+                type: DataTypes.INTEGER,
                 allowNull: false,
+                primaryKey: true,  // 복합 기본키의 일부로 사용
             }
         },
         {
             tableName: "postLike",
             freezeTableName: true,
-            timestamps: false,
-        }                                                                                                                                                                                                                                                                                                                                                                                                                     
+            timestamps: false,  // createdAt, updatedAt을 사용하지 않음
+        }
     );
 };
 

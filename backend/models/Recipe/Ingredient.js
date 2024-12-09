@@ -9,14 +9,14 @@ const Ingredient = (Sequelize, DataTypes) => {
         "ingredient", 
         {
             recipeID: {
-                type: DataTypes.NUMBER,
-                primaryKey: true,
+                type: DataTypes.INTEGER,
                 allowNull: false,
             },
             ingredientID: {
-                type: DataTypes.NUMBER,
-                primaryKey: true,
+                type: DataTypes.INTEGER,
                 allowNull: false,
+                primaryKey: true,
+                autoIncrement: true,
             },
             ingreName: {
                 type: DataTypes.STRING(10),
@@ -30,9 +30,9 @@ const Ingredient = (Sequelize, DataTypes) => {
         {
             tableName: "ingredient",
             freezeTableName: true,
-            timestamps: true,
+            timestamps: true,  // Sequelize will automatically manage createdAt, updatedAt
         }
     );
 };
 
-module.export = Ingredient;
+module.exports = Ingredient;

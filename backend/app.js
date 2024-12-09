@@ -4,12 +4,19 @@ const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
+const db = require("./models");
 
 app.use(cors());
 
 const indexRouter = require("./routes/index");
 app.use("/", indexRouter);
 
-app.listen(PORT, () => {
-  console.log(`https:localhost:${PORT}`);
+db.sequelize.sync({ force: true }).then(() => {
+  app.listen(8000, () => {
+    try {
+      console.log(`http://localhost:${PORT}`);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });

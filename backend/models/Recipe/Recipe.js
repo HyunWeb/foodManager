@@ -9,9 +9,19 @@ const Recipe = (Sequelize, DataTypes) => {
         "recipe",
         {
             recipeID: {
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER,  // NUMBER -> INTEGER로 수정
                 primaryKey: true,
                 autoIncrement: true,
+            },
+            userID: {
+                type: DataTypes.STRING(20),
+                allowNull: false,
+                references: {
+                    model: 'user',  // 외래 키 설정: 'user' 테이블을 참조
+                    key: 'userID',  // 참조할 칼럼
+                },
+                onDelete: 'CASCADE',  // 사용자가 삭제되면 이 게시물도 삭제
+                onUpdate: 'CASCADE',  // 사용자가 업데이트되면 게시물도 업데이트
             },
             title: {
                 type: DataTypes.STRING(20),
@@ -37,9 +47,9 @@ const Recipe = (Sequelize, DataTypes) => {
         {
             tableName: "recipe",
             freezeTableName: true,
-            timestamps: true,
+            timestamps: true,  // createdAt, updatedAt 자동 생성
         }
     );
 };
 
-module.export = Recipe;
+module.exports = Recipe;  // module.export -> module.exports

@@ -6,21 +6,20 @@
 
 
 const PostComment = (Sequelize, DataTypes) => {
-    return Sequelie.define(
+    return Sequelize.define(
         "postComment",
         {
-            userid: {
-                type: DataTypes.NUMBER,
-                primaryKey: true,
-                allowNull: false,
-            },
             commentID: {
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
             },
+            userID: {
+                type: DataTypes.STRING(20),
+                allowNull: false,
+            },
             postingID: {
-                type: DataTypes.TEXT,
+                type: DataTypes.INTEGER,
                 allowNull: false,
             },
             content: {
@@ -31,8 +30,8 @@ const PostComment = (Sequelize, DataTypes) => {
         {
             tableName: "postComment",
             freezeTableName: true,
-            timestamps: true,
-        }                                                                                                                                                                                                                                                                                                                                                                                                                     
+            timestamps: true,  // createdAt, updatedAt 자동 생성
+        }
     );
 };
 
