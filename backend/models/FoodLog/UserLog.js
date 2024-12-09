@@ -29,7 +29,4 @@ const UserLog = (Sequelize, DataTypes) => {
     );
 };
 
-Child.removeAttribute("id");
-Child.primaryKeyAttributes = ['userID', 'logID']; // 복합키 설정
-
 module.exports = UserLog;

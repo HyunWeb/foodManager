@@ -15,6 +15,7 @@ const Ingredient = (Sequelize, DataTypes) => {
             },
             ingredientID: {
                 type: DataTypes.NUMBER,
+                primaryKey: true,
                 allowNull: false,
             },
             ingreName: {

@@ -17,6 +17,7 @@ const Step = (Sequelize, DataTypes) => {
             },
             stepNo: {
                 type: DataTypes.NUMBER,
+                primaryKey: true,
                 allowNull: false
             },
             content: {

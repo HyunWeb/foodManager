@@ -32,39 +32,39 @@ const UserGrocery = require("./Grocery/UserGrocery")(sequelize, Sequelize.DataTy
 
 // User - FoodLog -> UserLog
 User.hasMany(UserLog, {foreignKey: "userID", onDelete: 'cascade'});
-UserLog.belongsTo(User, {foreignKey: "userID"});
+UserLog.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
 
 FoodLog.hasOne(UserLog, {foreignKey: "logID", onDelete: 'cascade'});
-UserLog.belongsTo(FoodLog, {foreignKey: "logID"});
+UserLog.belongsTo(FoodLog, {foreignKey: "logID", onDelete: 'cascade'});
 
 // User - Recipe -> UserRecipe
 User.hasMany(UserRecipe, {foreignKey: "userID", onDelete: 'cascade'});
-UserRecipe.belongsTo(User, {foreignKey: "userID"});
+UserRecipe.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
 
 Recipe.hasOne(UserRecipe, {foreignKey: "recipeID", onDelete: 'cascade'});
-UserRecipe.belongsTo(Recipe, {foreignKey: "recipeID"});
+UserRecipe.belongsTo(Recipe, {foreignKey: "recipeID", onDelete: 'cascade'});
 
 Recipe.hasMany(Step, {foreignKey: "recipeID", onDelete: 'cascade'});
-Step.belongsTo(Recipe, {foreignKey: "recipeID"});
+Step.belongsTo(Recipe, {foreignKey: "recipeID", onDelete: 'cascade'});
 
 Recipe.hasMany(Ingredient, {foreignKey: "recipeID", onDelete: 'cascade'});
-Ingredient.belongsTo(Recipe, {foreignKey: "recipeID"});
+Ingredient.belongsTo(Recipe, {foreignKey: "recipeID", onDelete: 'cascade'});
 
 
 
 // User - Posting -> UserPosting
 User.hasMany(UserPosting, {foreignKey: "userID", onDelete: 'cascade'});
-UserPosting.belongsTo(User, {foreignKey: "userID"});
+UserPosting.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
 
 Posting.hasOne(UserPosting, {foreignKey: "postingID", onDelete: 'cascade'});
-UserPosting.belongsTo(Posting, {foreignKey: "postingID"});
+UserPosting.belongsTo(Posting, {foreignKey: "postingID", onDelete: 'cascade'});
 
 // User - Grocery -> UserGrocery
 User.hasMany(UserGrocery, {foreignKey: "userID", onDelete: 'cascade'});
-UserGrocery.belongsTo(User, {foreignKey: "userID"});
+UserGrocery.belongsTo(User, {foreignKey: "userID", onDelete: 'cascade'});
 
 Grocery.hasOne(UserGrocery, {foreignKey: "groceryID", onDelete: 'cascade'});
-UserGrocery.belongsTo(Grocery, {foreignKey: "groceryID"});
+UserGrocery.belongsTo(Grocery, {foreignKey: "groceryID", onDelete: 'cascade'});
 
 
 
