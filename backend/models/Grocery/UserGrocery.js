@@ -18,6 +18,7 @@ const UserGrocery = (Sequelize, DataTypes) => {
             userID: {
                 type: DataTypes.STRING(20),
                 allowNull: false,
+                primaryKey: true,
             }
         },
         {

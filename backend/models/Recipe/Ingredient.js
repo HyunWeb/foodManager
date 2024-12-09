@@ -8,10 +8,14 @@ const Ingredient = (Sequelize, DataTypes) => {
     return Sequelize.define(
         "ingredient", 
         {
-            ingredientID: {
+            recipeID: {
                 type: DataTypes.NUMBER,
                 primaryKey: true,
-                autoIncrement: true,
+                allowNull: false,
+            },
+            ingredientID: {
+                type: DataTypes.NUMBER,
+                allowNull: false,
             },
             ingreName: {
                 type: DataTypes.STRING(10),

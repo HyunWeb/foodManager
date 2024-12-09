@@ -31,33 +31,39 @@ const UserGrocery = require("./Grocery/UserGrocery")(sequelize, Sequelize.DataTy
 
 
 // User - FoodLog -> UserLog
-User.hasMany(UserLog, {foreignKey: "userID"});
+User.hasMany(UserLog, {foreignKey: "userID", onDelete: 'cascade'});
 UserLog.belongsTo(User, {foreignKey: "userID"});
 
-FoodLog.hasOne(UserLog, {foreignKey: "logID"});
+FoodLog.hasOne(UserLog, {foreignKey: "logID", onDelete: 'cascade'});
 UserLog.belongsTo(FoodLog, {foreignKey: "logID"});
 
 // User - Recipe -> UserRecipe
-User.hasMany(UserRecipe, {foreignKey: "userID"});
+User.hasMany(UserRecipe, {foreignKey: "userID", onDelete: 'cascade'});
 UserRecipe.belongsTo(User, {foreignKey: "userID"});
 
-Recipe.hasOne(UserRecipe, {foreignKey: "recipeID"});
+Recipe.hasOne(UserRecipe, {foreignKey: "recipeID", onDelete: 'cascade'});
 UserRecipe.belongsTo(Recipe, {foreignKey: "recipeID"});
+
+Recipe.hasMany(Step, {foreignKey: "recipeID", onDelete: 'cascade'});
+Step.belongsTo(Recipe, {foreignKey: "recipeID"});
+
+Recipe.hasMany(Ingredient, {foreignKey: "recipeID", onDelete: 'cascade'});
+Ingredient.belongsTo(Recipe, {foreignKey: "recipeID"});
 
 
 
 // User - Posting -> UserPosting
-User.hasMany(UserPosting, {foreignKey: "userID"});
+User.hasMany(UserPosting, {foreignKey: "userID", onDelete: 'cascade'});
 UserPosting.belongsTo(User, {foreignKey: "userID"});
 
-Posting.hasOne(UserPosting, {foreignKey: "postingID"});
+Posting.hasOne(UserPosting, {foreignKey: "postingID", onDelete: 'cascade'});
 UserPosting.belongsTo(Posting, {foreignKey: "postingID"});
 
 // User - Grocery -> UserGrocery
-User.hasMany(UserGrocery, {foreignKey: "userID"});
+User.hasMany(UserGrocery, {foreignKey: "userID", onDelete: 'cascade'});
 UserGrocery.belongsTo(User, {foreignKey: "userID"});
 
-Grocery.hasOne(UserGrocery, {foreignKey: "groceryID"});
+Grocery.hasOne(UserGrocery, {foreignKey: "groceryID", onDelete: 'cascade'});
 UserGrocery.belongsTo(Grocery, {foreignKey: "groceryID"});
 
 

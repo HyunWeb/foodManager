@@ -9,6 +9,16 @@ const PostComment = (Sequelize, DataTypes) => {
     return Sequelie.define(
         "postComment",
         {
+            userid: {
+                type: DataTypes.NUMBER,
+                primaryKey: true,
+                allowNull: false,
+            },
+            postingID: {
+                type: DataTypes.TEXT,
+                primaryKey: true,
+                allowNull: false,
+            },
             content: {
                 type: DataTypes.TEXT,
                 allowNull: false,

@@ -8,7 +8,18 @@
 const RecipeLike = (Sequelize, DataTypes) => {
     return Sequelie.define(
         "recipeLike",
-        {},
+        {
+            userid: {
+                type: DataTypes.NUMBER,
+                primaryKey: true,
+                allowNull: false,
+            },
+            recipeID: {
+                type: DataTypes.NUMBER,
+                primaryKey: true,
+                allowNull: false,
+            }
+        },
         {
             tableName: "recipeLike",
             freezeTableName: true,

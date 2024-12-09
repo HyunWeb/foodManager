@@ -8,7 +8,18 @@
 const PostLike = (Sequelize, DataTypes) => {
     return Sequelie.define(
         "postLike",
-        {},
+        {
+            userid: {
+                type: DataTypes.NUMBER,
+                primaryKey: true,
+                allowNull: false,
+            },
+            postingID: {
+                type: DataTypes.NUMBER,
+                primaryKey: true,
+                allowNull: false,
+            }
+        },
         {
             tableName: "postLike",
             freezeTableName: true,
