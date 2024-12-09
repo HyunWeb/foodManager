@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import { HStack } from "@chakra-ui/react";
 import axios from "axios";
+import LogoChar from "../atoms/LogoChar";
 
 interface Item {
   name: string;
@@ -22,5 +25,14 @@ export default function MainPage() {
     console.log(items); //undefined
   }, []);
 
-  return <div>{items ? items.name : "Loading..."}</div>;
+  return (
+    <div>
+      {items ? items.name : "Loading..."}
+      <HStack>
+        <Button>Click me</Button>
+        <Button>Click me</Button>
+      </HStack>
+      <LogoChar text="Hello World!" />
+    </div>
+  );
 }
