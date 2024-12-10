@@ -1,5 +1,13 @@
 import React from "react";
 
-export default function RecipeIcon() {
-  return <div>RecipeIcon</div>;
+interface Props {
+  text: string;
+}
+
+export default function RecipeIcon({ text }: Props) {
+  return (
+    <div>
+      <span>{text}</span>
+    </div>
+  );
 }

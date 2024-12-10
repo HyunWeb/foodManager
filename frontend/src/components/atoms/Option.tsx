@@ -1,5 +1,7 @@
 import React from "react";
-
-export default function Option() {
-  return <div>Option</div>;
+interface Props {
+  text: string;
+}
+export default function Option({ text }: Props) {
+  return <option value={text}>{text}</option>;
 }
