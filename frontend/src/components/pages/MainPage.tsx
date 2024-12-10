@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { HStack } from "@chakra-ui/react";
+import { HStack, IconButton } from "@chakra-ui/react";
 import axios from "axios";
-import LogoChar from "../atoms/LogoChar";
 import Select from "../atoms/Select";
 import { Rating } from "../ui/rating";
 import RatingTag from "../atoms/RatingTag";
 import Profileimg from "../atoms/Profileimg";
 import Logolmg from "../atoms/LogoImg";
 import LinkAtom from "../atoms/LinkAtom";
+import InputForm from "../atoms/InputForm";
+import ImageCard from "../atoms/ImageCard";
+import IconButtonAtom from "../atoms/IconButtonAtom";
+import ButtonAtom from "../atoms/ButtonAtom";
+import Anchor from "../atoms/Anchor";
 interface Item {
   name: string;
 }
@@ -42,7 +46,6 @@ export default function MainPage() {
         <Button>Click me</Button>
         <Button>Click me</Button>
       </HStack>
-      <LogoChar text="Hello World!" />
       <Select options={options} />
       <Rating defaultValue={3} size="sm" />
       <RatingTag text={"5.0"} />
@@ -52,6 +55,16 @@ export default function MainPage() {
       <LinkAtom url="/" label="HOME" status="Data" />
       <LinkAtom url="/" label="HOME" status="Box" />
       <LinkAtom url="/" label="HOME" status="Profile" />
+      <InputForm
+        label="Email"
+        helperText="예시글자입니다."
+        required={true}
+        placeholder="이메일을 입력하세요"
+      />
+      <ImageCard />
+      <IconButtonAtom label="abc" />
+      <ButtonAtom />
+      <Anchor href="#" text="Link" />
     </div>
   );
 }

@@ -1,5 +1,11 @@
 import React from "react";
+import { Link } from "@chakra-ui/react";
 
-export default function Anchor() {
-  return <div>Anchor</div>;
+interface AnchorProps {
+  href: string;
+  text: string;
+}
+
+export default function Anchor({ href, text }: AnchorProps) {
+  return <Link href={href}>{text}</Link>;
 }
