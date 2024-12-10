@@ -21,7 +21,7 @@ const PostLike = (Sequelize, DataTypes) => {
           type: DataTypes.INTEGER,
           allowNull: false,
           references: {
-            model: "post",
+            model: "posting",
             key: "postingID",
           },
         },

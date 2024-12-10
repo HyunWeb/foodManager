@@ -49,7 +49,7 @@ User.hasMany(Recipe, {
   onDelete: "CASCADE", 
   onUpdate: "CASCADE" 
 });
-User.hasMany(Post, { 
+User.hasMany(Posting, { 
   foreignKey: "userID", 
   onDelete: "CASCADE", 
   onUpdate: "CASCADE" 
@@ -99,7 +99,7 @@ Recipe.belongsTo(User, {
 });
 
 // A post belongs to a user
-Post.belongsTo(User, { 
+Posting.belongsTo(User, { 
   foreignKey: "userID", 
   onDelete: "CASCADE", 
   onUpdate: "CASCADE" 
@@ -111,7 +111,7 @@ PostComment.belongsTo(User, {
   onDelete: "CASCADE", 
   onUpdate: "CASCADE" 
 });
-PostComment.belongsTo(Post, { 
+PostComment.belongsTo(Posting, { 
   foreignKey: "postingID", 
   onDelete: "CASCADE", 
   onUpdate: "CASCADE" 
@@ -147,7 +147,7 @@ PostLike.belongsTo(User, {
   onDelete: "CASCADE", 
   onUpdate: "CASCADE" 
 });
-PostLike.belongsTo(Post, { 
+PostLike.belongsTo(Posting, { 
   foreignKey: "postingID",
   onDelete: "CASCADE",  
   onUpdate: "CASCADE" 
