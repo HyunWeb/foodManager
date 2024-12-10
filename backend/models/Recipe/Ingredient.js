@@ -5,39 +5,34 @@
  */
 
 const Ingredient = (Sequelize, DataTypes) => {
-    return Sequelize.define(
-      "ingredient",
-      {
-        ingredientID: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        ingreName: {
-          type: DataTypes.STRING(10),
-          allowNull: false,
-        },
-        amount: {
-          type: DataTypes.STRING(10),
-          allowNull: false,
-        },
-        recipeID: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: {
-            model: "recipe",
-            key: "recipeID",
-          },
-        },
+  return Sequelize.define(
+    "ingredient",
+    {
+      ingredientID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      {
-        tableName: "ingredient",
-        freezeTableName: true,
-        timestamps: true, // Sequelize will automatically manage createdAt, updatedAt
-      }
-    );
-  };
-
+      ingreName: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+      amount: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+      recipeID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "ingredient",
+      freezeTableName: true,
+      timestamps: true, // Sequelize will automatically manage createdAt, updatedAt
+    }
+  );
+};
 
 module.exports = Ingredient;
