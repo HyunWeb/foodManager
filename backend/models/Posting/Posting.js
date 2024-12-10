@@ -4,8 +4,6 @@
  * @param {import('sequelize').DataTypes} DataTypes
  */
 
-
-
 const Posting = (Sequelize, DataTypes) => {
   return Sequelize.define(
     "posting",
@@ -18,10 +16,6 @@ const Posting = (Sequelize, DataTypes) => {
       userID: {
         type: DataTypes.STRING(20),
         allowNull: false,
-        references: {
-          model: "user",
-          key: "userID",
-        },
       },
       title: {
         type: DataTypes.STRING(20),
@@ -38,7 +32,9 @@ const Posting = (Sequelize, DataTypes) => {
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        defaultValue: Sequelize.literal(
+          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
         allowNull: false,
       },
     },

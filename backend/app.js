@@ -6,13 +6,17 @@ const app = express();
 const PORT = process.env.PORT;
 const db = require("./models");
 
-app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+const RecipeRouter = require("./routes/Recipe");
+app.use("/Recipe", RecipeRouter);
 
 const indexRouter = require("./routes/index");
 app.use("/", indexRouter);
 
 db.sequelize.sync({ force: false }).then(() => {
-  app.listen(8000, () => {
+  app.listen(PORT, () => {
     try {
       console.log(`http://localhost:${PORT}`);
     } catch (error) {

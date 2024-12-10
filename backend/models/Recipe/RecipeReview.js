@@ -4,38 +4,29 @@
  * @param {import('sequelize').DataTypes} DataTypes
  */
 
-
 const RecipeReview = (Sequelize, DataTypes) => {
-    return Sequelize.define(
-      "recipeReview",
-      {
-        userID: {
-          type: DataTypes.STRING(20),
-          allowNull: false,
-          references: {
-            model: "user",
-            key: "userID",
-          },
-        },
-        recipeID: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: {
-            model: "recipe",
-            key: "recipeID",
-          },
-        },
-        rating: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
+  return Sequelize.define(
+    "recipeReview",
+    {
+      userID: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
       },
-      {
-        tableName: "recipeReview",
-        freezeTableName: true,
-        timestamps: false,
-      }
-    );
-  };
+      recipeID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      rating: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "recipeReview",
+      freezeTableName: true,
+      timestamps: false,
+    }
+  );
+};
 
 module.exports = RecipeReview;
