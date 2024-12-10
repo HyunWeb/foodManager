@@ -1,5 +1,22 @@
 import React from "react";
 
-export default function RecipeList() {
-  return <div>RecipeList</div>;
+interface Props {
+  text: string;
+  title?: string;
+}
+
+export default function RecipeList({ text, title }: Props) {
+  return (
+    <li>
+      {title ? (
+        <>
+          <span>{title}</span>
+          <br />
+          {text}
+        </>
+      ) : (
+        <>{text}</>
+      )}
+    </li>
+  );
 }
