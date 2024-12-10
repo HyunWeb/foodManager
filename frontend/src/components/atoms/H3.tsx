@@ -1,5 +1,5 @@
-import React from "react";
+import { Heading } from "@chakra-ui/react";
 
-export default function H3() {
-  return <div>H3</div>;
-}
+const Demo = () => {
+  return <Heading>The quick brown fox jumps over the lazy dog</Heading>;
+};

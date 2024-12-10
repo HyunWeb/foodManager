@@ -1,5 +1,5 @@
-import React from "react";
+import { Input } from "@chakra-ui/react";
 
-export default function Input() {
-  return <div>Input</div>;
-}
+const Demo = () => {
+  return <Input placeholder="Enter your email" />;
+};
