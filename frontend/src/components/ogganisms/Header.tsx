@@ -3,6 +3,7 @@ import styled from "styled-components";
 import LogoImg from "../atoms/LogoImg";
 import { CiLogin } from "react-icons/ci";
 import IconButtonAtom from "../atoms/IconButtonAtom";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const Container = styled.div`
   height: 55px;
 `;
 
-const LoginButton = styled.a`
+const LoginButton = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,6 +21,9 @@ const LoginButton = styled.a`
   height: 40px;
   svg {
     font-size: 24px;
+  }
+  &:hover {
+    background-color: #e0e0e0; /* Hover 효과 */
   }
 `;
 
@@ -33,7 +37,7 @@ export default function Header() {
         variant="ghost"
         icontype="bell"
       />
-      <LoginButton href="/login">
+      <LoginButton to="/login">
         <CiLogin />
       </LoginButton>
     </Container>

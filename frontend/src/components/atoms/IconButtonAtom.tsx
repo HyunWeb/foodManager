@@ -1,28 +1,34 @@
-import React from "react";
+import { IconButton, IconButtonProps } from "@chakra-ui/react";
 import styled from "styled-components";
-import { IconButton } from "@chakra-ui/react";
-import { BsTrash3 } from "react-icons/bs";
-import { BsPlusCircle } from "react-icons/bs";
-import { BsBell } from "react-icons/bs";
-import { BsArrowRightCircleFill } from "react-icons/bs";
-import { IoHomeOutline } from "react-icons/io5";
-import { FaArrowCircleLeft } from "react-icons/fa";
-import { FaArrowCircleRight } from "react-icons/fa";
-import { FaArrowCircleUp } from "react-icons/fa";
-import { FaTimesCircle } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
+import {
+  BsTrash3,
+  BsPlusCircle,
+  BsBell,
+  BsArrowRightCircleFill,
+} from "react-icons/bs";
+import {
+  IoHomeOutline,
+  IoPeople,
+  IoPersonCircleOutline,
+} from "react-icons/io5";
+import {
+  FaArrowCircleLeft,
+  FaArrowCircleRight,
+  FaArrowCircleUp,
+  FaTimesCircle,
+  FaHeart,
+  FaExclamationTriangle,
+  FaQuestionCircle,
+} from "react-icons/fa";
 import { GiAlarmClock } from "react-icons/gi";
-import { IoPeople } from "react-icons/io5";
 import { TbArrowBigUpLine } from "react-icons/tb";
 import { HiOutlineChartSquareBar } from "react-icons/hi";
 import { BsBox2Heart } from "react-icons/bs";
-import { IoPersonCircleOutline } from "react-icons/io5";
 import { HiArrowRightEndOnRectangle } from "react-icons/hi2";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { FaQuestionCircle } from "react-icons/fa";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { PiNotePencilFill } from "react-icons/pi";
-interface IconButtonProps {
+
+interface IconButtonAtomProps {
   label: string;
   BGcolor: string;
   variant: "solid" | "subtle" | "surface" | "outline" | "ghost" | "plain";
@@ -44,20 +50,44 @@ interface IconButtonProps {
     | "chart"
     | "heartbox"
     | "profile"
-    | "bell"
-    | "hiArrow" // 네모로 들어가는 모양 화살표
+    | "hiArrow"
     | "Exclamation"
     | "question"
     | "checkMark"
     | "Notepen";
+  size: string;
+  onClick: () => void;
+  position?: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
 }
 
-const IconButtons = styled(IconButton)<{ BGcolor: string; color?: string }>`
+const IconButtons = styled(IconButton)<{
+  BGcolor: string;
+  color?: string;
+  size?: string;
+  position?: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+}>`
   background-color: ${({ BGcolor }) =>
     BGcolor === "orange" ? "#fe8d00" : "transparent"};
   border-radius: 10px;
   align-self: center;
   color: ${({ color }) => (color === "orange" ? "#fe8d00" : "black")};
+  svg {
+    width: ${({ size }) => size};
+    height: ${({ size }) => size};
+  }
+  position: ${({ position }) => position}; // position 스타일을 적용
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  left: ${({ left }) => left};
+  right: ${({ right }) => right};
 `;
 
 export default function IconButtonAtom({
@@ -66,7 +96,14 @@ export default function IconButtonAtom({
   variant = "solid",
   icontype,
   color,
-}: IconButtonProps) {
+  size,
+  onClick,
+  position,
+  top,
+  left,
+  right,
+  bottom,
+}: IconButtonAtomProps) {
   const renderIcon = () => {
     switch (icontype) {
       case "trash":
@@ -111,17 +148,24 @@ export default function IconButtonAtom({
         return <BsPatchCheckFill />;
       case "Notepen":
         return <PiNotePencilFill />;
-
       default:
         return null;
     }
   };
+
   return (
     <IconButtons
       aria-label={label}
       variant={variant}
       BGcolor={BGcolor}
       color={color}
+      size={size}
+      onClick={onClick}
+      position={position}
+      top={top}
+      bottom={bottom}
+      left={left}
+      right={right}
     >
       {renderIcon()}
     </IconButtons>

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 interface LogoProps {
   large?: boolean;
 }
 
-const Logo = styled.a<LogoProps>`
+const Logo = styled(Link)<LogoProps>`
   font-family: "Recipekorea", sans-serif;
   cursor: pointer;
   display: block;
@@ -25,5 +26,9 @@ const MainLogo = styled.h1<LogoProps>`
 `;
 
 export default function LogoImg({ large }: LogoProps) {
-  return <>{large ? <MainLogo>한끼출근</MainLogo> : <Logo>한끼출근</Logo>}</>;
+  return (
+    <>
+      {large ? <MainLogo>한끼출근</MainLogo> : <Logo to="/main">한끼출근</Logo>}
+    </>
+  );
 }

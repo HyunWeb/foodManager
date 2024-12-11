@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { HStack, IconButton } from "@chakra-ui/react";
 import axios from "axios";
-import Header from "../molecules/Header";
+import Header from "../ogganisms/Header";
 import SearchBlock from "../molecules/SearchBlock";
+import NavBar from "../ogganisms/NavBar";
 interface Item {
   name: string;
 }
@@ -27,14 +26,14 @@ export default function MainPage() {
       }
     };
     fetchItems();
-    console.log(items); //undefined
   }, []);
 
   return (
     <div>
       <Header />
-      {items ? items.name : "Loading..."}
       <SearchBlock />
+      {items ? items.name : "Loading..."}
+      <NavBar />
     </div>
   );
 }

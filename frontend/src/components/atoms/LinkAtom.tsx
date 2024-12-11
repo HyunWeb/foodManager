@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IconButton } from "@chakra-ui/react";
+
 import { BsBox2Heart } from "react-icons/bs";
 import { BsClipboardData } from "react-icons/bs";
 import { BsHouseDoor } from "react-icons/bs";
