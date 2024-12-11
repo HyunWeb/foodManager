@@ -16,6 +16,6 @@ const {
 } = require("../models/index");
 
 
-exports.get_index = async (req, res) => {
-  res.send("hello");
-};
+// exports.get_index = async (req, res) => {
+//   res.send("hello");
+// };
