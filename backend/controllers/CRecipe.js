@@ -32,17 +32,17 @@ async function stepinsert(recipeID, step) {
   }
 }
 async function ingredientinsert(recipeID, Ingredients) {
-  //step이라는 stepNo, content를 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
+  //Ingredients이라는 ingreName, amount을 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
   try {
     console.log(Ingredients);
     for (let i = 0; i < Ingredients.length; i++) {
       const Ingredinentinsert = await Ingredient.create({
         recipeID,
-        stepNo: Ingredients[i].stepNo,
-        content: Ingredients[i].content,
+        ingreName: Ingredients[i].ingreName,
+        content: Ingredients[i].amount,
       });
       if (Ingredinentinsert != null) {
-        console.log("레시피 등록 성공");
+        console.log("재료 등록 성공");
       } else {
         return false;
       }
