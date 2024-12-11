@@ -1,23 +1,27 @@
 import React from "react";
+import styled from "styled-components";
 import { Input } from "@chakra-ui/react";
-import { Field } from "../ui/field";
 
+const InputAtom = styled(Input)<{ marginRight?: string; isLarge: boolean }>`
+  width: ${({ isLarge }) => (isLarge ? "310px" : "150px")};
+  margin-right: ${({ marginRight }) => marginRight || "0"};
+`;
 interface InputProps {
-  label: string;
-  helperText: string;
-  required: boolean;
   placeholder: string;
+  marginRight?: string;
+  isLarge: boolean;
 }
 
 export default function InputForm({
-  label,
-  helperText,
-  required = false,
   placeholder,
+  marginRight,
+  isLarge,
 }: InputProps) {
   return (
-    <Field label={label} required={required} helperText={helperText}>
-      <Input placeholder={placeholder} />
-    </Field>
+    <InputAtom
+      placeholder={placeholder}
+      marginRight={marginRight}
+      isLarge={isLarge}
+    />
   );
 }

@@ -1,8 +1,16 @@
 import React from "react";
-import { Image } from "@chakra-ui/react";
+import styled from "styled-components";
 
-export default function ImageCard() {
-  return (
-    <Image rounded="md" src="https://bit.ly/dan-abramov" alt="Dan Abramov" />
-  );
+const Img = styled.img`
+  margin: 0 auto;
+  margin-bottom: 30px;
+  transform: translateX(-23%);
+`;
+interface ImageCardProps {
+  src: string;
+  alt: string;
+}
+
+export default function ImageCard({ src, alt }: ImageCardProps) {
+  return <Img src={src} alt={alt} />;
 }
