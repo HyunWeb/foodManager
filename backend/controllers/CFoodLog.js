@@ -4,7 +4,7 @@ const db = require("../models");
 const sequelize = require("sequelize");
 const { update } = require("sequelize/lib/model");
 
-const { FoodLog } = require("../models/index");
+const { FoodLog } = require("../models/index"); //controller에서 필요한 것만 가져온다.
 
 // 푸드로그 등록
 exports.postLog = async (req, res) => {
