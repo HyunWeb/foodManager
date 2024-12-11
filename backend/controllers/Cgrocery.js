@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const db = require("../models");
 const sequelize = require("sequelize");
 
-const { Grocery } = require("../models/index");
+const { Grocery } = require("../models/index"); //controller에서 필요한 것만 가져온다.
 
 // 푸드로그 등록
 exports.postGrocery = async (req, res) => {
