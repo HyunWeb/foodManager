@@ -30,11 +30,6 @@ const User = (Sequelize, DataTypes) => {
         type: DataTypes.ENUM("male", "female", "other"),
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-        unique: true,
-      },
     },
     {
       tableName: "user",

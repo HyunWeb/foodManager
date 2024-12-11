@@ -16,6 +16,7 @@ app.use(cors());
 const RecipeRouter = require("./routes/Recipe");
 app.use("/Recipe", RecipeRouter);
 
+
 app.use(
   session({
       secret: process.env.SECRET_KEY,
@@ -30,8 +31,10 @@ app.use(
 
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/User");
+const logRouter = require("./routes/FoodLog");
 app.use("/", indexRouter);
 app.use("/user", userRouter);
+app.use("/foodlog", logRouter);
 
 db.sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
