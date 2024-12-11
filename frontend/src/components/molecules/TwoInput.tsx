@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import InputForm from "../atoms/InputForm";
 import { Field } from "../ui/field";
-import IconButtonAtom from "../atoms/IconButtonAtom";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +14,6 @@ interface TwoInputProps {
   label?: string;
   helperText?: string;
   required?: boolean;
-  IconLabel: string;
 }
 
 export default function TwoInput({
@@ -24,7 +22,6 @@ export default function TwoInput({
   label,
   helperText,
   required = false,
-  IconLabel,
 }: TwoInputProps) {
   return (
     <Field label={label} required={required} helperText={helperText}>
@@ -39,7 +36,6 @@ export default function TwoInput({
           marginRight="10px"
           isLarge={false}
         />
-        <IconButtonAtom label={IconLabel} />
       </Container>
     </Field>
   );
