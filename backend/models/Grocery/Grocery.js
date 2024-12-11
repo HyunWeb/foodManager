@@ -29,6 +29,15 @@ const Grocery = (Sequelize, DataTypes) => {
           type: DataTypes.STRING(10),
           allowNull: false,
         },
+        amount: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        unit: {
+          type: DataTypes.STRING(10),
+          allowNull: false,
+          defaultValue: "g",
+        },
         expiration: {
           type: DataTypes.DATE,
           allowNull: false,

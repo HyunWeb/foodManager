@@ -25,12 +25,25 @@ const FoodLog = (Sequelize, DataTypes) => {
           type: DataTypes.STRING(20),
           allowNull: false,
         },
+        amount: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        unit: {
+          type: DataTypes.STRING(10),
+          allowNull: false,
+          defaultValue: "g",
+        },
+        kcal: {
+          type: DataTypes.INTEGER,
+          allowNull: false
+        },
         mealtype: {
           type: DataTypes.ENUM("아침", "점심", "저녁", "간식"),
           allowNull: false,
         },
         when: {
-          type: DataTypes.DATE,
+          type: DataTypes.DATEONLY,
           allowNull: false,
         },
       },
