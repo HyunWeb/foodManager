@@ -4,7 +4,7 @@ const controller = require("../controllers/CRecipe");
 
 router.post("/insert", controller.Recipeinsert);
 
-router.delete("/delete", controller.RecipeDelete);
+router.delete("/delete/:recipeID", controller.RecipeDelete);
 
 router.get("/find/:recipeID", controller.RecipefindOne);
 
