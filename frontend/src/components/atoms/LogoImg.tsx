@@ -8,9 +8,13 @@ interface LogoProps {
 const Logo = styled.a<LogoProps>`
   font-family: "Recipekorea", sans-serif;
   cursor: pointer;
-  display: inline-block;
+  display: block;
   font-size: 24px;
   color: #fe8d00;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const MainLogo = styled.h1<LogoProps>`
