@@ -1,18 +1,53 @@
 import React from "react";
-import { Heading } from "@chakra-ui/react";
+import styled from "styled-components";
 
 interface HeadingProps {
+  level: 1 | 2 | 3 | 4; // h1 ~ h4
   children: React.ReactNode;
-  level: 1 | 2 | 3 | 4 | 5 | 6; // h1 ~ h6을 지원
+  color?: string; // 필요 시 추가 속성
+  marginBottom?: string; // 필요 시 추가 속성
 }
 
-export default function H4({ children, level }: HeadingProps) {
+const StyledHeading = styled.div<{
+  level: number;
+  color?: string;
+  marginBottom?: string;
+}>`
+  font-size: ${({ level }) => {
+    switch (level) {
+      case 1:
+        return "2rem"; // h1 크기
+      case 2:
+        return "1.5rem"; // h2 크기
+      case 3:
+        return "1.25rem"; // h3 크기
+      case 4:
+        return "1rem"; // h4 크기
+      default:
+        return "1rem";
+    }
+  }};
+  font-weight: bold;
+  color: ${({ color }) => color || "inherit"};
+  margin-bottom: ${({ marginBottom }) => marginBottom || "0"};
+`;
+
+export default function HeadingAtom({
+  level,
+  children,
+  color,
+  marginBottom,
+}: HeadingProps) {
+  const Tag = `h${level}` as keyof JSX.IntrinsicElements; // 동적으로 태그 설정
+
   return (
-    <Heading
-      as={`h${level}`}
-      size={level === 1 ? "2xl" : level === 2 ? "xl" : "lg"}
+    <StyledHeading
+      as={Tag}
+      level={level}
+      color={color}
+      marginBottom={marginBottom}
     >
       {children}
-    </Heading>
+    </StyledHeading>
   );
 }

@@ -9,10 +9,16 @@ import Profileimg from "../atoms/Profileimg";
 import Logolmg from "../atoms/LogoImg";
 import LinkAtom from "../atoms/LinkAtom";
 import InputForm from "../atoms/InputForm";
-import ImageCard from "../atoms/ImageCard";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
 import Anchor from "../atoms/Anchor";
+import Logo from "../molecules/Logo";
+import TwoInput from "../molecules/TwoInput";
+import OneInput from "../molecules/OneInput";
+import TextBoxUi from "../molecules/TextBoxUi";
+import ListTextBox from "../molecules/ListTextBox";
+import SelectBlockUi from "../molecules/SelectBlockUi";
+import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
 interface Item {
   name: string;
 }
@@ -42,29 +48,29 @@ export default function MainPage() {
   return (
     <div>
       {items ? items.name : "Loading..."}
-      <HStack>
-        <Button>Click me</Button>
-        <Button>Click me</Button>
-      </HStack>
-      <Select options={options} />
-      <Rating defaultValue={3} size="sm" />
-      <RatingTag text={"5.0"} />
-      <Profileimg />
-      <Logolmg />
-      <LinkAtom url="/" label="HOME" status="House" />
-      <LinkAtom url="/" label="HOME" status="Data" />
-      <LinkAtom url="/" label="HOME" status="Box" />
-      <LinkAtom url="/" label="HOME" status="Profile" />
-      <InputForm
-        label="Email"
-        helperText="예시글자입니다."
-        required={true}
-        placeholder="이메일을 입력하세요"
+
+      <SelectBlockUi
+        text="제목입니다3."
+        options={[
+          { id: "1", text: "test" },
+          { id: "2", text: "test2" },
+        ]}
       />
-      <ImageCard />
-      <IconButtonAtom label="abc" />
-      <ButtonAtom />
-      <Anchor href="#" text="Link" />
+      <ThreeSelectBlockUi
+        text="제목입니다3."
+        options1={[
+          { id: "1", text: "test" },
+          { id: "2", text: "test2" },
+        ]}
+        options2={[
+          { id: "1", text: "test4" },
+          { id: "2", text: "test5" },
+        ]}
+        options3={[
+          { id: "1", text: "test6" },
+          { id: "2", text: "test7" },
+        ]}
+      />
     </div>
   );
 }
