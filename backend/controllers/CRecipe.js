@@ -217,12 +217,6 @@ const RecipefindOne = async (req, res) => {
           },
         });
         if (ingredientfind != null) {
-          const Recipereviewfind = await RecipeReview.findAll({
-            where: { recipeID },
-          });
-          const RecipeLikefind = await RecipeLike.findAll({
-            where: { recipeID },
-          });
           req.json({
             result: true,
             Message: "정상적으로 Recipe data를 찾았습니다.",
@@ -276,6 +270,7 @@ const RecipeLikeFindAll = async (req, res) => {
   }
 };
 
+//Recipe 찜 상태 확인
 const RecipeLikeFindOne = async (req, res) => {
   const { userID, recipeID } = req.body;
   const Likefindone = await RecipeLike.findOne({
@@ -291,6 +286,7 @@ const RecipeLikeFindOne = async (req, res) => {
   }
 };
 
+//레시피 찜 상태 변경
 const RecipeLikeDB = async (req, res) => {
   try {
     const { userID, recipeID } = req.body;
@@ -320,12 +316,20 @@ const RecipeReviewMYfind = async (req, res) => {
     res.json({ result: true, Message: "레시피의 본인 리뷰 불러오기 완료" });
   }
 };
+//레시피에 달려있는 모든 리뷰 내용
+const RecipeReviewFindAll = async (req, res) => {
+  const { recipeID } = req.body;
+  const ReviewfindAll = await RecipeReview.findAll({ where: { recipeID } });
+  if (ReviewfindAll != null) {
+    res.json({ result: true, Message: "레시피의 리뷰 내용 불러오기 완료" });
+  }
+};
 
 const RecipeReviewinsert = async (req, res) => {
   const { userID, recipeID, rating } = req.body;
   const Reviewinsert = await RecipeReview.create({ userID, recipeID, rating });
   if (Reviewinsert != null) {
-    res.json({ result: true, Message: "리뷰 업데이트 완료!" });
+    res.json({ result: true, Message: "리뷰 추가 완료!" });
   }
 };
 
@@ -360,4 +364,14 @@ module.exports = {
   RecipeDelete,
   RecipefindOne,
   RecipeLikeDB,
+  RecipeLikeFindOne,
+  RecipeLikeFindAll,
+  RecipeReviewDelete,
+  RecipeReviewupdate,
+  RecipeReviewinsert,
+  RecipeReviewFindAll,
+  RecipeReviewMYfind,
 };
+//레시피 관련 코드 작성 완료(단, 이미지 업로드 관련 기능은 react 레시피 페이지 완성 후 추가 예정)
+//레시피 동작 상황에 대하여 모든 라우터가 작성되었는지 확인 필요
+//아직 Review, Like에 대하여 postman 동작 확인 X
