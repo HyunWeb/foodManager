@@ -26,7 +26,7 @@ export default function NavBar() {
   const closeModal = () => setIsModalOpen(false);
   return (
     <>
-      <InputModal isOpen={isModalOpen} onClose={closeModal} />
+      <InputModal $isOpen={isModalOpen} onClose={closeModal} />
       <Container>
         <LinkAtom url="/main" label="홈 페이지" status="House" />
         <LinkAtom url="/nutrition" label="식단분석 페이지" status="Data" />

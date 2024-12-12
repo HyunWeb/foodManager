@@ -6,6 +6,7 @@ interface HeadingProps {
   children: React.ReactNode;
   color?: string; // 필요 시 추가 속성
   marginBottom?: string; // 필요 시 추가 속성
+  className?: string;
 }
 
 const StyledHeading = styled.div<{
@@ -37,6 +38,7 @@ export default function HeadingAtom({
   children,
   color,
   marginBottom,
+  className,
 }: HeadingProps) {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements; // 동적으로 태그 설정
 
@@ -46,6 +48,7 @@ export default function HeadingAtom({
       level={level}
       color={color}
       marginBottom={marginBottom}
+      className={className}
     >
       {children}
     </StyledHeading>

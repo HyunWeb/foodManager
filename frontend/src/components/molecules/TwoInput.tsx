@@ -29,12 +29,12 @@ export default function TwoInput({
         <InputForm
           placeholder={placeholder1}
           marginRight="10px"
-          isLarge={false}
+          $isLarge={false}
         />
         <InputForm
           placeholder={placeholder2}
           marginRight="10px"
-          isLarge={false}
+          $isLarge={false}
         />
       </Container>
     </Field>
