@@ -1,4 +1,4 @@
-import { IconButton, IconButtonProps } from "@chakra-ui/react";
+import { IconButton } from "@chakra-ui/react";
 import styled from "styled-components";
 import {
   BsTrash3,
@@ -55,8 +55,8 @@ interface IconButtonAtomProps {
     | "question"
     | "checkMark"
     | "Notepen";
-  size: string;
-  onClick: () => void;
+  size?: string;
+  onClick?: () => void;
   position?: string;
   top?: string;
   bottom?: string;

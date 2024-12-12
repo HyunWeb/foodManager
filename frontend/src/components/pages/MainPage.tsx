@@ -3,12 +3,16 @@ import axios from "axios";
 import Header from "../ogganisms/Header";
 import SearchBlock from "../molecules/SearchBlock";
 import NavBar from "../ogganisms/NavBar";
+import SwitchTab from "../molecules/SwitchTab";
+import RecipeImgBox from "../molecules/RecipeImgBox";
+import RecipeTemplate from "../templates/RecipeTemplate";
 interface Item {
   name: string;
 }
 
 export default function MainPage() {
   const [items, setItems] = useState<Item>();
+  const [selected, setSelected] = useState(1); // 탭전환
   const api = process.env.REACT_APP_ROUTE;
   const options = [
     { id: "1", text: "Option 1" },
@@ -32,6 +36,14 @@ export default function MainPage() {
     <div>
       <Header />
       <SearchBlock />
+      <SwitchTab
+        menu1="레시피"
+        menu2="게시글"
+        selected={selected}
+        setSelected={setSelected}
+      />
+      {selected === 1 ? <RecipeTemplate /> : "feedPage"}
+
       {items ? items.name : "Loading..."}
       <NavBar />
     </div>

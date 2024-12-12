@@ -13,7 +13,7 @@ export default function SearchBlock() {
     <Container>
       <InputForm
         placeholder="검색어를 입력해주세요"
-        isLarge={true}
+        $isLarge={true}
         marginRight="10px"
       />
       <IconButtonAtom

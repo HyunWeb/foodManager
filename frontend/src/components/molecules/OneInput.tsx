@@ -24,7 +24,7 @@ export default function OneInput({
       <Container>
         <InputForm
           placeholder={placeholder}
-          isLarge={true}
+          $isLarge={true}
           marginRight="10px"
         />
       </Container>

@@ -1,16 +1,30 @@
 import React from "react";
-import { Badge, Stack } from "@chakra-ui/react";
-import { HiAtSymbol, HiStar } from "react-icons/hi";
+import styled from "styled-components";
+import { HiStar } from "react-icons/hi";
+
+const TagBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 50px;
+  height: 20px;
+  padding: 5px 3px;
+  box-sizing: border-box;
+  background-color: #fe8d00;
+  border-radius: 16px;
+  font-size: 15px;
+`;
 
 interface Props {
-  text: string;
+  rating?: number;
+  className?: string;
 }
 
-export default function RatingTag({ text = "0.0" }: Props) {
+export default function RatingTag({ rating = 0.0, className }: Props) {
   return (
-    <Badge variant="solid" bg="#FE8D00" color="#121212">
-      <HiStar />
-      {text}
-    </Badge>
+    <TagBox className={className}>
+      <HiStar size={15} />
+      {rating}
+    </TagBox>
   );
 }
