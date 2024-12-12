@@ -47,7 +47,7 @@ exports.editLog = async (req, res) => {
             where: { logID: logID },
         });
 
-        const { userID } = log;
+    const { userID } = log;
 
         // 세션에 저장된 userid와 log의 userID 일치할 경우 수정 가능
         if (req.session.userInfo.userid === userID) {
@@ -81,7 +81,7 @@ exports.deleteLog = async (req, res) => {
             where: { logID: logID },
         });
 
-        const { userID } = log;
+    const { userID } = log;
 
         // 세션에 저장된 userid와 log의 userID 일치할 경우 삭제 가능
         if (req.session.userInfo.userid === userID) {

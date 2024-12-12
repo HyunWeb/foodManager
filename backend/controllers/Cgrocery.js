@@ -77,7 +77,7 @@ exports.deleteGrocery = async (req, res) => {
             where: { groceryID: groceryID },
         });
 
-        const { userID } = grocery;
+    const { userID } = grocery;
 
         // 세션에 저장된 userid와 log의 userID 일치할 경우 삭제 가능
         if (req.session.userInfo.userid === userID) {
