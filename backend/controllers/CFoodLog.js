@@ -4,19 +4,18 @@ const db = require("../models");
 const sequelize = require("sequelize");
 const { update } = require("sequelize/lib/model");
 
-const {
-    User,
-    FoodLog,
-    Recipe,
-    Step,
-    Ingredient,
-    RecipeReview,
-    RecipeLike,
-    Posting,
-    PostComment,
-    PostLike,
-    Grocery
-} = require("../models/index");
+const { FoodLog } = require("../models/index"); //controller에서 필요한 것만 가져온다.
+
+
+exports.getLog = async (req, res) => {
+    try {
+        const log = await FoodLog.findAll();
+        res.json(log);
+    } catch (error) {
+        console.error(error);
+        res.send({ result: false });
+    }
+}
 
 // 푸드로그 등록
 exports.postLog = async (req, res) => {
@@ -37,8 +36,7 @@ exports.postLog = async (req, res) => {
         res.send({ result: false });
         console.error(error);
     }
-}
-
+};
 
 // 푸드로그 수정
 exports.editLog = async (req, res) => {
@@ -46,7 +44,7 @@ exports.editLog = async (req, res) => {
         console.log(req.params);
         const { when, logID } = req.params;
         const log = await FoodLog.findOne({
-            where: { logID: logID }
+            where: { logID: logID },
         });
 
         const { userID } = log;
@@ -65,13 +63,14 @@ exports.editLog = async (req, res) => {
                 where: { logID: logID }
             });
             res.send({ result: true });
+        } else {
+            res.send({ result: false });
         }
     } catch (error) {
         console.error(error);
         res.send({ result: false });
     }
-}
-
+};
 
 // 푸드로그 삭제
 exports.deleteLog = async (req, res) => {
@@ -79,7 +78,7 @@ exports.deleteLog = async (req, res) => {
         console.log(req.params);
         const { when, logID } = req.params;
         const log = await FoodLog.findOne({
-            where: { logID: logID }
+            where: { logID: logID },
         });
 
         const { userID } = log;
@@ -90,10 +89,11 @@ exports.deleteLog = async (req, res) => {
                 where: { logID: logID }
             });
             res.send({ result: true });
+        } else {
+            res.send({ result: false });
         }
     } catch (error) {
         console.error(error);
         res.send({ result: false });
     }
-}
-
+};

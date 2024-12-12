@@ -3,6 +3,8 @@ const router = express.Router();
 const controller = require("../controllers/Cmain");
 const groController = require("../controllers/Cgrocery");
 
+router.get("/", groController.getGrocery);
+
 // foodlog 등록
 router.post("/post", groController.postGrocery);
 

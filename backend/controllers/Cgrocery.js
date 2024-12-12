@@ -2,19 +2,18 @@ const { Op } = require("sequelize");
 const db = require("../models");
 const sequelize = require("sequelize");
 
-const {
-    User,
-    FoodLog,
-    Recipe,
-    Step,
-    Ingredient,
-    RecipeReview,
-    RecipeLike,
-    Posting,
-    PostComment,
-    PostLike,
-    Grocery
-} = require("../models/index");
+const { Grocery } = require("../models/index"); //controller에서 필요한 것만 가져온다.
+
+
+exports.getGrocery = async (req, res) => {
+    try {
+        const grocery = await FoodLog.findAll();
+        res.json(grocery);
+    } catch (error) {
+        console.error(error);
+        res.json({ result: false });
+    }
+}
 
 // 푸드로그 등록
 exports.postGrocery = async (req, res) => {
@@ -26,15 +25,14 @@ exports.postGrocery = async (req, res) => {
             groceryname: groceryname,
             amount: amount,
             unit: unit,
-            expiration: expiration
+            expiration: expiration,
         });
         res.send({ result: true });
     } catch (error) {
         res.send({ result: false });
         console.error(error);
     }
-}
-
+};
 
 // 푸드로그 수정
 exports.editGrocery = async (req, res) => {
@@ -42,10 +40,11 @@ exports.editGrocery = async (req, res) => {
         console.log(req.params);
         const { groceryID } = req.params;
         const grocery = await Grocery.findOne({
-            where: { groceryID: groceryID }
+            where: { groceryID: groceryID },
         });
 
         const { userID } = grocery;
+
 
         // 세션에 저장된 userid와 log의 userID 일치할 경우 수정 가능
         if (req.session.userInfo.userid === userID) {
@@ -60,13 +59,14 @@ exports.editGrocery = async (req, res) => {
                 where: { groceryID: groceryID }
             });
             res.send({ result: true });
+        } else {
+            res.send({ result: false });
         }
     } catch (error) {
         console.error(error);
         res.send({ result: false });
     }
-}
-
+};
 
 // 푸드로그 삭제
 exports.deleteGrocery = async (req, res) => {
@@ -74,7 +74,7 @@ exports.deleteGrocery = async (req, res) => {
         console.log(req.params);
         const { groceryID } = req.params;
         const grocery = await Grocery.findOne({
-            where: { groceryID: groceryID }
+            where: { groceryID: groceryID },
         });
 
         const { userID } = grocery;
@@ -85,10 +85,11 @@ exports.deleteGrocery = async (req, res) => {
                 where: { groceryID: groceryID }
             });
             res.send({ result: true });
+        } else {
+            res.send({ result: false });
         }
     } catch (error) {
         console.error(error);
         res.send({ result: false });
     }
-}
-
+};

@@ -26,21 +26,11 @@ const PostComment = (Sequelize, DataTypes) => {
           type: DataTypes.TEXT,
           allowNull: false,
         },
-        createdAt: {
-          type: DataTypes.DATE,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-          allowNull: false,
-        },
-        updatedAt: {
-          type: DataTypes.DATE,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
-          allowNull: false,
-        },
       },
       {
         tableName: "postComment",
         freezeTableName: true,
-        timestamps: false,
+        timestamps: true,
       }
     );
   };

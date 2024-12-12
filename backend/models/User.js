@@ -4,7 +4,6 @@
  * @param {import('sequelize').DataTypes} DataTypes
  */
 
-
 const User = (Sequelize, DataTypes) => {
   return Sequelize.define(
     "user",
@@ -19,7 +18,7 @@ const User = (Sequelize, DataTypes) => {
         allowNull: false,
       },
       pw: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
       birthday: {
