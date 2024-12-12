@@ -32,10 +32,13 @@ const indexRouter = require("./routes/index");
 const userRouter = require("./routes/User");
 const logRouter = require("./routes/FoodLog");
 const groRouter = require("./routes/Grocery");
+const postRouter = require("./routes/Posting");
+
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/foodlog", logRouter);
 app.use("/grocery", groRouter);
+app.use("/posting", postRouter);
 
 db.sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {

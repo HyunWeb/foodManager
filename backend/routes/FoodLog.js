@@ -3,6 +3,8 @@ const router = express.Router();
 const controller = require("../controllers/Cmain");
 const logController = require("../controllers/CFoodLog");
 
+router.get("/", logController.getLog);
+
 // foodlog 등록
 router.post("/post", logController.postLog);
 
