@@ -217,6 +217,12 @@ const RecipefindOne = async (req, res) => {
           },
         });
         if (ingredientfind != null) {
+          const Recipereviewfind = await RecipeReview.findAll({
+            where: { recipeID },
+          });
+          const RecipeLikefind = await RecipeLike.findAll({
+            where: { recipeID },
+          });
           req.json({
             result: true,
             Message: "정상적으로 Recipe data를 찾았습니다.",
@@ -249,4 +255,109 @@ const RecipefindOne = async (req, res) => {
   }
 };
 
-module.exports = { Recipeinsert, Recipeupdate, RecipeDelete, RecipefindOne };
+const RecipeLikeFindAll = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const LikeFindAll = await RecipeLike.findAll({ where: { userID } });
+    if (LikeFindAll != null) {
+      res.json({
+        result: true,
+        Message: "레시피 목록 불러오기 완료",
+        RecipeLike: Likefindone,
+      });
+    } else {
+      res.json({
+        result: false,
+        Message: "불러올 레시피 목록이 없습니다.",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const RecipeLikeFindOne = async (req, res) => {
+  const { userID, recipeID } = req.body;
+  const Likefindone = await RecipeLike.findOne({
+    where: { userID, recipeID },
+  });
+
+  if (Likefindone != null) {
+    res.json({
+      result: true,
+      Message: "레시피 목록 불러오기 완료",
+      RecipeLike: Likefindone,
+    });
+  }
+};
+
+const RecipeLikeDB = async (req, res) => {
+  try {
+    const { userID, recipeID } = req.body;
+    const Likefindone = await RecipeLike.findOne({
+      where: { userID, recipeID },
+    });
+
+    if (Likefindone != null) {
+      const LikeDelete = await RecipeLike.destroy({
+        where: { userID, recipeID },
+      });
+      res.json({ result: true, Message: "좋아하는 레시피에 삭제하였습니다." });
+    } else {
+      const Likeinsert = await RecipeLike.create({ userID, recipeID });
+      res.json({ result: true, Message: "좋아하는 레시피에 추가하였습니다." });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//레시피에 본인이 단 리뷰 내용
+const RecipeReviewMYfind = async (req, res) => {
+  const { userID } = req.body;
+  const Reviewfindone = await RecipeReview.findOne({ where: { userID } });
+  if (Reviewfindone != null) {
+    res.json({ result: true, Message: "레시피의 본인 리뷰 불러오기 완료" });
+  }
+};
+
+const RecipeReviewinsert = async (req, res) => {
+  const { userID, recipeID, rating } = req.body;
+  const Reviewinsert = await RecipeReview.create({ userID, recipeID, rating });
+  if (Reviewinsert != null) {
+    res.json({ result: true, Message: "리뷰 업데이트 완료!" });
+  }
+};
+
+const RecipeReviewupdate = async (req, res) => {
+  const { userID, recipeID, rating } = req.body;
+  const Reviewupdate = await RecipeReview.update(
+    { rating },
+    { where: { userID, recipeID } }
+  );
+
+  if (Reviewupdate != null) {
+    res.json({ result: true, Message: "리뷰 업데이트 완료!" });
+  } else {
+    res.json({ result: false, Message: "리뷰가 없거나 에러 발생!!" });
+  }
+};
+
+const RecipeReviewDelete = async (req, res) => {
+  const { userID, recipeID } = req.body;
+  const ReviewDelete = await RecipeReview.destroy({ userID, recipeID });
+
+  if (ReviewDelete != null) {
+    res.json({ result: true, Message: "리뷰 삭제 완료!" });
+  } else {
+    res.json({ result: false, Message: "삭제할 리뷰 없음" });
+  }
+};
+
+module.exports = {
+  Recipeinsert,
+  Recipeupdate,
+  RecipeDelete,
+  RecipefindOne,
+  RecipeLikeDB,
+};
