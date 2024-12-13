@@ -13,7 +13,7 @@ exports.getLog = async (req, res) => {
         res.json(log);
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
+        res.json({ result: false });
     }
 }
 
@@ -31,9 +31,9 @@ exports.postLog = async (req, res) => {
             mealtype: mealtype,
             when: when,
         });
-        res.send({ result: true });
+        res.json({ result: true });
     } catch (error) {
-        res.send({ result: false });
+        res.json({ result: false });
         console.error(error);
     }
 };
@@ -62,13 +62,13 @@ exports.editLog = async (req, res) => {
             }, {
                 where: { logID: logID }
             });
-            res.send({ result: true });
+            res.json({ result: true });
         } else {
-            res.send({ result: false });
+            res.json({ result: false });
         }
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
+        res.json({ result: false });
     }
 };
 
@@ -88,12 +88,12 @@ exports.deleteLog = async (req, res) => {
             await FoodLog.destroy({
                 where: { logID: logID }
             });
-            res.send({ result: true });
+            res.json({ result: true });
         } else {
-            res.send({ result: false });
+            res.json({ result: false });
         }
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
+        res.json({ result: false });
     }
 };

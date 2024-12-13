@@ -9,7 +9,7 @@ router.get("/", groController.getGrocery);
 router.post("/post", groController.postGrocery);
 
 // foodlog 수정
-router.post("/edit/:groceryID", groController.editGrocery);
+router.patch("/edit/:groceryID", groController.editGrocery);
 
 // foodlog 삭제
 router.delete("/delete/:groceryID", groController.deleteGrocery);

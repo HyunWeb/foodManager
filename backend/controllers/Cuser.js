@@ -29,12 +29,12 @@ exports.postUser = async (req, res) => {
                 birthday: birthday,
                 gender: gender,
             });
-            res.send("계정이 성공적으로 생성되었습니다.");
+            res.json({result: true, message: "계정이 성공적으로 생성되었습니다."});
         } else {
-            res.send("이미 존재하는 아이디입니다.");
+            res.json({result: false, message: "이미 존재하는 아이디입니다."});
         }
     } catch (error) {
-        res.send("계정 생성에 실패하였습니다.");
+        res.json({result: false, message: "계정 생성에 실패하였습니다."});
         console.error(error);
     }
 };
@@ -56,16 +56,16 @@ exports.userLogin = async (req, res) => {
                   userid: isExist.dataValues.userID,
                   name: isExist.dataValues.name
                 };
-                res.send({
+                res.json({
                     result: true,
                     message: "로그인 성공",
                     userid: req.session.userInfo.userid,
                 });
             } else {
-                res.send("비밀번호가 일치하지 않습니다.");
+                res.json({result: false, message: "비밀번호가 일치하지 않습니다."});
             }
         } else {
-            res.send("아이디가 존재하지 않습니다.");
+            res.json({result: false, message: "아이디가 존재하지 않습니다."});
         }
     } catch (error) {
         console.error(error);
@@ -80,11 +80,11 @@ exports.userLogout = async (req, res) => {
             req.session.destroy(() => {
                 req.session;
             });
-            res.send({result: true})
+            res.json({result: true})
         }
     } catch (error) {
         console.error(error);
-        res.send({result: false});
+        res.json({result: false});
     }
 };
 
@@ -105,13 +105,13 @@ exports.editUser = async (req, res) => {
                 },
                 { where: { userID: req.session.userInfo.userID } }
             );
-            res.send("수정이 완료되었습니다.");
+            res.json({result: true, message: "수정이 완료되었습니다."});
         } else {
-            res.send("입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.");
+            res.json({result: false, message: "입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요."});
         }
     } catch (error) {
         console.error(error);
-        res.send({result: false});
+        res.json({result: false});
     }
 };
 
@@ -126,43 +126,9 @@ exports.userDelete = async (req, res) => {
         await User.destroy({
             where: { userID: req.session.userInfo.userid }
         });
-        res.send({ result: true });
+        res.json({ result: true });
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
-    }
-}
-
-
-// 좋아요 누른 항목
-exports.userLike = async (req, res) => {
-    try {
-        // 게시물
-        const postLikes = await PostLike.findAll({
-            where: {userID: req.session.userInfo.userid}
-        });
-
-        const postingID = postLikes.map((postLike) => postLike.dataValues.postingID);
-        console.log(postingID); 
-
-        const posting = await Posting.findAll({
-            where: {postingID: postingID}
-        });
-
-        // 레시피
-        const recipeLikes = await RecipeLike.findAll({
-            where: {userID: req.session.userInfo.userid}
-        });
-
-        const recipeID = recipeLikes.map((recipeLike) => recipeLike.dataValues.recipeID);
-
-        const recipe = await Recipe.findAll({
-            where: {recipeID: recipeID}
-        });
-
-        res.json({result: true, recipe, posting});
-    } catch (error) {
-        console.error(error);
-        res.send({result: false});
+        res.json({ result: false });
     }
 }

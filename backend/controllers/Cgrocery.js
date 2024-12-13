@@ -27,9 +27,9 @@ exports.postGrocery = async (req, res) => {
             unit: unit,
             expiration: expiration,
         });
-        res.send({ result: true });
+        res.json({ result: true });
     } catch (error) {
-        res.send({ result: false });
+        res.json({ result: false });
         console.error(error);
     }
 };
@@ -58,13 +58,13 @@ exports.editGrocery = async (req, res) => {
             }, {
                 where: { groceryID: groceryID }
             });
-            res.send({ result: true });
+            res.json({ result: true });
         } else {
-            res.send({ result: false });
+            res.json({ result: false });
         }
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
+        res.json({ result: false });
     }
 };
 
@@ -84,12 +84,12 @@ exports.deleteGrocery = async (req, res) => {
             await Grocery.destroy({
                 where: { groceryID: groceryID }
             });
-            res.send({ result: true });
+            res.json({ result: true });
         } else {
-            res.send({ result: false });
+            res.json({ result: false });
         }
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
+        res.json({ result: false });
     }
 };
