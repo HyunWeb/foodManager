@@ -41,7 +41,7 @@ const Recipe = (Sequelize, DataTypes) => {
     {
       tableName: "recipe",
       freezeTableName: true,
-      timestamps: true,
+      timestamps: false,
     }
   );
 };
