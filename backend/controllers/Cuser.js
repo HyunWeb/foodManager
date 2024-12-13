@@ -5,14 +5,18 @@ const sequelize = require("sequelize");
 const { bcryptPassword, compareFunc } = require("../utils/encrypt");
 const { update } = require("sequelize/lib/model");
 
-const { User } = require("../models/index");
-const { update } = require("sequelize/lib/model");
+const { User, 
+        Posting, 
+        PostLike,
+        Recipe,
+        RecipeLike,
+     } = require("../models/index");
 
 // 회원가입
 exports.postUser = async (req, res) => {
     try {
         console.log(req.body);
-        const { userid, name, pw, birthday, gender, email } = req.body;
+        const { userid, name, pw, birthday, gender } = req.body;
         const isExist = await User.findAll({
             where: { userID: userid },
         });
@@ -24,7 +28,6 @@ exports.postUser = async (req, res) => {
                 pw: hash,
                 birthday: birthday,
                 gender: gender,
-                email: email,
             });
             res.send("계정이 성공적으로 생성되었습니다.");
         } else {
@@ -38,51 +41,26 @@ exports.postUser = async (req, res) => {
 
 // 로그인 (세션)
 exports.userLogin = async (req, res) => {
-<<<<<<< HEAD
     try {
         const { userid, pw } = req.body;
         const isExist = await User.findOne({
             where: { userID: userid },
         });
 
-        console.log(isExist.dataValues.pw);
-
-        if (isExist) {
-            const hashPw = isExist.dataValues.pw;
-            const isMatch = bcrypt.compareFunc(pw, hashPw);
-
-            if (isMatch) {
-                // res.session.userInfo = {
-                //   userid: isExist.dataValues.userid,
-                // };
-                res.send({
-                    result: true,
-                    message: "로그인 성공",
-                    userid: req.session.userInfo.userid,
-                });
-            } else {
-                res.send("비밀번호가 일치하지 않습니다.");
-            }
-        } else {
-            res.send("아이디가 존재하지 않습니다.");
-=======
-    try {
-        const { userid, pw } = req.body;
-        const isExist = await User.findOne({
-            where: { userID: userid }
-        });
         if (isExist) {
             const hashPw = isExist.dataValues.pw;
             const isMatch = compareFunc(pw, hashPw);
+
             if (isMatch) {
-                req.session.userInfo = { userid: isExist.dataValues.userID, name: isExist.dataValues.name };
+                req.session.userInfo = {
+                  userid: isExist.dataValues.userID,
+                  name: isExist.dataValues.name
+                };
                 res.send({
                     result: true,
                     message: "로그인 성공",
                     userid: req.session.userInfo.userid,
-                    name: req.session.userInfo.name,
                 });
-                console.log(req.session);
             } else {
                 res.send("비밀번호가 일치하지 않습니다.");
             }
@@ -98,7 +76,7 @@ exports.userLogin = async (req, res) => {
 exports.userLogout = async (req, res) => {
     try {
         console.log(req.session);
-        if(req.session != undefined){
+        if(req.session !== undefined){
             req.session.destroy(() => {
                 req.session;
             });
@@ -106,23 +84,17 @@ exports.userLogout = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-<<<<<<< HEAD
         res.send({result: false});
-=======
->>>>>>> a320440b19f973086b46de8dc6c4dd6a3161612b
->>>>>>> 3b520c8566e2abcac4446d95ce464e3b750b27fc
-        }
-    } catch (error) { }
+    }
 };
 
 // 회원정보 수정
 exports.editUser = async (req, res) => {
-<<<<<<< HEAD
     try {
-        const { name, pw, birthday, gender, email } = req.body;
+        const { name, pw, birthday, gender } = req.body;
 
         // 필수 정보: 이름, 비번, 이메일
-        if (name != null && pw != null && email != null) {
+        if (name != null && pw != null) {
             await User.update(
                 {
                     name: name,
@@ -136,29 +108,11 @@ exports.editUser = async (req, res) => {
             res.send("수정이 완료되었습니다.");
         } else {
             res.send("입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.");
-=======
-    try {
-        console.log(req.session.userInfo.userid);
-        const { name, pw, birthday, gender, email } = req.body;
-
-        // 필수 정보: 이름, 비번, 이메일
-        if (name != null && pw != null && email != null) {
-            await User.update({
-                name: name,
-                pw: bcryptPassword(pw),
-                birthday: birthday,
-                gender: gender,
-                email: email
-            }, { where: { userID: req.session.userInfo.userid } });
-            res.send("수정이 완료되었습니다.");
-        } else {
-            res.send("입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.");
         }
     } catch (error) {
         console.error(error);
->>>>>>> a320440b19f973086b46de8dc6c4dd6a3161612b
-        }
-    } catch (error) { }
+        res.send({result: false});
+    }
 };
 
 // 비밀번호 찾기
@@ -174,6 +128,41 @@ exports.userDelete = async (req, res) => {
         });
         res.send({ result: true });
     } catch (error) {
+        console.error(error);
         res.send({ result: false });
+    }
+}
+
+
+// 좋아요 누른 항목
+exports.userLike = async (req, res) => {
+    try {
+        // 게시물
+        const postLikes = await PostLike.findAll({
+            where: {userID: req.session.userInfo.userid}
+        });
+
+        const postingID = postLikes.map((postLike) => postLike.dataValues.postingID);
+        console.log(postingID); 
+
+        const posting = await Posting.findAll({
+            where: {postingID: postingID}
+        });
+
+        // 레시피
+        const recipeLikes = await RecipeLike.findAll({
+            where: {userID: req.session.userInfo.userid}
+        });
+
+        const recipeID = recipeLikes.map((recipeLike) => recipeLike.dataValues.recipeID);
+
+        const recipe = await Recipe.findAll({
+            where: {recipeID: recipeID}
+        });
+
+        res.json({result: true, recipe, posting});
+    } catch (error) {
+        console.error(error);
+        res.send({result: false});
     }
 }

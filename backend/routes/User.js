@@ -22,4 +22,8 @@ router.post("/editProfile", userController.editUser);
 // 회원 탈퇴
 router.delete("/deleteUser", userController.userDelete);
 
+
+// 좋아요 누른 항목
+router.get("/userlike", userController.userLike);
+
 module.exports = router;
