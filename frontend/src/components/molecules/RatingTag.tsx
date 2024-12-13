@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { HiStar } from "react-icons/hi";
+import Star from "../atoms/Star";
 
 const TagBox = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ interface Props {
 export default function RatingTag({ rating = 0.0, className }: Props) {
   return (
     <TagBox className={className}>
-      <HiStar size={15} />
+      <Star size={15} />
       {rating}
     </TagBox>
   );

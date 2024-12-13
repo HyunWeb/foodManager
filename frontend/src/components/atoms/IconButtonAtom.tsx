@@ -62,6 +62,7 @@ interface IconButtonAtomProps {
   bottom?: string;
   left?: string;
   right?: string;
+  className?: string;
 }
 
 const IconButtons = styled(IconButton)<{
@@ -103,6 +104,7 @@ export default function IconButtonAtom({
   left,
   right,
   bottom,
+  className,
 }: IconButtonAtomProps) {
   const renderIcon = () => {
     switch (icontype) {
@@ -166,6 +168,7 @@ export default function IconButtonAtom({
       bottom={bottom}
       left={left}
       right={right}
+      className={className}
     >
       {renderIcon()}
     </IconButtons>
