@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "../ogganisms/Header";
 import SearchBlock from "../molecules/SearchBlock";
-import NavBar from "../ogganisms/NavBar";
 import SwitchTab from "../molecules/SwitchTab";
 import RecipeImgBox from "../molecules/RecipeImgBox";
 import RecipeTemplate from "../templates/RecipeTemplate";
+import Header from "../organisms/Header";
+import NavBar from "../organisms/NavBar";
 interface Item {
   name: string;
 }

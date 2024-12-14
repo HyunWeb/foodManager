@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../ogganisms/Header";
-import NavBar from "../ogganisms/NavBar";
-import RecipeCategory from "../ogganisms/RecipeCategory";
+import Header from "../organisms/Header";
+import RecipeCategory from "../organisms/RecipeCategory";
+import NavBar from "../organisms/NavBar";
 
 const Container = styled.div`
   padding: 20px;

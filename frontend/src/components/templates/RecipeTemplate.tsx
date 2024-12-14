@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import RecipeCategory from "../ogganisms/RecipeCategory";
-import FeedCategory from "../ogganisms/FeedCategory";
+import RecipeCategory from "../organisms/RecipeCategory";
+import FeedCategory from "../organisms/FeedCategory";
 
 const Container = styled.div`
   padding: 20px;
