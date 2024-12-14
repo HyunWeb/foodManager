@@ -10,6 +10,7 @@ import Login from "./components/pages/Login";
 import Nutrition from "./components/pages/Nutrition";
 import Myfood from "./components/pages/Myfood";
 import MyPage from "./components/pages/MyPage";
+import SignUp from "./components/pages/SignUp";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/nutrition" element={<Nutrition />} />
           <Route path="/myfood" element={<Myfood />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </Provider>

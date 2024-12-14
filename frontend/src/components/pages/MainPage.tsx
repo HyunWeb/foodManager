@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "../ogganisms/Header";
 import SearchBlock from "../molecules/SearchBlock";
-import NavBar from "../ogganisms/NavBar";
 import SwitchTab from "../molecules/SwitchTab";
 import RecipeImgBox from "../molecules/RecipeImgBox";
 import RecipeTemplate from "../templates/RecipeTemplate";
+import Header from "../organisms/Header";
+import NavBar from "../organisms/NavBar";
 interface Item {
   name: string;
 }
@@ -20,17 +20,17 @@ export default function MainPage() {
     { id: "3", text: "Option 3" },
   ];
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get(`${api}/api/items`);
-        setItems(response.data); // {name: "jonghyun"}
-      } catch (error) {
-        console.error("Error fetching items: ", error);
-      }
-    };
-    fetchItems();
-  }, []);
+  // useEffect(() => {
+  //   const fetchItems = async () => {
+  //     try {
+  //       const response = await axios.get(`${api}/api/items`);
+  //       setItems(response.data); // {name: "jonghyun"}
+  //     } catch (error) {
+  //       console.error("Error fetching items: ", error);
+  //     }
+  //   };
+  //   fetchItems();
+  // }, []);
 
   return (
     <div>
@@ -44,7 +44,7 @@ export default function MainPage() {
       />
       {selected === 1 ? <RecipeTemplate /> : "feedPage"}
 
-      {items ? items.name : "Loading..."}
+      {/* {items ? items.name : "Loading..."} */}
       <NavBar />
     </div>
   );

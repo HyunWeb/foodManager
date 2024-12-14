@@ -13,6 +13,8 @@ const Container = styled.nav`
   width: 100%;
   height: 60px;
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  z-index: 999;
 `;
 
 const Button = styled.button`

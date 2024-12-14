@@ -1,12 +1,16 @@
 const { Op } = require("sequelize");
 const db = require("../models");
 const sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
+const { bcryptPassword } = require("../utils/encrypt");
+
 const {
   Recipe,
   Step,
   Ingredient,
   RecipeReview,
   RecipeLike,
+  User,
 } = require("../models/index");
 
 async function stepinsert(recipeID, step) {
@@ -492,6 +496,110 @@ const RecipeReviewDelete = async (req, res) => {
   }
 };
 
+const nodemailer = require("nodemailer");
+const { config } = require("dotenv");
+require("dotenv").config();
+
+const transporter = nodemailer.createTransport({
+  service: "naver", // 이메일
+  host: "smtp.naver.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER, // 발송자 이메일
+    pass: process.env.EMAIL_PASSWORD, // 발송자 비밀번호
+  },
+});
+
+function setCookie(name, value) {
+  // 현재 시간 구하기
+  const now = new Date();
+  // 만료 시간을 3분 후로 설정
+  now.setTime(now.getTime() + 3 * 60 * 1000); // 3분을 밀리초로 변환
+  // 쿠키 설정 (만료 시간 포함)
+  cookie = `${name}=${value}; expires=${now.toUTCString()}; path=/`;
+}
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = cookie.split(";");
+
+  // 모든 쿠키를 순회하여 원하는 쿠키 찾기
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i].trim();
+    if (c.indexOf(nameEQ) === 0) {
+      return c.substring(nameEQ.length, c.length); // 쿠키 값 반환
+    }
+  }
+  return null; // 쿠키가 없으면 null 반환
+}
+
+//인증번호 보내는 라우터
+const userselect = async (req, res) => {
+  const { userID, birthday } = req.body;
+  console.log(userID);
+  const Userfind = await User.findOne({ where: { userID, birthday } });
+  if (Userfind != null) {
+    let count = Math.floor(100000 * Math.random());
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: userID,
+      subject: "이메일 비밀번호 인증",
+      html: `<h1>이메일 인증</h1>
+              <div>
+                아래 버튼의 인증번호를 서버에 입력해주세요.
+                인증번호 : ${count}
+              </div>`,
+      text: "인증메일입니다.",
+    };
+    await transporter.sendMail(mailOptions);
+    setCookie("count", count);
+    res.json({ result: true, Message: "인증번호 보내기 완료", count });
+  } else {
+    res.json({
+      result: false,
+      message: "로그인 정보를 찾을 수 없습니다.",
+    });
+  }
+};
+function deleteCookie(name) {
+  const now = new Date();
+  now.setTime(now.getTime() - 1); // 과거 시간을 설정하여 쿠키 삭제
+  // 쿠키 삭제 (만료 시간을 과거로 설정)
+  cookie = `${name}=; expires=${now.toUTCString()}; path=/`;
+}
+
+const PWchange = async (req, res) => {
+  try {
+    const { userID, pw, count } = req.body;
+    const Certification = await getCookie("count");
+    console.log(Certification);
+    if (Certification == count) {
+      const hash = bcryptPassword(pw);
+      const change = User.update({ pw: hash }, { where: { userID } });
+      if (change != null) {
+        deleteCookie("count");
+        res.json({
+          result: true,
+          Message: "비밀번호가 정상적으로 변경되었습니다.",
+        });
+      }
+    } else if (Certification != count) {
+      res.json({
+        result: false,
+        Message: "인증번호에 오류가 있어서 비밀번호 변경 불가",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({
+      result: false,
+      Message: "인증번호가 만료 or 생성X, 아니면 기능 오류",
+    });
+  }
+};
+//인증번호의 존재 유무를 확인하는 코드를 클라이언트 단에서 작성해야 함.
+
 module.exports = {
   Recipeinsert,
   Recipeupdate,
@@ -505,6 +613,8 @@ module.exports = {
   RecipeReviewDelete,
   RecipeReviewFindAll,
   RecipeReviewMYfind,
+  userselect,
+  PWchange,
 };
 //레시피 관련 코드 작성 완료(단, 이미지 업로드 관련 기능은 react 레시피 페이지 완성 후 추가 예정)
 //레시피 동작 상황에 대하여 모든 라우터가 작성되었는지 확인

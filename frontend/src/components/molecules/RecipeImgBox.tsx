@@ -51,7 +51,7 @@ export default function RecipeImgBox({
         <StyledImageCard src={src} alt={alt} />
         <StyledRatingTag rating={rating} />
       </ImgWrap>
-      <StyledHeading level={4} color="#121212" marginBottom="">
+      <StyledHeading level={4} color="#121212" $marginBottom="">
         {text}
       </StyledHeading>
     </Container>

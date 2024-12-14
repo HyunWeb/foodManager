@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Img = styled.img`
-  margin: 0 auto;
-  margin-bottom: 30px;
-  transform: translateX(-23%);
-`;
+const Img = styled.img``;
 interface ImageCardProps {
   src: string;
   alt: string;

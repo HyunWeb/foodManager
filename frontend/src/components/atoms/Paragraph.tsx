@@ -1,7 +1,10 @@
 import React from "react";
+import styled from "styled-components";
 interface ParagraphProps {
-  text: string;
+  children: React.ReactNode;
+  className?: string;
 }
-export default function Paragraph({ text }: ParagraphProps) {
-  return <p>{text}</p>;
+const StyleParagraph = styled.p``;
+export default function Paragraph({ children, className }: ParagraphProps) {
+  return <StyleParagraph className={className}>{children}</StyleParagraph>;
 }
