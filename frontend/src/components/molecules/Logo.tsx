@@ -12,10 +12,16 @@ const Container = styled.div`
   white-space: nowrap;
 `;
 
+const ImageStyle = styled(ImageCard)`
+  margin-bottom: 30px;
+  transform: translateX(-20%);
+  margin: 0 auto;
+`;
+
 export default function Logo() {
   return (
     <Container>
-      <ImageCard src="/LogoImg.png" alt="로고 이미지" />
+      <ImageStyle src="/LogoImg.png" alt="로고 이미지" />
       <LogoImg large={true} />
     </Container>
   );

@@ -7,7 +7,7 @@ const SelectAtom = styled.select<{
   height: string;
   mr?: string;
 }>`
-  background-color: #ebebeb;
+  background-color: #ffffff;
   padding: 5px;
   width: ${({ width }) => width || "0px"};
   height: ${({ height }) => height || "50px"};

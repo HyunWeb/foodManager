@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../ogganisms/Header";
-import NavBar from "../ogganisms/NavBar";
+import Header from "../organisms/Header";
+import NavBar from "../organisms/NavBar";
 
 export default function MyPage() {
   return (

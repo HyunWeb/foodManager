@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import RecipeImgBox from "../molecules/RecipeImgBox";
 import HeadingAtom from "../atoms/HeadingAtom";
-
 interface RecipeProps {
   id: number;
   title: string;
@@ -10,6 +9,10 @@ interface RecipeProps {
   alt?: string;
   rating: number;
 }
+
+const Container = styled.div`
+  margin-bottom: 20px;
+`;
 const RecipeList = styled.ul`
   display: flex;
   overflow: scroll;
@@ -18,7 +21,19 @@ const RecipeList = styled.ul`
 const RecipeListItem = styled.li`
   margin-right: 10px;
 `;
-export default function RecipeCategory() {
+
+const CategoryIntro = styled.p`
+  font-size: 13px;
+  color: #a9a9a9;
+  margin-bottom: 20px;
+`;
+export default function RecipeCategory({
+  category,
+  introduce,
+}: {
+  category: string;
+  introduce?: string;
+}) {
   const [recipes, setRecipes] = useState<RecipeProps[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,25 +52,26 @@ export default function RecipeCategory() {
   }, []);
 
   return (
-    <div>
-      <HeadingAtom level={3} color="#121212" marginBottom="20px">
-        오늘의 추천
+    <Container>
+      <HeadingAtom
+        level={3}
+        color="#121212"
+        $marginBottom={introduce ? "0px" : "20px"}
+      >
+        {category}
       </HeadingAtom>
+      {introduce && <CategoryIntro>{introduce}</CategoryIntro>}
       {loading ? (
         <p>Loading</p>
       ) : (
         <RecipeList>
           {recipes.map((recipe) => (
-            <RecipeListItem>
-              <RecipeImgBox
-                key={recipe.id}
-                text={recipe.title}
-                rating={recipe.rating}
-              />
+            <RecipeListItem key={recipe.id}>
+              <RecipeImgBox text={recipe.title} rating={recipe.rating} />
             </RecipeListItem>
           ))}
         </RecipeList>
       )}
-    </div>
+    </Container>
   );
 }
