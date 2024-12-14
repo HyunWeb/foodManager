@@ -27,19 +27,23 @@ const LoginButton = styled(Link)`
   }
 `;
 
-export default function Header() {
+export default function Header({ hide = false }: { hide?: boolean }) {
   return (
     <Container>
       <LogoImg large={false} />
-      <IconButtonAtom
-        label="알림버튼"
-        BGcolor="transparent"
-        variant="ghost"
-        icontype="bell"
-      />
-      <LoginButton to="/login">
-        <CiLogin />
-      </LoginButton>
+      {!hide && (
+        <>
+          <IconButtonAtom
+            label="알림버튼"
+            BGcolor="transparent"
+            variant="ghost"
+            icontype="bell"
+          />
+          <LoginButton to="/login">
+            <CiLogin />
+          </LoginButton>
+        </>
+      )}
     </Container>
   );
 }

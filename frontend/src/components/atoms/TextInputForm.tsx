@@ -1,33 +1,33 @@
 import React, { useState } from "react";
-import { PasswordInput } from "../ui/password-input";
+import { Input } from "@chakra-ui/react";
 import { Field } from "../ui/field";
+import { sign } from "crypto";
 
-interface InputProps {
-  label: string;
+interface TextInputProps {
   placeholder: string;
-  helperText?: string;
-  required?: boolean;
+  label: string;
   value: string;
   setValue: (e: string) => void;
+  invalid?: boolean;
 }
 
-export default function PasswordInputForm({
-  label,
-  helperText,
-  required = false,
+export default function TextInput({
   placeholder,
+  label,
   value,
   setValue,
-}: InputProps) {
-  // const [value, setValue] = useState("");
+  invalid = false,
+}: TextInputProps) {
   return (
     <Field
       label={label}
-      required={required}
-      helperText={helperText}
       fontWeight="bold"
+      marginBottom="20px"
+      errorText={"이메일 주소에는 @가 포함되어야 합니다."}
+      invalid={invalid}
+      required
     >
-      <PasswordInput
+      <Input
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}

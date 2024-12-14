@@ -19,6 +19,7 @@ const Container = styled.div`
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  margin-bottom: 20px;
 `;
 const ImageWrap = styled.div`
   height: 50%;
