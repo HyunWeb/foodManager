@@ -7,6 +7,7 @@ import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import ButtonAtom from "../atoms/ButtonAtom";
 import Header from "../organisms/Header";
+import axios from "axios";
 
 const Container = styled.div`
   padding: 20px;
@@ -35,6 +36,20 @@ export default function SignUp() {
     }
 
     console.log({ name, email, password, birthDate, genderState });
+
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/user/signup`,
+      data: {
+        name: name,
+        userid: email,
+        pw: password,
+        birthday: birthDate,
+        gender: genderState,
+      },
+    }).then((response) => {
+      alert("요청이 성공하였습니다.");
+    });
   };
 
   return (
