@@ -9,9 +9,6 @@ interface OneInputProps {
   helperText?: string;
   required?: boolean;
 }
-const Container = styled.div`
-  display: flex;
-`;
 
 export default function OneInput({
   placeholder,
@@ -20,14 +17,14 @@ export default function OneInput({
   helperText,
 }: OneInputProps) {
   return (
-    <Field label={label} required={required} helperText={helperText}>
-      <Container>
-        <InputForm
-          placeholder={placeholder}
-          $isLarge={true}
-          marginRight="10px"
-        />
-      </Container>
+    <Field
+      label={label}
+      required={required}
+      helperText={helperText}
+      fontWeight="bold"
+      width="320px"
+    >
+      <InputForm placeholder={placeholder} $isLarge={true} marginRight="10px" />
     </Field>
   );
 }

@@ -9,6 +9,10 @@ interface RecipeProps {
   alt?: string;
   rating: number;
 }
+
+const Container = styled.div`
+  margin-bottom: 20px;
+`;
 const RecipeList = styled.ul`
   display: flex;
   overflow: scroll;
@@ -48,11 +52,11 @@ export default function RecipeCategory({
   }, []);
 
   return (
-    <div>
+    <Container>
       <HeadingAtom
         level={3}
         color="#121212"
-        marginBottom={introduce ? "0px" : "20px"}
+        $marginBottom={introduce ? "0px" : "20px"}
       >
         {category}
       </HeadingAtom>
@@ -62,16 +66,12 @@ export default function RecipeCategory({
       ) : (
         <RecipeList>
           {recipes.map((recipe) => (
-            <RecipeListItem>
-              <RecipeImgBox
-                key={recipe.id}
-                text={recipe.title}
-                rating={recipe.rating}
-              />
+            <RecipeListItem key={recipe.id}>
+              <RecipeImgBox text={recipe.title} rating={recipe.rating} />
             </RecipeListItem>
           ))}
         </RecipeList>
       )}
-    </div>
+    </Container>
   );
 }

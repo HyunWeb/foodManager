@@ -1,36 +1,112 @@
 import React from "react";
 import styled from "styled-components";
-import HeadingAtom from "../atoms/HeadingAtom";
-import Select from "../atoms/Select";
+import { createListCollection, Text } from "@chakra-ui/react";
+import {
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "../ui/select";
 
 interface ThreeSelectBlockUiProps {
-  text: string;
-  options1: { id: string; text: string }[];
-  options2: { id: string; text: string }[];
-  options3: { id: string; text: string }[];
+  birthDate: { year: string; month: string; day: string };
+  setBirthDate: (date: { year: string; month: string; day: string }) => void;
 }
 
 const WrapSelect = styled.div`
   display: flex;
   justify-content: center;
+  gap: 8px;
+`;
+const Container = styled.div`
+  padding-top: 20px;
 `;
 
 export default function ThreeSelectBlockUi({
-  text,
-  options1,
-  options2,
-  options3,
+  birthDate,
+  setBirthDate,
 }: ThreeSelectBlockUiProps) {
+  const yearOptions = Array.from({ length: 50 }, (_, i) => ({
+    label: `${i + 1975}년`,
+    value: `${i + 1975}`,
+  }));
+  const monthOptions = Array.from({ length: 12 }, (_, i) => ({
+    label: `${i + 1}월`,
+    value: `${i + 1}`,
+  }));
+  const dayOptions = Array.from({ length: 31 }, (_, i) => ({
+    label: `${i + 1}일`,
+    value: `${i + 1}`,
+  }));
+  const yearOptionList = createListCollection({ items: yearOptions });
+  const monthOptionsList = createListCollection({ items: monthOptions });
+  const dayOptionsList = createListCollection({ items: dayOptions });
+
   return (
-    <div>
-      <HeadingAtom level={3} color="#121212" marginBottom="10px">
-        {text}
-      </HeadingAtom>
+    <Container>
+      <Text fontWeight="bold" mb="8px">
+        생년월일
+      </Text>
       <WrapSelect>
-        <Select options={options1} width="100px" height="50px" mr="10px" />
-        <Select options={options2} width="100px" height="50px" mr="10px" />
-        <Select options={options3} width="100px" height="50px" />
+        <SelectRoot
+          collection={yearOptionList}
+          size="sm"
+          width="240px"
+          onValueChange={(value) =>
+            setBirthDate({ ...birthDate, year: value.value[0] })
+          }
+        >
+          <SelectTrigger>
+            <SelectValueText placeholder="년 " />
+          </SelectTrigger>
+          <SelectContent>
+            {yearOptions.map((item) => (
+              <SelectItem item={item} key={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
+        <SelectRoot
+          collection={monthOptionsList}
+          size="sm"
+          width="240px"
+          onValueChange={(value) =>
+            setBirthDate({ ...birthDate, month: value.value[0] })
+          }
+        >
+          <SelectTrigger>
+            <SelectValueText placeholder="월 " />
+          </SelectTrigger>
+          <SelectContent>
+            {monthOptions.map((item) => (
+              <SelectItem item={item} key={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
+        <SelectRoot
+          collection={dayOptionsList}
+          size="sm"
+          width="240px"
+          onValueChange={(value) =>
+            setBirthDate({ ...birthDate, day: value.value[0] })
+          }
+        >
+          <SelectTrigger>
+            <SelectValueText placeholder="일 " />
+          </SelectTrigger>
+          <SelectContent>
+            {dayOptions.map((item) => (
+              <SelectItem item={item} key={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
       </WrapSelect>
-    </div>
+    </Container>
   );
 }
