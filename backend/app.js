@@ -15,7 +15,6 @@ app.use(cors());
 const RecipeRouter = require("./routes/Recipe");
 app.use("/Recipe", RecipeRouter);
 
-
 app.use(
   session({
     secret: process.env.SECRET_KEY,
