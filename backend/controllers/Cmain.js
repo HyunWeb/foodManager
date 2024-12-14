@@ -3,7 +3,10 @@ const db = require("../models");
 const sequelize = require("sequelize");
 const {DefaultRecipe} = require("../models/index");
 const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // exports.get_index = async (req, res) => {
 //   res.send("hello");
@@ -17,6 +20,13 @@ exports.fetchDataAndSave = async (req, res) => {
       throw new Error('유효하지 않은 데이터');
     }
 
+    recipes.map(recipe => {
+      const prompt = `This is ingredients of a recipe. Make this data into array. ${recipe.RCP_PARTS_DTLS}` ;
+
+      const result = model.generateContent(prompt);
+      console.log("레시피 정리", result.response);
+    });
+
     const transformedData = recipes.map(recipe => {
 
       const steps = Object.keys(recipe)
@@ -26,7 +36,7 @@ exports.fetchDataAndSave = async (req, res) => {
       return {
         title: recipe.RCP_NM,
         img: recipe.ATT_FILE_NO_MK,
-        describe: `나트륨 ${recipe.INFO_NA}g, 지방 ${recipe.INFO_FAT}g, 단백질 ${recipe.INFO_PRO}g`,
+        describe: `탄수화물 ${recipe.INFO_CAR}g, 지방 ${recipe.INFO_FAT}g, 단백질 ${recipe.INFO_PRO}g`,
         category: recipe.RCP_PAT2,
         ingredients: recipe.RCP_PARTS_DTLS,
         steps: steps,
