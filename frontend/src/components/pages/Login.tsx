@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
-import PasswordInputForm from "../atoms/PasswordInputForm";
+
 import TextInputForm from "../atoms/TextInputForm";
 import SigninUpBlock from "../molecules/SigninUpBlock";
+import PasswordInputForm from "../atoms/PasswordInputForm";
 
 const Container = styled.div`
   display: flex;
