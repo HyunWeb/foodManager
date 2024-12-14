@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Header from "../ogganisms/Header";
+
 import TextInputForm from "../atoms/TextInputForm";
 import PasswordInputForm from "../atoms/PasswordInputForm";
 import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import ButtonAtom from "../atoms/ButtonAtom";
+import Header from "../organisms/Header";
 
 const Container = styled.div`
   padding: 20px;
