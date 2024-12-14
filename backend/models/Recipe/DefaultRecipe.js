@@ -15,7 +15,7 @@ const DefaultRecipe = (Sequelize, DataTypes) => {
                 autoIncrement: true,
             },
             title: {
-                type: DataTypes.STRING(20),
+                type: DataTypes.TEXT,
                 allowNull: false,
             },
             img: {
@@ -31,7 +31,7 @@ const DefaultRecipe = (Sequelize, DataTypes) => {
                 allowNull: false,
             },
             ingredients: {
-                type: DataTypes.TEXT,
+                type: DataTypes.JSON,
                 allowNull: false,
             },
             steps: {
