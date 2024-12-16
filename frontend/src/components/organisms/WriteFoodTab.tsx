@@ -9,7 +9,6 @@ export default function WriteFoodTab() {
   const [foodName, setFoodName] = useState("");
   const [foodAmount, setfoodAmount] = useState("");
   const [foodUnit, setFoodUnit] = useState("");
-
   const time = [
     {
       label: `아침`,
@@ -95,6 +94,30 @@ export default function WriteFoodTab() {
       value: `ect`,
     },
   ];
+
+  console.log()
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({   TimeState, foodName, foodAmount, foodUnit });
+    category, foodname, amount, unit, kcal, mealtype, when 
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/user/signin`,
+      data: {
+        category: kindOfFood,
+        foodname: nameOfFood,
+        amount : foodAmount,
+        foodUnit : 
+      },
+      withCredentials: true,
+    }).then((res) => {
+      navigate(`/main`);
+      console.log(res);
+    });
+  };
+
+
+
   return (
     <div>
       <SelectBlockUi

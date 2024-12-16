@@ -4,6 +4,8 @@ import TextInputForm from "../atoms/TextInputForm";
 import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function WriteAddFood() {
   const [kindOfFood, setkindOfFood] = useState("");
@@ -15,7 +17,6 @@ export default function WriteAddFood() {
     option2: "",
     option3: "",
   });
-
   const kindOfFoodData = [
     {
       label: `채소 & 과일`,
