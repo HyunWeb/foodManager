@@ -17,6 +17,8 @@ export default function WriteAddFood() {
     option2: "",
     option3: "",
   });
+  const navigate = useNavigate();
+
   const kindOfFoodData = [
     {
       label: `채소 & 과일`,
@@ -59,6 +61,26 @@ export default function WriteAddFood() {
       value: `ect`,
     },
   ];
+  console.log(kindOfFood, nameOfFood, foodAmount, foodUnit, Data);
+  // [category, groceryname, amount, unit, expiration ]
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/grocery/post`,
+      data: {
+        category: kindOfFood,
+        groceryname: nameOfFood,
+        amount: foodAmount,
+        unit: foodUnit,
+        expiration: Data,
+      },
+      withCredentials: true,
+    }).then((res) => {
+      navigate(`/main`);
+      console.log(res);
+    });
+  };
   return (
     <div>
       <SelectBlockUi

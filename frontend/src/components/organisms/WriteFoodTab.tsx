@@ -3,7 +3,8 @@ import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
   const [KindOfFood, setKindOfFood] = useState("");
@@ -11,6 +12,7 @@ export default function WriteFoodTab() {
   const [foodAmount, setfoodAmount] = useState("1");
   const [foodUnit, setFoodUnit] = useState("");
   const [kcal, setKcal] = useState("");
+  const navigate = useNavigate();
 
   const time = [
     {
@@ -98,19 +100,19 @@ export default function WriteFoodTab() {
     },
   ];
 
-  console.log()
+  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({   TimeState, foodName, foodAmount, foodUnit });
-    category, foodname, amount, unit, kcal, mealtype, when 
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/user/signin`,
+      url: `http://localhost:8000/foodlog/post`,
       data: {
-        category: kindOfFood,
-        foodname: nameOfFood,
-        amount : foodAmount,
-        foodUnit : 
+        category: KindOfFood,
+        foodname: foodName,
+        amount: foodAmount,
+        unit: foodUnit,
+        kcal: kcal,
+        when: TimeState,
       },
       withCredentials: true,
     }).then((res) => {
@@ -119,9 +121,6 @@ export default function WriteFoodTab() {
     });
   };
 
-
-
-  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
   return (
     <div>
       <SelectBlockUi
