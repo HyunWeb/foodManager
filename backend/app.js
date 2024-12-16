@@ -10,10 +10,12 @@ const db = require("./models");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors());
-
-const RecipeRouter = require("./routes/Recipe");
-app.use("/Recipe", RecipeRouter);
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(
   session({
@@ -32,12 +34,14 @@ const userRouter = require("./routes/User");
 const logRouter = require("./routes/FoodLog");
 const groRouter = require("./routes/Grocery");
 const postRouter = require("./routes/Posting");
+const RecipeRouter = require("./routes/Recipe");
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/foodlog", logRouter);
 app.use("/grocery", groRouter);
 app.use("/posting", postRouter);
+app.use("/Recipe", RecipeRouter);
 
 db.sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
