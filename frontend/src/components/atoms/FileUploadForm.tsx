@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CloseButton } from "../ui/close-button";
 import {
   FileUploadList,
@@ -7,7 +7,22 @@ import {
   FileUploadClearTrigger,
 } from "../ui/file-upload";
 
-export default function FileUploadForm() {
+interface FileUploadFormProps {
+  value: string | null;
+  setValue: (e: string) => void;
+}
+
+export default function FileUploadForm({
+  value,
+  setValue,
+}: FileUploadFormProps) {
+  // const [fileName, setFileName] = React.useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setValue(event.target.files[0].name);
+    }
+  };
   return (
     <FileUploadRoot
       maxW="l"
@@ -15,6 +30,7 @@ export default function FileUploadForm() {
       maxFiles={1}
       border="1px solid #EBEBEB"
       marginTop="10px"
+      onChange={handleFileChange}
     >
       <FileUploadDropzone
         label="Drag and drop here to upload"

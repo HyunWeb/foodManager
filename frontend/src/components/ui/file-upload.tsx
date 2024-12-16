@@ -69,9 +69,7 @@ const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadItemProps>(
     return (
       <ChakraFileUpload.Item file={file} ref={ref}>
         <ChakraFileUpload.ItemPreview asChild>
-          <Icon fontSize="lg" color="fg.muted">
-            <LuFile />
-          </Icon>
+          <LuFile />
         </ChakraFileUpload.ItemPreview>
 
         {showSize ? (
