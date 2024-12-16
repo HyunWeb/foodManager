@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Input, Grid, GridItem } from "@chakra-ui/react";
 import { Field } from "../ui/field";
-import {
-  NumberInputField,
-  NumberInputLabel,
-  NumberInputRoot,
-} from "../ui/number-input";
+import { NumberInputField, NumberInputRoot } from "../ui/number-input";
 
 interface TextInputProps {
   placeholder1: string;
@@ -43,7 +39,12 @@ export default function TwoTextInputForm({
     >
       <Grid templateColumns="1fr 1fr" gap="16px">
         <GridItem>
-          <NumberInputRoot defaultValue="1" min={1}>
+          <NumberInputRoot
+            defaultValue="1"
+            value={value1.toString()}
+            onValueChange={(e) => setValue1(e.value)}
+            min={1}
+          >
             <NumberInputField />
           </NumberInputRoot>
         </GridItem>
