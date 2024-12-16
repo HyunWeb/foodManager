@@ -25,6 +25,7 @@ const Grocery = (Sequelize, DataTypes) => {
         type: DataTypes.ENUM(
           "Vegetables & Fruits",
           "Meat, Seafood & Eggs",
+          // dairy product가 더 좋을 것 같음
           "milk Products",
           "Seafood",
           "Rice, Grains & Nuts",
@@ -32,7 +33,7 @@ const Grocery = (Sequelize, DataTypes) => {
           "Seasonings",
           "Bread, Rice Cakes & Jam",
           "Kimchi",
-          "ect"
+          "etc"
         ),
         allowNull: false,
       },

@@ -21,7 +21,7 @@ const FoodLog = (Sequelize, DataTypes) => {
         type: DataTypes.ENUM(
           "Chicken",
           "Chinese Food",
-          "Chinese Food",
+          "Japanese Food",
           "Fast Food",
           "Stews & Boiled Dishes",
           "Meat",
@@ -33,7 +33,7 @@ const FoodLog = (Sequelize, DataTypes) => {
           "Lunch Box",
           "Salad",
           "Snacks",
-          "ect"
+          "etc"
         ),
         allowNull: false,
       },
