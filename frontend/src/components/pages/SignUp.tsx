@@ -47,8 +47,9 @@ export default function SignUp() {
         birthday: birthDate,
         gender: genderState,
       },
+      withCredentials: true,
     }).then((response) => {
-      alert("요청이 성공하였습니다.");
+      alert(response.data.message);
     });
   };
 

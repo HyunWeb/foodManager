@@ -5,7 +5,7 @@ import axios from "axios";
 import TextInputForm from "../atoms/TextInputForm";
 import SigninUpBlock from "../molecules/SigninUpBlock";
 import PasswordInputForm from "../atoms/PasswordInputForm";
-
+import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -30,6 +30,7 @@ const InputWrap = styled.form`
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,8 +42,10 @@ export default function Login() {
         userid: email,
         pw: password,
       },
-    }).then((response) => {
-      alert("요청이 성공하였습니다.");
+      withCredentials: true,
+    }).then((res) => {
+      navigate(`/main`);
+      console.log(res);
     });
   };
   return (
