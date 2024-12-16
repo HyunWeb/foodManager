@@ -3,26 +3,29 @@ import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
 import RecipeInfo from "./RecipeInfo";
 import IconButtonAtom from "../atoms/IconButtonAtom";
+import FeedInfo from "./FeedInfo";
 
 interface MainCardProps {
   src?: string;
   alt?: string;
   title: string;
   detail: string;
-  rating: number;
+  rating?: number;
+  type?: "recipe" | "feed";
+  userId?: string;
 }
 
-const Container = styled.div`
+const Container = styled.li`
   position: relative;
   width: 350px;
-  height: 175px;
+  height: 240px;
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-bottom: 20px;
 `;
 const ImageWrap = styled.div`
-  height: 50%;
+  height: 60%;
   overflow: hidden;
   position: relative;
 `;
@@ -46,7 +49,9 @@ export default function MainCard({
   alt = "피드 이미지",
   title,
   detail,
-  rating,
+  rating = 2.5,
+  type = "recipe",
+  userId = "user1234",
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
   const ChangeLikeState = () => {
@@ -65,7 +70,11 @@ export default function MainCard({
       <ImageWrap>
         <StyledImageCard src={src} alt={alt} />
       </ImageWrap>
-      <RecipeInfo title={title} detail={detail} rating={rating} />
+      {type === "recipe" ? (
+        <RecipeInfo title={title} detail={detail} rating={rating} />
+      ) : (
+        <FeedInfo title={title} detail={detail} userId={userId} />
+      )}
     </Container>
   );
 }

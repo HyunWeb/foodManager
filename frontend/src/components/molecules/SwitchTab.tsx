@@ -116,7 +116,13 @@ export default function SwitchTab({
 
       {$ThreeMenu &&
         (selected === 3 ? (
-          <ButtonTab $ThreeMenu={$ThreeMenu}>{menu3}</ButtonTab>
+          <ButtonTab
+            $ThreeMenu={$ThreeMenu}
+            className={className}
+            $buttonStyle={$buttonStyle}
+          >
+            {menu3}
+          </ButtonTab>
         ) : (
           <DeSelectButton $ThreeMenu={$ThreeMenu} onClick={() => ClickTab(3)}>
             {menu3}

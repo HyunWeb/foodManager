@@ -7,6 +7,7 @@ import RecipeImgBox from "../molecules/RecipeImgBox";
 import RecipeTemplate from "../templates/RecipeTemplate";
 import Header from "../organisms/Header";
 import NavBar from "../organisms/NavBar";
+import FeedTemplate from "../templates/FeedTemplate";
 interface Item {
   name: string;
 }
@@ -45,7 +46,7 @@ export default function MainPage() {
         selected={selected}
         setSelected={setSelected}
       />
-      {selected === 1 ? <RecipeTemplate /> : "feedPage"}
+      {selected === 1 ? <RecipeTemplate /> : <FeedTemplate />}
 
       {/* {items ? items.name : "Loading..."} */}
       <NavBar />
