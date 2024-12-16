@@ -21,9 +21,24 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [birthDate, setBirthDate] = useState({ year: "", month: "", day: "" });
+  const [birthDate, setBirthDate] = useState({
+    option1: "",
+    option2: "",
+    option3: "",
+  });
   const [genderState, setGenderState] = useState("");
   const [invalid, setInvalid] = useState(false);
+
+  const gender = [
+    {
+      label: `남성`,
+      value: `male`,
+    },
+    {
+      label: `여성`,
+      value: `female`,
+    },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,11 +81,22 @@ export default function SignUp() {
           setValue={setPassword}
         />
         {/* 생년월일 */}
-        <ThreeSelectBlockUi birthDate={birthDate} setBirthDate={setBirthDate} />
+        <ThreeSelectBlockUi
+          title="생년월일"
+          values={birthDate}
+          setValues={setBirthDate}
+          placeholder1="년 "
+          placeholder2="월 "
+          placeholder3="일 "
+          type="type1"
+        />
         {/* 성별 */}
         <SelectBlockUi
-          genderState={genderState}
-          setGenderState={setGenderState}
+          OptionState={genderState}
+          setOptionState={setGenderState}
+          Data={gender}
+          placeholder="성별을 입력해주세요"
+          title={"성별"}
         />
         {/* 회원가입 버튼 */}
         <ButtonAtom text="회원가입" buttontype="signUp" type="submit" />

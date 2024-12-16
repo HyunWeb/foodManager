@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import SearchBlock from "../molecules/SearchBlock";
 import SwitchTab from "../molecules/SwitchTab";
@@ -9,7 +10,9 @@ import NavBar from "../organisms/NavBar";
 interface Item {
   name: string;
 }
-
+const Container = styled.div`
+  position: relative;
+`;
 export default function MainPage() {
   const [items, setItems] = useState<Item>();
   const [selected, setSelected] = useState(1); // 탭전환
@@ -33,7 +36,7 @@ export default function MainPage() {
   // }, []);
 
   return (
-    <div>
+    <Container>
       <Header />
       <SearchBlock />
       <SwitchTab
@@ -46,6 +49,6 @@ export default function MainPage() {
 
       {/* {items ? items.name : "Loading..."} */}
       <NavBar />
-    </div>
+    </Container>
   );
 }

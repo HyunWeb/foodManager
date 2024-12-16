@@ -12,7 +12,7 @@ const LoginButton = styled(Button)`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
-const SignUpButton = styled(Button)`
+const LongButton = styled(Button)`
   background-color: #fe8d00;
   font-weight: bold;
   width: 300px;
@@ -23,6 +23,10 @@ const SignUpButton = styled(Button)`
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
+`;
+
+const UploadButton = styled(LongButton)`
+  position: fixed;
 `;
 interface ButtonAtomProps {
   text: string;
@@ -40,7 +44,9 @@ export default function ButtonAtom({
       case "login":
         return <LoginButton type={type}>{text}</LoginButton>;
       case "signUp":
-        return <SignUpButton type={type}>{text}</SignUpButton>;
+        return <LongButton type={type}>{text}</LongButton>;
+      case "upload":
+        return <UploadButton type={type}>{text}</UploadButton>;
       default:
         return null;
     }

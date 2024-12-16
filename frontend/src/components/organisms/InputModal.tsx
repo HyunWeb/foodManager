@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import SwitchTab from "../molecules/SwitchTab";
+import WritePostTab from "./WritePostTab";
+import WriteFoodTab from "./WriteFoodTab";
+import WriteAddFood from "./WriteAddFood";
 
 interface InputModalProps {
   $isOpen: boolean;
@@ -12,11 +15,11 @@ const ModalPage = styled.div<{ $isOpen: boolean }>`
   position: absolute;
   z-index: 5;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
+  bottom: 0;
   background-color: #2b2b2bc7;
   visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
-  top: 0;
   transition-duration: 500ms;
 `;
 
@@ -39,11 +42,11 @@ export default function InputModal({ $isOpen, onClose }: InputModalProps) {
   const render = () => {
     switch (selected) {
       case 1:
-        return "게시글 작성";
+        return <WritePostTab />;
       case 2:
-        return "음식 기록";
+        return <WriteFoodTab />;
       case 3:
-        return "재료 추가";
+        return <WriteAddFood />;
     }
   };
   return (
