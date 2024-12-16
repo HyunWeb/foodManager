@@ -5,50 +5,61 @@
  */
 
 const Grocery = (Sequelize, DataTypes) => {
-    return Sequelize.define(
-      "grocery",
-      {
-        groceryID: {
-          type: DataTypes.INTEGER,
-          autoIncrement: true,
-          primaryKey: true,
-        },
-        userID: {
-          type: DataTypes.STRING(20),
-          allowNull: false,
-          references: {
-            model: "user",
-            key: "userID",
-          },
-        },
-        category: {
-          type: DataTypes.ENUM("채소", "육류/가공육", "유제품", "과일", "곡물", "음료"),
-          allowNull: false,
-        },
-        groceryname: {
-          type: DataTypes.STRING(10),
-          allowNull: false,
-        },
-        amount: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        unit: {
-          type: DataTypes.STRING(10),
-          allowNull: false,
-          defaultValue: "g",
-        },
-        expiration: {
-          type: DataTypes.DATE,
-          allowNull: false,
+  return Sequelize.define(
+    "grocery",
+    {
+      groceryID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      userID: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        references: {
+          model: "user",
+          key: "userID",
         },
       },
-      {
-        tableName: "grocery",
-        freezeTableName: true,
-        timestamps: false,
-      }
-    );
-  };
+      category: {
+        type: DataTypes.ENUM(
+          "Vegetables & Fruits",
+          "Meat, Seafood & Eggs",
+          "milk Products",
+          "Seafood",
+          "Rice, Grains & Nuts",
+          "Frozen Foods",
+          "Seasonings",
+          "Bread, Rice Cakes & Jam",
+          "Kimchi",
+          "ect"
+        ),
+        allowNull: false,
+      },
+      groceryname: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+      amount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      unit: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+        defaultValue: "g",
+      },
+      expiration: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "grocery",
+      freezeTableName: true,
+      timestamps: false,
+    }
+  );
+};
 
 module.exports = Grocery;
