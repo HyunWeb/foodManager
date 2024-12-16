@@ -6,7 +6,7 @@ import TextboxAtom from "../atoms/TextboxAtom";
 import TextareaForm from "../atoms/TextareaForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 
-const Container = styled.div`
+const Container = styled.form`
   position: relative;
 `;
 

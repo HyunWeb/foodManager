@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
   const [KindOfFood, setKindOfFood] = useState("");
@@ -122,7 +122,7 @@ export default function WriteFoodTab() {
   };
 
   return (
-    <div>
+    <Container>
       <SelectBlockUi
         OptionState={TimeState}
         setOptionState={setTimeState}
@@ -162,6 +162,6 @@ export default function WriteFoodTab() {
         required={false}
       />
       <ButtonAtom text="업로드" buttontype="upload" type="submit" />
-    </div>
+    </Container>
   );
 }

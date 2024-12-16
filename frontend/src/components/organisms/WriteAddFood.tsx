@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
 import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
@@ -7,10 +8,12 @@ import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const Container = styled.form``;
+
 export default function WriteAddFood() {
   const [kindOfFood, setkindOfFood] = useState("");
   const [nameOfFood, setnameOfFood] = useState("");
-  const [foodAmount, setfoodAmount] = useState("");
+  const [foodAmount, setfoodAmount] = useState("1");
   const [foodUnit, setFoodUnit] = useState("");
   const [Data, setData] = useState({
     option1: "",
@@ -82,7 +85,7 @@ export default function WriteAddFood() {
     });
   };
   return (
-    <div>
+    <Container>
       <SelectBlockUi
         OptionState={kindOfFood}
         setOptionState={setkindOfFood}
@@ -116,6 +119,6 @@ export default function WriteAddFood() {
       />
 
       <ButtonAtom text="업로드" buttontype="upload" type="submit" />
-    </div>
+    </Container>
   );
 }
