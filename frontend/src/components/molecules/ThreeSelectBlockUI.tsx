@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { createListCollection, Text } from "@chakra-ui/react";
 import {
@@ -10,8 +10,17 @@ import {
 } from "../ui/select";
 
 interface ThreeSelectBlockUiProps {
-  birthDate: { year: string; month: string; day: string };
-  setBirthDate: (date: { year: string; month: string; day: string }) => void;
+  title: string;
+  placeholder1: string;
+  placeholder2: string;
+  placeholder3: string;
+  type: "type1" | "type2" | "type3";
+  values: { option1: string; option2: string; option3: string };
+  setValues: (date: {
+    option1: string;
+    option2: string;
+    option3: string;
+  }) => void;
 }
 
 const WrapSelect = styled.div`
@@ -20,48 +29,127 @@ const WrapSelect = styled.div`
   gap: 8px;
 `;
 const Container = styled.div`
-  padding-top: 20px;
+  margin-top: 20px;
 `;
 
 export default function ThreeSelectBlockUi({
-  birthDate,
-  setBirthDate,
+  values,
+  setValues,
+  title,
+  placeholder1,
+  placeholder2,
+  placeholder3,
+  type,
 }: ThreeSelectBlockUiProps) {
-  const yearOptions = Array.from({ length: 50 }, (_, i) => ({
-    label: `${i + 1975}년`,
-    value: `${i + 1975}`,
-  }));
-  const monthOptions = Array.from({ length: 12 }, (_, i) => ({
-    label: `${i + 1}월`,
-    value: `${i + 1}`,
-  }));
-  const dayOptions = Array.from({ length: 31 }, (_, i) => ({
-    label: `${i + 1}일`,
-    value: `${i + 1}`,
-  }));
-  const yearOptionList = createListCollection({ items: yearOptions });
-  const monthOptionsList = createListCollection({ items: monthOptions });
-  const dayOptionsList = createListCollection({ items: dayOptions });
+  const yearOptions = useMemo(
+    () =>
+      Array.from({ length: 50 }, (_, i) => ({
+        label: `${i + 1975}년`,
+        value: `${i + 1975}`,
+      })),
+    []
+  );
+  const LimitYearOptions = useMemo(
+    () =>
+      Array.from({ length: 50 }, (_, i) => ({
+        label: `${i + 2024}년`,
+        value: `${i + 2024}`,
+      })),
+    []
+  );
+
+  const monthOptions = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => ({
+        label: `${i + 1}월`,
+        value: `${i + 1}`,
+      })),
+    []
+  );
+
+  const dayOptions = useMemo(
+    () =>
+      Array.from({ length: 31 }, (_, i) => ({
+        label: `${i + 1}일`,
+        value: `${i + 1}`,
+      })),
+    []
+  );
+
+  const timeOptions = useMemo(
+    () => [
+      { label: `15min`, value: `15min` },
+      { label: `30min`, value: `30min` },
+      { label: `60min`, value: `60min` },
+      { label: `etc`, value: `etc` },
+    ],
+    []
+  );
+
+  const personOptions = useMemo(
+    () =>
+      Array.from({ length: 5 }, (_, i) => ({
+        label: `${i + 1}인분`,
+        value: `${i + 1}`,
+      })),
+    []
+  );
+
+  const levelOptions = useMemo(
+    () => [
+      { label: `상`, value: `상` },
+      { label: `중`, value: `중` },
+      { label: `하`, value: `하` },
+    ],
+    []
+  );
+
+  const OptionList1 = useMemo(() => {
+    switch (type) {
+      case "type1":
+        return createListCollection({ items: yearOptions });
+      case "type3":
+        return createListCollection({ items: LimitYearOptions });
+      default:
+        return createListCollection({ items: timeOptions });
+    }
+  }, [type, yearOptions, timeOptions, LimitYearOptions]);
+
+  const OptionList2 = useMemo(
+    () =>
+      createListCollection({
+        items: type === "type2" ? personOptions : monthOptions,
+      }),
+    [type, monthOptions, personOptions]
+  );
+
+  const OptionList3 = useMemo(
+    () =>
+      createListCollection({
+        items: type === "type2" ? levelOptions : dayOptions,
+      }),
+    [type, dayOptions, levelOptions]
+  );
 
   return (
     <Container>
       <Text fontWeight="bold" mb="8px">
-        생년월일
+        {title}
       </Text>
       <WrapSelect>
         <SelectRoot
-          collection={yearOptionList}
+          collection={OptionList1}
           size="sm"
           width="240px"
           onValueChange={(value) =>
-            setBirthDate({ ...birthDate, year: value.value[0] })
+            setValues({ ...values, option1: value.value[0] })
           }
         >
           <SelectTrigger>
-            <SelectValueText placeholder="년 " />
+            <SelectValueText placeholder={placeholder1} />
           </SelectTrigger>
           <SelectContent>
-            {yearOptions.map((item) => (
+            {OptionList1.items.map((item) => (
               <SelectItem item={item} key={item.value}>
                 {item.label}
               </SelectItem>
@@ -69,18 +157,18 @@ export default function ThreeSelectBlockUi({
           </SelectContent>
         </SelectRoot>
         <SelectRoot
-          collection={monthOptionsList}
+          collection={OptionList2}
           size="sm"
           width="240px"
           onValueChange={(value) =>
-            setBirthDate({ ...birthDate, month: value.value[0] })
+            setValues({ ...values, option2: value.value[0] })
           }
         >
           <SelectTrigger>
-            <SelectValueText placeholder="월 " />
+            <SelectValueText placeholder={placeholder2} />
           </SelectTrigger>
           <SelectContent>
-            {monthOptions.map((item) => (
+            {OptionList2.items.map((item) => (
               <SelectItem item={item} key={item.value}>
                 {item.label}
               </SelectItem>
@@ -88,18 +176,18 @@ export default function ThreeSelectBlockUi({
           </SelectContent>
         </SelectRoot>
         <SelectRoot
-          collection={dayOptionsList}
+          collection={OptionList3}
           size="sm"
           width="240px"
           onValueChange={(value) =>
-            setBirthDate({ ...birthDate, day: value.value[0] })
+            setValues({ ...values, option3: value.value[0] })
           }
         >
           <SelectTrigger>
-            <SelectValueText placeholder="일 " />
+            <SelectValueText placeholder={placeholder3} />
           </SelectTrigger>
           <SelectContent>
-            {dayOptions.map((item) => (
+            {OptionList3.items.map((item) => (
               <SelectItem item={item} key={item.value}>
                 {item.label}
               </SelectItem>
