@@ -6,7 +6,7 @@ import TextareaForm from "../atoms/TextareaForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import IngredientsList from "../molecules/IngredientsList";
 
-const Container = styled.div`
+const Container = styled.form`
   height: 100%;
   overflow: scroll;
 `;
@@ -41,7 +41,7 @@ export default function WriteRecipe() {
           value={RecipeValue}
           setValue={setRecipeValue}
         />
-        <IngredientsList />
+        <IngredientsList placeholder1="재료 이름" placeholder2="단위 입력" />
         <ButtonAtom text="업로드" buttontype="upload" type="submit" />
       </WrapContent>
     </Container>

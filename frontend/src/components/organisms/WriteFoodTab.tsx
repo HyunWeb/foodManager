@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
+
+const Container = styled.form``;
 
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
@@ -99,7 +102,7 @@ export default function WriteFoodTab() {
   ];
   console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
   return (
-    <div>
+    <Container>
       <SelectBlockUi
         OptionState={TimeState}
         setOptionState={setTimeState}
@@ -139,6 +142,6 @@ export default function WriteFoodTab() {
         required={false}
       />
       <ButtonAtom text="업로드" buttontype="upload" type="submit" />
-    </div>
+    </Container>
   );
 }
