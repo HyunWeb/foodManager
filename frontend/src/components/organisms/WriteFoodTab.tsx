@@ -6,9 +6,12 @@ import TwoTextInputForm from "../atoms/TwoTextInputForm";
 
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
+  const [KindOfFood, setKindOfFood] = useState("");
   const [foodName, setFoodName] = useState("");
-  const [foodAmount, setfoodAmount] = useState("");
+  const [foodAmount, setfoodAmount] = useState("1");
   const [foodUnit, setFoodUnit] = useState("");
+  const [kcal, setKcal] = useState("");
+
   const time = [
     {
       label: `아침`,
@@ -118,6 +121,7 @@ export default function WriteFoodTab() {
 
 
 
+  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
   return (
     <div>
       <SelectBlockUi
@@ -128,8 +132,8 @@ export default function WriteFoodTab() {
         title={"언제 드셨나요?"}
       />
       <SelectBlockUi
-        OptionState={TimeState}
-        setOptionState={setTimeState}
+        OptionState={KindOfFood}
+        setOptionState={setKindOfFood}
         Data={kindOfFoodData}
         placeholder="음식의 종류를 선택하세요"
         title={"음식의 종류"}
@@ -154,8 +158,8 @@ export default function WriteFoodTab() {
       <TextInputForm
         placeholder="입력하지 않으시면 AI가 자동으로 추정합니다."
         label="칼로리(선택)"
-        value={foodName}
-        setValue={setFoodName}
+        value={kcal}
+        setValue={setKcal}
         required={false}
       />
       <ButtonAtom text="업로드" buttontype="upload" type="submit" />
