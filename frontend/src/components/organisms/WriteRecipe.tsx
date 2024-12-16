@@ -4,6 +4,7 @@ import FileUploadForm from "../atoms/FileUploadForm";
 import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
 import TextareaForm from "../atoms/TextareaForm";
 import ButtonAtom from "../atoms/ButtonAtom";
+import IngredientsList from "../molecules/IngredientsList";
 
 const Container = styled.div`
   height: 100%;
@@ -40,6 +41,7 @@ export default function WriteRecipe() {
           value={RecipeValue}
           setValue={setRecipeValue}
         />
+        <IngredientsList />
         <ButtonAtom text="업로드" buttontype="upload" type="submit" />
       </WrapContent>
     </Container>
