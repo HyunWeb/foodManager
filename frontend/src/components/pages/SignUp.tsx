@@ -68,7 +68,7 @@ export default function SignUp() {
         {/* 이메일 */}
         <TextInputForm
           placeholder="이메일을 입력하세요"
-          label="아이디"
+          label="이메일"
           value={email}
           setValue={setEmail}
           invalid={invalid}

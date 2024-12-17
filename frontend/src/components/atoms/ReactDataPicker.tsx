@@ -14,7 +14,7 @@ const CalanderButton = styled.button`
   font-size: 20px;
   font-weight: 700;
   display: flex;
-  align-items: center;
+  justify-content: center;
 `;
 
 interface CustomInputProps {
