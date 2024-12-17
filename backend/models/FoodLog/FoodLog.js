@@ -18,23 +18,7 @@ const FoodLog = (Sequelize, DataTypes) => {
         allowNull: false,
       },
       category: {
-        type: DataTypes.ENUM(
-          "Chicken",
-          "Chinese Food",
-          "Chinese Food",
-          "Fast Food",
-          "Stews & Boiled Dishes",
-          "Meat",
-          "Korean Fast Food",
-          "Café & Desserts",
-          "Korean Food",
-          "Western Food",
-          "Asian Food",
-          "Lunch Box",
-          "Salad",
-          "Snacks",
-          "ect"
-        ),
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       foodname: {
