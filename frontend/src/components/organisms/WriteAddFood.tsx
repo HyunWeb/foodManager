@@ -20,8 +20,12 @@ export default function WriteAddFood() {
     option2: "",
     option3: "",
   });
-  const navigate = useNavigate();
-
+  console.log(
+    `재료 종류 : ${kindOfFood}, 
+    재료 이름: ${nameOfFood}, 
+    재료의 양: ${foodAmount}, ${foodUnit}, 
+    유통 기한 : ${Data.option1}년 ${Data.option2}월 ${Data.option3}일`
+  );
   const kindOfFoodData = [
     {
       label: `채소 & 과일`,

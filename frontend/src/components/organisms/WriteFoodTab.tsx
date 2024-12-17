@@ -4,7 +4,11 @@ import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+const Container = styled.div`
+  height: 100%;
+`;
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
   const [KindOfFood, setKindOfFood] = useState("");
@@ -99,8 +103,8 @@ export default function WriteFoodTab() {
       value: `ect`,
     },
   ];
-
   console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const data = axios({
@@ -122,7 +126,7 @@ export default function WriteFoodTab() {
   };
 
   return (
-    <Container>
+    <Container onSubmit={handleSubmit}>
       <SelectBlockUi
         OptionState={TimeState}
         setOptionState={setTimeState}

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Input, Grid, GridItem } from "@chakra-ui/react";
+import { Input, Grid, GridItem, Textarea } from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 interface IngredientsListProps {
-  placeholder1: string;
-  placeholder2: string;
-  value: { value1: string; value2: string }[];
-  setValue: (e: { value1: string; value2: string }[]) => void;
+  placeholder: string;
+  value: { value: string }[];
+  setValue: (e: { value: string }[]) => void;
 }
 
 const AddButton = styled(IconButtonAtom)`
@@ -22,13 +21,12 @@ const DelButton = styled(IconButtonAtom)`
 const FlexBox = styled(GridItem)`
   display: flex;
 `;
-export default function IngredientsList({
-  placeholder1,
-  placeholder2,
+export default function CookingSteps({
+  placeholder,
   value,
   setValue,
 }: IngredientsListProps) {
-  const addInputSet = () => setValue([...value, { value1: "", value2: "" }]);
+  const addInputSet = () => setValue([...value, { value: "" }]);
 
   const removeInputSet = (index: number) => {
     const updateInputSet = value.filter((_, i) => i !== index);
@@ -36,7 +34,13 @@ export default function IngredientsList({
   };
 
   return (
-    <Field label="재료 양" fontWeight="bold" marginTop="20px" required>
+    <Field
+      label="조리 순서"
+      fontWeight="bold"
+      marginTop="50px"
+      marginBottom="300px"
+      required
+    >
       <AddButton
         icontype="plus"
         variant="ghost"
@@ -48,29 +52,21 @@ export default function IngredientsList({
         left="50%"
         bottom="-50px"
       />
-      <Grid templateColumns="2fr 1fr 1fr" gap="10px">
+      <Grid templateColumns="1fr 9fr 1fr" gap="10px">
         {value.map((inputSets, index) => (
           <React.Fragment key={index}>
+            <GridItem alignSelf="center">{index + 1}.</GridItem>
             <GridItem>
-              <Input
-                placeholder={placeholder1}
-                value={value[index].value1}
+              <Textarea
+                placeholder={placeholder}
+                value={value[index].value}
+                variant="outline"
                 onChange={(e) => {
                   const updateValue = [...value];
-                  updateValue[index].value1 = e.target.value;
+                  updateValue[index].value = e.target.value;
                   setValue(updateValue);
                 }}
-              />
-            </GridItem>
-            <GridItem>
-              <Input
-                placeholder={placeholder2}
-                value={value[index].value2}
-                onChange={(e) => {
-                  const updateValue = [...value];
-                  updateValue[index].value2 = e.target.value;
-                  setValue(updateValue);
-                }}
+                height="80px"
               />
             </GridItem>
             <FlexBox>

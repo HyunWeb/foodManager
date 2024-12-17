@@ -5,6 +5,7 @@ import FeedCategory from "../organisms/FeedCategory";
 
 const Container = styled.div`
   padding: 20px;
+  margin-bottom: 100px;
 `;
 
 export default function RecipeTemplate() {
