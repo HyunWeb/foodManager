@@ -31,43 +31,43 @@ export default function WriteAddFood() {
   const kindOfFoodData = [
     {
       label: `채소 & 과일`,
-      value: `Vegetables & Fruits`,
+      value: `1`,
     },
     {
       label: `정육 & 수산 & 계란`,
-      value: `Meat, Seafood & Eggs`,
+      value: `2`,
     },
     {
       label: `유제품`,
-      value: `milk Products`,
+      value: `3`,
     },
     {
       label: `수산물`,
-      value: `Seafood`,
+      value: `4`,
     },
     {
       label: `쌀 & 잡곡  & 견과`,
-      value: `Rice, Grains & Nuts`,
+      value: `5`,
     },
     {
       label: `냉동식품`,
-      value: `Frozen Foods`,
+      value: `6`,
     },
     {
       label: `조미료`,
-      value: `Seasonings`,
+      value: `7`,
     },
     {
       label: `빵 & 떡 & 잼`,
-      value: `Bread, Rice Cakes & Jam`,
+      value: `8`,
     },
     {
       label: `김치`,
-      value: `Kimchi`,
+      value: `9`,
     },
     {
       label: `기타`,
-      value: `ect`,
+      value: `10`,
     },
   ];
   // [category, groceryname, amount, unit, expiration ]
@@ -82,11 +82,19 @@ export default function WriteAddFood() {
         groceryname: nameOfFood,
         amount: foodAmount,
         unit: foodUnit,
-        expiration: Data,
+        expiration: `${Data.option1}-${Data.option2}-${Data.option3}`,
       },
       withCredentials: true,
     }).then((res) => {
-      console.log(res);
+      if (res.data.result == true) {
+        alert(res.data.message);
+      } else {
+        if (res.data.message == "로그인이 되어 있지 않습니다.") {
+          navigate("/login");
+        } else {
+          alert("데이터 추가 도중 오류가 발생했습니다.");
+        }
+      }
     });
   };
   return (

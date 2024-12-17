@@ -1,8 +1,37 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/CRecipe");
+//multer 관련 설정
+const multer = require("multer");
+const path = require("path"); // 경로 처리를 위한 내장 모듈
 
-router.post("/insert", controller.Recipeinsert); //레시피를 추가를 요청하는 router
+// multer 세부 설정
+const uploadDetail = multer({
+  // storage : 저장할 공간에 대한 정보
+  storage: multer.diskStorage({
+    // destination : 경로 설정
+    destination(req, file, done) {
+      // done: callback function
+      // done(null, "~~") 여기서 null은 error를 의미하는 매개변수
+      // 에러가 없으므로 "null" 이라고 전달하여 콜백함수를 호출
+      done(null, "uploads/");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname); // 파일 "확장자"를 추출
+      // console.log("ext", ext);
+      // console.log(path.basename(file.originalname, ext));
+      //done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+
+      // 실습
+      console.log("file name > req.body", req.body);
+      done(null, req.body.fileName + ext);
+    },
+    // limits : 파일 제한 정보
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  }),
+});
+
+router.post("/insert", uploadDetail.any(), controller.Recipeinsert); //레시피를 추가를 요청하는 router
 
 router.get("/find/:recipeID", controller.RecipefindOne); // 레시피의 정보를 찾는 라우터
 

@@ -5,26 +5,16 @@ import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import ReactDataPicker from "../atoms/ReactDataPicker";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Container = styled.form``;
 const CalenderWrap = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
 `;
+const InputWrap = styled.form``;
 
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-const Container = styled.div`
-  height: 100%;
-`;
-const InputWrap = styled.form`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  width: 320px;
-  margin-bottom: 30px;
-`;
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
   const [KindOfFood, setKindOfFood] = useState("");
@@ -125,13 +115,14 @@ export default function WriteFoodTab() {
   const month = date.getMonth() + 1;
   const day = date.getDate();
   // 날짜 결과
-  const formattedDate = `${year}/${month}/${day}`;
+  const formattedDate = `${year}-${month}-${day}`;
 
   //category, foodname, amount, unit, kcal, mealtype, when
+  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
 
   const handleSubmit = (e: React.FormEvent) => {
+    alert("ddd");
     e.preventDefault();
-    console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/foodlog/post`,
@@ -161,74 +152,49 @@ export default function WriteFoodTab() {
       }
     });
   };
-  //when 달력 누락으로 추가 필요
 
   return (
-    <Container>
-      <InputWrap onSubmit={handleSubmit}>
-        <SelectBlockUi
-          OptionState={TimeState}
-          setOptionState={setTimeState}
-          Data={time}
-          placeholder="식사 시간대를 선택하세요"
-          title={"언제 드셨나요?"}
-        />
-        <SelectBlockUi
-          OptionState={KindOfFood}
-          setOptionState={setKindOfFood}
-          Data={kindOfFoodData}
-          placeholder="음식의 종류를 선택하세요"
-          title={"음식의 종류"}
-        />
-        <TextInputForm
-          placeholder="음식 이름을 입력하세요"
-          label="음식 이름"
-          value={foodName}
-          setValue={setFoodName}
-        />
-        <CalenderWrap>
-          <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
-        </CalenderWrap>
-        <SelectBlockUi
-          OptionState={TimeState}
-          setOptionState={setTimeState}
-          Data={time}
-          placeholder="식사 시간대를 선택하세요"
-          title={"언제 드셨나요?"}
-        />
-        <SelectBlockUi
-          OptionState={KindOfFood}
-          setOptionState={setKindOfFood}
-          Data={kindOfFoodData}
-          placeholder="음식의 종류를 선택하세요"
-          title={"음식의 종류"}
-        />
-        <TextInputForm
-          placeholder="음식 이름을 입력하세요"
-          label="음식 이름"
-          value={foodName}
-          setValue={setFoodName}
-        />
-
-        <TwoTextInputForm
-          label="음식 양"
-          placeholder1="숫자를 입력해주세요"
-          placeholder2="단위를 입력해주세요"
-          value1={foodAmount}
-          value2={foodUnit}
-          setValue1={setfoodAmount}
-          setValue2={setFoodUnit}
-        />
-
-        <TextInputForm
-          placeholder="입력하지 않으시면 AI가 자동으로 추정합니다."
-          label="칼로리(선택)"
-          value={kcal}
-          setValue={setKcal}
-          required={false}
-        />
-        <ButtonAtom text="업로드" buttontype="upload" type="submit" />
-      </InputWrap>
+    <Container onSubmit={handleSubmit}>
+      <SelectBlockUi
+        OptionState={TimeState}
+        setOptionState={setTimeState}
+        Data={time}
+        placeholder="식사 시간대를 선택하세요"
+        title={"언제 드셨나요?"}
+      />
+      <SelectBlockUi
+        OptionState={KindOfFood}
+        setOptionState={setKindOfFood}
+        Data={kindOfFoodData}
+        placeholder="음식의 종류를 선택하세요"
+        title={"음식의 종류"}
+      />
+      <TextInputForm
+        placeholder="음식 이름을 입력하세요"
+        label="음식 이름"
+        value={foodName}
+        setValue={setFoodName}
+      />
+      <CalenderWrap>
+        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
+      </CalenderWrap>
+      <TwoTextInputForm
+        label="음식 양"
+        placeholder1="숫자를 입력해주세요"
+        placeholder2="단위를 입력해주세요"
+        value1={foodAmount}
+        value2={foodUnit}
+        setValue1={setfoodAmount}
+        setValue2={setFoodUnit}
+      />
+      <TextInputForm
+        placeholder="입력하지 않으시면 AI가 자동으로 추정합니다."
+        label="칼로리(선택)"
+        value={kcal}
+        setValue={setKcal}
+        required={false}
+      />
+      <ButtonAtom text="업로드" buttontype="upload" type="submit" />
     </Container>
   );
 }
