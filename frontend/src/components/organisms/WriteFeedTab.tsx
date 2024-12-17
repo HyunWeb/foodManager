@@ -20,11 +20,17 @@ export default function WriteFeedTab() {
     console.log(titleValue, contentValue, fileName);
     e.preventDefault();
     const formData = new FormData();
+    formData.append("title", titleValue);
+    formData.append("content", contentValue);
+    formData.append("filename", String(fileName));
 
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/posting/post`,
-
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       withCredentials: true,
     }).then((res) => {
       if (res.data.result == true) {
