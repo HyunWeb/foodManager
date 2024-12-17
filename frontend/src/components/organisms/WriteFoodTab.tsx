@@ -4,6 +4,15 @@ import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
+import ReactDataPicker from "../atoms/ReactDataPicker";
+
+const Container = styled.form``;
+const CalenderWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+`;
+
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Container = styled.div`
@@ -23,7 +32,7 @@ export default function WriteFoodTab() {
   const [foodAmount, setfoodAmount] = useState("1");
   const [foodUnit, setFoodUnit] = useState("");
   const [kcal, setKcal] = useState("");
-  const navigate = useNavigate();
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   const time = [
     {
@@ -51,65 +60,73 @@ export default function WriteFoodTab() {
   const kindOfFoodData = [
     {
       label: `치킨`,
-      value: `Chicken`,
+      value: `1`,
     },
     {
       label: `중식`,
-      value: `Chinese Food`,
+      value: `2`,
     },
     {
       label: `일식`,
-      value: `Japanese Food`,
+      value: `3`,
     },
     {
       label: `패스트푸드(피자, 햄버거) `,
-      value: `Fast Food`,
+      value: `4`,
     },
     {
       label: `찜 & 탕`,
-      value: `Stews & Boiled Dishes`,
+      value: `5`,
     },
     {
       label: `고기(족발.보쌈.삼겹살)`,
-      value: `Meat`,
+      value: `6`,
     },
     {
       label: `분식`,
-      value: `Korean Fast Food`,
+      value: `7`,
     },
     {
       label: `카페 & 디저트`,
-      value: `Café & Desserts`,
+      value: `8`,
     },
     {
       label: `한식`,
-      value: `Korean Food`,
+      value: `9`,
     },
     {
       label: `양식`,
-      value: `Western Food`,
+      value: `10`,
     },
     {
       label: `아시안`,
-      value: `Asian Food`,
+      value: `11`,
     },
     {
       label: `도시락`,
-      value: `Lunch Box`,
+      value: `12`,
     },
     {
       label: `샐러드`,
-      value: `Salad`,
+      value: `13`,
     },
     {
       label: `과자`,
-      value: `Snacks`,
+      value: `14`,
     },
     {
       label: `기타`,
-      value: `ect`,
+      value: `15`,
     },
   ];
+  const date = new Date(startDate + "");
+  // 날짜 정보 추출
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  // 날짜 결과
+  const formattedDate = `${year}/${month}/${day}`;
+
   //category, foodname, amount, unit, kcal, mealtype, when
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -125,6 +142,7 @@ export default function WriteFoodTab() {
         unit: foodUnit,
         kcal: kcal,
         mealtype: TimeState,
+        when: formattedDate,
       },
       withCredentials: true,
     }).then((res) => {
@@ -148,6 +166,29 @@ export default function WriteFoodTab() {
   return (
     <Container>
       <InputWrap onSubmit={handleSubmit}>
+        <SelectBlockUi
+          OptionState={TimeState}
+          setOptionState={setTimeState}
+          Data={time}
+          placeholder="식사 시간대를 선택하세요"
+          title={"언제 드셨나요?"}
+        />
+        <SelectBlockUi
+          OptionState={KindOfFood}
+          setOptionState={setKindOfFood}
+          Data={kindOfFoodData}
+          placeholder="음식의 종류를 선택하세요"
+          title={"음식의 종류"}
+        />
+        <TextInputForm
+          placeholder="음식 이름을 입력하세요"
+          label="음식 이름"
+          value={foodName}
+          setValue={setFoodName}
+        />
+        <CalenderWrap>
+          <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
+        </CalenderWrap>
         <SelectBlockUi
           OptionState={TimeState}
           setOptionState={setTimeState}
