@@ -7,12 +7,18 @@ const Container = styled.div`
   height: 120px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  background-image: url("./menu/korean.png");
+  background-repeat: no-repeat;
+  background-size: 70px;
+  background-position: 90% center;
 `;
 
 export default function FoodBlock() {
   return (
     <Container>
-      <FoodInfo kindFood="한식" foodName="김밥" />
+      <FoodInfo kindFood="한식" foodName="김밥" kcal={200} />
     </Container>
   );
 }
