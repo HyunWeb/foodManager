@@ -44,7 +44,7 @@ export default function RecipeCategory({
     const fetchItems = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${api}`);
+        const res = await axios.get(`${api}/api/items`);
         console.log(res);
         setRecipes(res.data.data);
         setLoading(false);

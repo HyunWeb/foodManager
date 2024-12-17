@@ -14,7 +14,7 @@ const Container = styled.form`
 export default function WriteFeedTab() {
   const [titleValue, setTitleValue] = useState("");
   const [contentValue, setContentValue] = useState("");
-  const [fileName, setFileName] = React.useState<string | null>(null);
+  const [fileName, setFileName] = React.useState<any | null>(null);
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent) => {
     console.log(titleValue, contentValue, fileName);
@@ -22,7 +22,7 @@ export default function WriteFeedTab() {
     const formData = new FormData();
     formData.append("title", titleValue);
     formData.append("content", contentValue);
-    formData.append("filename", String(fileName));
+    formData.append("file", fileName);
 
     const data = axios({
       method: "POST",
@@ -36,10 +36,10 @@ export default function WriteFeedTab() {
       if (res.data.result == true) {
         alert(res.data.message);
       } else {
-        if (res.data.message == "로그인이 되어 있지 않습니다.") {
+        if (res.data.message == "로그인X, 레시피 정보 등록 불가!") {
           navigate("/login");
         } else {
-          alert("데이터 추가 도중 오류가 발생했습니다.");
+          alert(res.data.message);
         }
       }
     });
