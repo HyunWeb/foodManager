@@ -32,6 +32,8 @@ interface ButtonAtomProps {
   text: string;
   buttontype: string;
   type: "button" | "reset" | "submit" | undefined;
+  label?: string;
+  onClick?: () => void;
 }
 
 export default function ButtonAtom({
