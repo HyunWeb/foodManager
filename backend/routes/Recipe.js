@@ -5,7 +5,6 @@ const controller = require("../controllers/CRecipe");
 const multer = require("multer");
 const path = require("path"); // 경로 처리를 위한 내장 모듈
 
-// multer 세부 설정
 const uploadDetail = multer({
   // storage : 저장할 공간에 대한 정보
   storage: multer.diskStorage({
@@ -24,7 +23,7 @@ const uploadDetail = multer({
 
       // 실습
       console.log("file name > req.body", req.body);
-      done(null, req.body.fileName + ext);
+      done(null, path.basename(file.originalname, ext) + ext);
     },
     // limits : 파일 제한 정보
     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB

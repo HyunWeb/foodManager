@@ -24,7 +24,7 @@ const uploadDetail = multer({
 
       // 실습
       console.log("file name > req.body", req.body);
-      done(null, req.body.fileName + ext);
+      done(null, path.basename(file.originalname, ext) + ext);
     },
     // limits : 파일 제한 정보
     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB

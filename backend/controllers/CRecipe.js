@@ -75,6 +75,7 @@ const Recipeinsert = async (req, res) => {
         category,
         level,
         time,
+        img: req.files.path,
       });
       let stepon = await stepinsert(RecipeCreate.dataValues.recipeID, steps);
       console.log(stepon);
@@ -121,6 +122,10 @@ const Recipeinsert = async (req, res) => {
       });
     }
   } catch (error) {
+    res.json({
+      result: false,
+      message: "시스템에 에러가 발생했습니다.",
+    });
     console.log(error);
   }
 };
