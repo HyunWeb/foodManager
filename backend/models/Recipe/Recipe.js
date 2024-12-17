@@ -38,6 +38,10 @@ const Recipe = (Sequelize, DataTypes) => {
       amount: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      img: {
+        type: DataTypes.TEXT,
+        allowNull: false,
       }
     },
     {
