@@ -15,7 +15,7 @@ async function processIngredient(data) {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `이 데이터를 배열형식으로 정리해줘 [{ingreName, amount}, {ingreName, amount}] 형식으로, ${data} \n 이에 대한 부가설명은 달지 않아도 됨. 최대한 빨리`;
+    const prompt = `이 데이터를 배열형식으로 정리해줘 [{ingreName, amount}, {ingreName, amount}] 형식으로, ${data} \n 이에 대한 부가설명은 달지 않아도 됨.`;
     const result = await model.generateContent(prompt);
 
     const cleanedString = result.response.text()
@@ -65,7 +65,7 @@ function processSteps(recipe) {
 
 exports.fetchDataAndSave = async (req, res) => {
   try {
-    const response = await axios.get('http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/50');
+    const response = await axios.get('http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10');
     const recipes = response.data.COOKRCP01.row;
     if (!recipes || !Array.isArray(recipes)) {
       throw new Error('유효하지 않은 데이터');
@@ -94,28 +94,14 @@ exports.fetchDataAndSave = async (req, res) => {
           };
         }
         return null; // MANUAL01이 없는 레시피는 처리하지 않음
-
-
-
-        // console.log(validRecipes);
-
-        // return {
-        //   recipeSEQ: i++,
-        //   title: recipe.RCP_NM,
-        //   img: recipe.ATT_FILE_NO_MK,
-        //   describe: `%{recipe.INFO_ENG}kcal (탄수화물 ${recipe.INFO_CAR}g, 지방 ${recipe.INFO_FAT}g, 단백질 ${recipe.INFO_PRO}g)`,
-        //   category: recipe.RCP_PAT2,
-        //   ingredients: ingredients,
-        //   steps: steps,
-        // };
-      }) // null을 제거하여 유효한 레시피만 반환
+      })
     );
 
-    // 유효한 레시피만 남긴 후 인덱스를 재정렬
+    // 유효한 레시피만 필터링
     const resultData = processData
-      .filter(recipe => recipe !== null) // null을 제거하여 유효한 레시피만 반환
+      .filter(recipe => recipe !== null)
       .map((recipe, index) => ({
-        recipeSEQ: index + 1, // 1부터 시작하는 인덱스 추가
+        recipeSEQ: index + 1,
         ...recipe,
       }));
 
