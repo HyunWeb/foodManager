@@ -22,19 +22,21 @@ const Recipe = (Sequelize, DataTypes) => {
         allowNull: false,
       },
       describe: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
       category: {
-        type: DataTypes.ENUM("한식", "중식", "양식"),
+        type: DataTypes.STRING(10),
         allowNull: false,
       },
       level: {
         type: DataTypes.ENUM("상", "중", "하"),
+        defaultValue: "중",
         allowNull: false,
       },
       time: {
         type: DataTypes.ENUM("15min", "30min", "60min", "etc"),
+        defaultValue: "30min",
         allowNull: false,
       },
     },

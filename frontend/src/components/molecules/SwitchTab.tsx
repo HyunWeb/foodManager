@@ -9,30 +9,48 @@ interface SwitchTabProps {
   $ThreeMenu?: boolean;
   selected: number;
   setSelected: (num: number) => void;
+  className?: string;
+  $buttonStyle?: "style1" | "style2";
 }
 
-const Container = styled.div<{ $ThreeMenu?: boolean }>`
+const Container = styled.div<{
+  $ThreeMenu?: boolean;
+  $buttonStyle?: "style1" | "style2";
+}>`
   height: 44px;
-  border-bottom: 2px solid #e2e2e2;
+  border-bottom: ${({ $buttonStyle }) =>
+    $buttonStyle === "style1" ? "2px solid #e2e2e2" : "none"};
   display: flex;
   justify-content: ${({ $ThreeMenu }) =>
     $ThreeMenu ? "space-around" : "center"};
+  margin-top: ${({ $buttonStyle }) =>
+    $buttonStyle === "style1" ? "0px" : "20px"};
 `;
 
-const ButtonTab = styled.button<{ $ThreeMenu?: boolean }>`
+const ButtonTab = styled.button<{
+  $ThreeMenu?: boolean;
+  $buttonStyle?: "style1" | "style2";
+}>`
   height: 44px;
   width: ${({ $ThreeMenu }) => ($ThreeMenu ? "25%" : "35%")};
   font-size: 16px;
   font-weight: bold;
-  border-bottom: 2px solid #121212;
+  border-bottom: ${({ $buttonStyle }) =>
+    $buttonStyle === "style1" ? "2px solid #121212" : "none"};
   color: #121212;
   cursor: default;
+  background-color: ${({ $buttonStyle }) =>
+    $buttonStyle === "style1" ? "transparent" : "#EBEBEB"};
+  border-radius: ${({ $buttonStyle }) =>
+    $buttonStyle === "style1" ? "0px" : "10px"};
 `;
 const DeSelectButton = styled(ButtonTab)`
   border-bottom: 2px solid #e2e2e2;
   font-weight: bold;
   color: #e2e2e2;
   cursor: pointer;
+  background-color: transparent;
+  border-bottom: none;
 `;
 
 export default function SwitchTab({
@@ -42,6 +60,8 @@ export default function SwitchTab({
   $ThreeMenu = false,
   selected,
   setSelected,
+  className,
+  $buttonStyle = "style1",
 }: SwitchTabProps) {
   if (!menu3) {
     $ThreeMenu = false;
@@ -54,25 +74,55 @@ export default function SwitchTab({
   };
 
   return (
-    <Container $ThreeMenu={$ThreeMenu}>
+    <Container
+      $ThreeMenu={$ThreeMenu}
+      className={className}
+      $buttonStyle={$buttonStyle}
+    >
       {selected === 1 ? (
-        <ButtonTab $ThreeMenu={$ThreeMenu}>{menu1}</ButtonTab>
+        <ButtonTab
+          $ThreeMenu={$ThreeMenu}
+          className={className}
+          $buttonStyle={$buttonStyle}
+        >
+          {menu1}
+        </ButtonTab>
       ) : (
-        <DeSelectButton $ThreeMenu={$ThreeMenu} onClick={() => ClickTab(1)}>
+        <DeSelectButton
+          $ThreeMenu={$ThreeMenu}
+          onClick={() => ClickTab(1)}
+          className={className}
+        >
           {menu1}
         </DeSelectButton>
       )}
       {selected === 2 ? (
-        <ButtonTab $ThreeMenu={$ThreeMenu}>{menu2}</ButtonTab>
+        <ButtonTab
+          $ThreeMenu={$ThreeMenu}
+          className={className}
+          $buttonStyle={$buttonStyle}
+        >
+          {menu2}
+        </ButtonTab>
       ) : (
-        <DeSelectButton $ThreeMenu={$ThreeMenu} onClick={() => ClickTab(2)}>
+        <DeSelectButton
+          $ThreeMenu={$ThreeMenu}
+          onClick={() => ClickTab(2)}
+          className={className}
+        >
           {menu2}
         </DeSelectButton>
       )}
 
       {$ThreeMenu &&
         (selected === 3 ? (
-          <ButtonTab $ThreeMenu={$ThreeMenu}>{menu3}</ButtonTab>
+          <ButtonTab
+            $ThreeMenu={$ThreeMenu}
+            className={className}
+            $buttonStyle={$buttonStyle}
+          >
+            {menu3}
+          </ButtonTab>
         ) : (
           <DeSelectButton $ThreeMenu={$ThreeMenu} onClick={() => ClickTab(3)}>
             {menu3}

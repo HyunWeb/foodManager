@@ -7,6 +7,7 @@ import ThreeSelectBlockUi from "../molecules/ThreeSelectBlockUI";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import ButtonAtom from "../atoms/ButtonAtom";
 import Header from "../organisms/Header";
+import axios from "axios";
 
 const Container = styled.div`
   padding: 20px;
@@ -21,9 +22,24 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [birthDate, setBirthDate] = useState({ year: "", month: "", day: "" });
+  const [birthDate, setBirthDate] = useState({
+    option1: "",
+    option2: "",
+    option3: "",
+  });
   const [genderState, setGenderState] = useState("");
   const [invalid, setInvalid] = useState(false);
+
+  const gender = [
+    {
+      label: `남성`,
+      value: `male`,
+    },
+    {
+      label: `여성`,
+      value: `female`,
+    },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +51,21 @@ export default function SignUp() {
     }
 
     console.log({ name, email, password, birthDate, genderState });
+
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/user/signup`,
+      data: {
+        name: name,
+        userid: email,
+        pw: password,
+        birthday: `${birthDate.option1}-${birthDate.option2}-${birthDate.option3}`,
+        gender: genderState,
+      },
+      withCredentials: true,
+    }).then((response) => {
+      alert(response.data.message);
+    });
   };
 
   return (
@@ -53,7 +84,7 @@ export default function SignUp() {
         {/* 이메일 */}
         <TextInputForm
           placeholder="이메일을 입력하세요"
-          label="아이디"
+          label="이메일"
           value={email}
           setValue={setEmail}
           invalid={invalid}
@@ -66,11 +97,22 @@ export default function SignUp() {
           setValue={setPassword}
         />
         {/* 생년월일 */}
-        <ThreeSelectBlockUi birthDate={birthDate} setBirthDate={setBirthDate} />
+        <ThreeSelectBlockUi
+          title="생년월일"
+          values={birthDate}
+          setValues={setBirthDate}
+          placeholder1="년 "
+          placeholder2="월 "
+          placeholder3="일 "
+          type="type1"
+        />
         {/* 성별 */}
         <SelectBlockUi
-          genderState={genderState}
-          setGenderState={setGenderState}
+          OptionState={genderState}
+          setOptionState={setGenderState}
+          Data={gender}
+          placeholder="성별을 입력해주세요"
+          title={"성별"}
         />
         {/* 회원가입 버튼 */}
         <ButtonAtom text="회원가입" buttontype="signUp" type="submit" />

@@ -34,6 +34,8 @@ const RecipeLike = require("./Recipe/RecipeLike")(
   Sequelize.DataTypes
 );
 
+const DefaultRecipe = require("./Recipe/DefaultRecipe")(sequelize, Sequelize.DataTypes);
+
 // 게시물
 const Posting = require("./Posting/Posting")(sequelize, Sequelize.DataTypes);
 const PostComment = require("./Posting/PostComment")(
@@ -191,6 +193,7 @@ db.Step = Step;
 db.Ingredient = Ingredient;
 db.RecipeReview = RecipeReview;
 db.RecipeLike = RecipeLike;
+db.DefaultRecipe = DefaultRecipe;
 // db.UserRecipe = UserRecipe;
 
 db.Posting = Posting;

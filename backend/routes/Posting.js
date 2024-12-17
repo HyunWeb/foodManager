@@ -2,24 +2,63 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/Cmain");
 const postController = require("../controllers/Cposting");
+//multer 관련 설정
+const multer = require("multer");
+const path = require("path"); // 경로 처리를 위한 내장 모듈
+
+const uploadDetail = multer({
+  // storage : 저장할 공간에 대한 정보
+  storage: multer.diskStorage({
+    // destination : 경로 설정
+    destination(req, file, done) {
+      // done: callback function
+      // done(null, "~~") 여기서 null은 error를 의미하는 매개변수
+      // 에러가 없으므로 "null" 이라고 전달하여 콜백함수를 호출
+      done(null, "uploads/");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname); // 파일 "확장자"를 추출
+      // console.log("ext", ext);
+      // console.log(path.basename(file.originalname, ext));
+      //done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+
+      // 실습
+      console.log("file name > req.body", req.body);
+      done(null, req.body.fileName + ext);
+    },
+    // limits : 파일 제한 정보
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  }),
+});
 
 // router
 router.get("/", postController.getPosting);
 
 // posting 등록
-router.post("/post", postController.postPosting);
+router.post("/post", uploadDetail.any(), postController.postPosting);
 
 // posting 수정
-router.post("/edit/:postingID", postController.editPosting);
+router.patch("/edit/:postingID", postController.editPosting);
 
 // posting 삭제
 router.delete("/delete/:postingID", postController.deletePosting);
 
 // posting 상세 화면
-router.post("/detail/:postingID", postController.detailPosting);
+router.get("/:postingID", postController.detailPosting);
 
-router.post("/detail/:postingID/comment", postController.postComment);
+// posting 댓글 등록
+router.post("/:postingID/comment", postController.postComment);
 
-router.post("/detail/:postingID/like", postController.postLike);
+// posting 댓글 수정
+router.patch("/:postingID/:commentID/update", postController.editComment);
+
+// posting 댓글 삭제
+router.delete("/:postingID/:commentID/delete", postController.deleteComment);
+
+// posting 좋아요 누르기
+router.post("/:postingID/like", postController.postLike);
+
+// 좋아요 누른 posting 확인
+router.post("/like", postController.userPostLike);
 
 module.exports = router;

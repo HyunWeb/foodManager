@@ -9,7 +9,7 @@ router.get("/", logController.getLog);
 router.post("/post", logController.postLog);
 
 // foodlog 수정
-router.post("/edit/:when/:logID", logController.editLog);
+router.patch("/edit/:when/:logID", logController.editLog);
 
 // foodlog 삭제
 router.delete("/delete/:when/:logID", logController.deleteLog);

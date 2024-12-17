@@ -9,45 +9,43 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "../ui/select";
+import { text } from "node:stream/consumers";
+import { PiPlaceholder } from "react-icons/pi";
 
 const Container = styled.div`
   padding-top: 20px;
 `;
 
 export default function SelectBlockUi({
-  genderState,
-  setGenderState,
+  OptionState,
+  setOptionState,
+  Data,
+  title,
+  placeholder,
 }: {
-  genderState: string;
-  setGenderState: (gender: string) => void;
+  OptionState: string;
+  setOptionState: (gender: string) => void;
+  Data: { label: string; value: string }[];
+  title: String;
+  placeholder: string;
 }) {
-  const gender = [
-    {
-      label: `남성`,
-      value: `male`,
-    },
-    {
-      label: `여성`,
-      value: `female`,
-    },
-  ];
-  const genderCollection = createListCollection({ items: gender });
+  const DataCollection = createListCollection({ items: Data });
   return (
     <Container>
       <Text fontWeight="bold" mb="8px">
-        성별
+        {title}
       </Text>
       <SelectRoot
-        collection={genderCollection}
+        collection={DataCollection}
         size="sm"
         width="240px"
-        onValueChange={(value) => setGenderState(value.value[0])}
+        onValueChange={(value) => setOptionState(value.value[0])}
       >
         <SelectTrigger>
-          <SelectValueText placeholder="성별 " />
+          <SelectValueText placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          {gender.map((item) => (
+          {Data.map((item) => (
             <SelectItem item={item} key={item.value}>
               {item.label}
             </SelectItem>
