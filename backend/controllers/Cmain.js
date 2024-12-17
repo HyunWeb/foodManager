@@ -33,7 +33,7 @@ async function processIngredient(data) {
   } catch (error) {
     if (error.status === 429) {
       console.warn("API 요청 제한: 잠시 대기 후 재시도합니다.");
-      await sleep(10000); // 5초 대기 후 재시도
+      await sleep(5000); // 5초 대기 후 재시도
       return processIngredient(data); // 재귀 호출로 재시도
     } else {
       console.error("API 호출 중 오류 발생:", error);
