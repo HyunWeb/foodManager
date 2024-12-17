@@ -29,6 +29,10 @@ const User = (Sequelize, DataTypes) => {
         type: DataTypes.ENUM("male", "female", "other"),
         allowNull: false,
       },
+      kcalPerDay: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      }
     },
     {
       tableName: "user",

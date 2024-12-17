@@ -7,12 +7,15 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const { FoodLog } = require("../models/index"); //controller에서 필요한 것만 가져온다.
+const { FoodLog, User } = require("../models/index"); //controller에서 필요한 것만 가져온다.
 
 exports.getLog = async (req, res) => {
     try {
+        const {kcalPerDay} = await User.findOne({
+            where: {userID: req.session.userInfo.userid}
+        });
         const log = await FoodLog.findAll();
-        res.json(log);
+        res.json({log, kcalPerDay});
     } catch (error) {
         console.error(error);
         res.json({ result: false });
