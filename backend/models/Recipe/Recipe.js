@@ -25,10 +25,6 @@ const Recipe = (Sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      category: {
-        type: DataTypes.STRING(10),
-        allowNull: false,
-      },
       level: {
         type: DataTypes.ENUM("상", "중", "하"),
         defaultValue: "중",
@@ -39,6 +35,10 @@ const Recipe = (Sequelize, DataTypes) => {
         defaultValue: "30min",
         allowNull: false,
       },
+      amount: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      }
     },
     {
       tableName: "recipe",
