@@ -22,7 +22,23 @@ const Grocery = (Sequelize, DataTypes) => {
         },
       },
       category: {
+<<<<<<< HEAD
         type: DataTypes.INTEGER,
+=======
+        type: DataTypes.ENUM(
+          "Vegetables & Fruits",
+          "Meat, Seafood & Eggs",
+          // dairy product가 더 좋을 것 같음
+          "milk Products",
+          "Seafood",
+          "Rice, Grains & Nuts",
+          "Frozen Foods",
+          "Seasonings",
+          "Bread, Rice Cakes & Jam",
+          "Kimchi",
+          "etc"
+        ),
+>>>>>>> d31c54543b6921c754c9b5e81dffdcf4fcc72267
         allowNull: false,
       },
       groceryname: {

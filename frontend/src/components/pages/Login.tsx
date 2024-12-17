@@ -44,8 +44,12 @@ export default function Login() {
       },
       withCredentials: true,
     }).then((res) => {
-      navigate(`/main`);
-      console.log(res);
+      if (res.data.result == true) {
+        navigate(`/main`);
+        console.log(res);
+      } else {
+        alert(res.data.message);
+      }
     });
   };
   return (

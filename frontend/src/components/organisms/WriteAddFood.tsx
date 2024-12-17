@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.form``;
+const InputWrap = styled.form``;
 
 export default function WriteAddFood() {
   const [kindOfFood, setkindOfFood] = useState("");
@@ -20,6 +21,7 @@ export default function WriteAddFood() {
     option2: "",
     option3: "",
   });
+  const navigate = useNavigate();
   console.log(
     `재료 종류 : ${kindOfFood}, 
     재료 이름: ${nameOfFood}, 
@@ -68,9 +70,9 @@ export default function WriteAddFood() {
       value: `ect`,
     },
   ];
-  console.log(kindOfFood, nameOfFood, foodAmount, foodUnit, Data);
   // [category, groceryname, amount, unit, expiration ]
   const handleSubmit = (e: React.FormEvent) => {
+    console.log(kindOfFood, nameOfFood, foodAmount, foodUnit, Data);
     e.preventDefault();
     const data = axios({
       method: "POST",
@@ -84,12 +86,11 @@ export default function WriteAddFood() {
       },
       withCredentials: true,
     }).then((res) => {
-      navigate(`/main`);
       console.log(res);
     });
   };
   return (
-    <Container>
+    <Container onSubmit={handleSubmit}>
       <SelectBlockUi
         OptionState={kindOfFood}
         setOptionState={setkindOfFood}
@@ -121,7 +122,6 @@ export default function WriteAddFood() {
         values={Data}
         setValues={setData}
       />
-
       <ButtonAtom text="업로드" buttontype="upload" type="submit" />
     </Container>
   );

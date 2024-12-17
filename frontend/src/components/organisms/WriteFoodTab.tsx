@@ -9,6 +9,13 @@ import axios from "axios";
 const Container = styled.div`
   height: 100%;
 `;
+const InputWrap = styled.form`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 320px;
+  margin-bottom: 30px;
+`;
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
   const [KindOfFood, setKindOfFood] = useState("");
@@ -103,10 +110,11 @@ export default function WriteFoodTab() {
       value: `ect`,
     },
   ];
-  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
+  //category, foodname, amount, unit, kcal, mealtype, when
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/foodlog/post`,
@@ -116,56 +124,70 @@ export default function WriteFoodTab() {
         amount: foodAmount,
         unit: foodUnit,
         kcal: kcal,
-        when: TimeState,
+        mealtype: TimeState,
       },
       withCredentials: true,
     }).then((res) => {
-      navigate(`/main`);
-      console.log(res);
+      if (res.data.result == true) {
+        alert("성공적으로 정보가 저장되었습니다.");
+        setTimeState("");
+        setKindOfFood("");
+        setFoodName("");
+        setfoodAmount("1");
+        setFoodUnit("");
+        setKcal("");
+
+        //setTimeState setKindOfFood setFoodName setfoodAmount setFoodUnit setKcal
+      } else {
+        alert(res.data.message);
+      }
     });
   };
+  //when 달력 누락으로 추가 필요
 
   return (
-    <Container onSubmit={handleSubmit}>
-      <SelectBlockUi
-        OptionState={TimeState}
-        setOptionState={setTimeState}
-        Data={time}
-        placeholder="식사 시간대를 선택하세요"
-        title={"언제 드셨나요?"}
-      />
-      <SelectBlockUi
-        OptionState={KindOfFood}
-        setOptionState={setKindOfFood}
-        Data={kindOfFoodData}
-        placeholder="음식의 종류를 선택하세요"
-        title={"음식의 종류"}
-      />
-      <TextInputForm
-        placeholder="음식 이름을 입력하세요"
-        label="음식 이름"
-        value={foodName}
-        setValue={setFoodName}
-      />
+    <Container>
+      <InputWrap onSubmit={handleSubmit}>
+        <SelectBlockUi
+          OptionState={TimeState}
+          setOptionState={setTimeState}
+          Data={time}
+          placeholder="식사 시간대를 선택하세요"
+          title={"언제 드셨나요?"}
+        />
+        <SelectBlockUi
+          OptionState={KindOfFood}
+          setOptionState={setKindOfFood}
+          Data={kindOfFoodData}
+          placeholder="음식의 종류를 선택하세요"
+          title={"음식의 종류"}
+        />
+        <TextInputForm
+          placeholder="음식 이름을 입력하세요"
+          label="음식 이름"
+          value={foodName}
+          setValue={setFoodName}
+        />
 
-      <TwoTextInputForm
-        label="음식 양"
-        placeholder1="숫자를 입력해주세요"
-        placeholder2="단위를 입력해주세요"
-        value1={foodAmount}
-        value2={foodUnit}
-        setValue1={setfoodAmount}
-        setValue2={setFoodUnit}
-      />
+        <TwoTextInputForm
+          label="음식 양"
+          placeholder1="숫자를 입력해주세요"
+          placeholder2="단위를 입력해주세요"
+          value1={foodAmount}
+          value2={foodUnit}
+          setValue1={setfoodAmount}
+          setValue2={setFoodUnit}
+        />
 
-      <TextInputForm
-        placeholder="입력하지 않으시면 AI가 자동으로 추정합니다."
-        label="칼로리(선택)"
-        value={kcal}
-        setValue={setKcal}
-        required={false}
-      />
-      <ButtonAtom text="업로드" buttontype="upload" type="submit" />
+        <TextInputForm
+          placeholder="입력하지 않으시면 AI가 자동으로 추정합니다."
+          label="칼로리(선택)"
+          value={kcal}
+          setValue={setKcal}
+          required={false}
+        />
+        <ButtonAtom text="업로드" buttontype="upload" type="submit" />
+      </InputWrap>
     </Container>
   );
 }
