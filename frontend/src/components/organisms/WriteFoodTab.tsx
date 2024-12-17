@@ -155,6 +155,9 @@ export default function WriteFoodTab() {
 
   return (
     <Container onSubmit={handleSubmit}>
+      <CalenderWrap>
+        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
+      </CalenderWrap>
       <SelectBlockUi
         OptionState={TimeState}
         setOptionState={setTimeState}
@@ -175,9 +178,6 @@ export default function WriteFoodTab() {
         value={foodName}
         setValue={setFoodName}
       />
-      <CalenderWrap>
-        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
-      </CalenderWrap>
       <TwoTextInputForm
         label="음식 양"
         placeholder1="숫자를 입력해주세요"
