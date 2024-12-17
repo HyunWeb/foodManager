@@ -59,7 +59,7 @@ export default function SignUp() {
         name: name,
         userid: email,
         pw: password,
-        birthday: birthDate,
+        birthday: `${birthDate.option1}-${birthDate.option2}-${birthDate.option3}`,
         gender: genderState,
       },
       withCredentials: true,
