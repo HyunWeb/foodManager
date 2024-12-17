@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
-
+import axios from "axios";
 import TextInputForm from "../atoms/TextInputForm";
 import SigninUpBlock from "../molecules/SigninUpBlock";
 import PasswordInputForm from "../atoms/PasswordInputForm";
-
+import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -30,10 +30,27 @@ const InputWrap = styled.form`
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ email, password });
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/user/signin`,
+      data: {
+        userid: email,
+        pw: password,
+      },
+      withCredentials: true,
+    }).then((res) => {
+      if (res.data.result == true) {
+        navigate(`/main`);
+        console.log(res);
+      } else {
+        alert(res.data.message);
+      }
+    });
   };
   return (
     <Container>

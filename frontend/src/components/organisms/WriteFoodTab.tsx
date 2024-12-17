@@ -5,13 +5,15 @@ import TextInputForm from "../atoms/TextInputForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import ReactDataPicker from "../atoms/ReactDataPicker";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Container = styled.form``;
 const CalenderWrap = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
 `;
+const InputWrap = styled.form``;
 
 export default function WriteFoodTab() {
   const [TimeState, setTimeState] = useState("");
@@ -113,13 +115,46 @@ export default function WriteFoodTab() {
   const month = date.getMonth() + 1;
   const day = date.getDate();
   // 날짜 결과
-  const formattedDate = `${year}/${month}/${day}`;
+  const formattedDate = `${year}-${month}-${day}`;
+
+  //category, foodname, amount, unit, kcal, mealtype, when
+  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    alert("ddd");
+    e.preventDefault();
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/foodlog/post`,
+      data: {
+        category: KindOfFood,
+        foodname: foodName,
+        amount: foodAmount,
+        unit: foodUnit,
+        kcal: kcal,
+        mealtype: TimeState,
+        when: formattedDate,
+      },
+      withCredentials: true,
+    }).then((res) => {
+      if (res.data.result == true) {
+        alert("성공적으로 정보가 저장되었습니다.");
+        setTimeState("");
+        setKindOfFood("");
+        setFoodName("");
+        setfoodAmount("1");
+        setFoodUnit("");
+        setKcal("");
+
+        //setTimeState setKindOfFood setFoodName setfoodAmount setFoodUnit setKcal
+      } else {
+        alert(res.data.message);
+      }
+    });
+  };
 
   return (
-    <Container>
-      <CalenderWrap>
-        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
-      </CalenderWrap>
+    <Container onSubmit={handleSubmit}>
       <SelectBlockUi
         OptionState={TimeState}
         setOptionState={setTimeState}
@@ -140,7 +175,9 @@ export default function WriteFoodTab() {
         value={foodName}
         setValue={setFoodName}
       />
-
+      <CalenderWrap>
+        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
+      </CalenderWrap>
       <TwoTextInputForm
         label="음식 양"
         placeholder1="숫자를 입력해주세요"
@@ -150,7 +187,6 @@ export default function WriteFoodTab() {
         setValue1={setfoodAmount}
         setValue2={setFoodUnit}
       />
-
       <TextInputForm
         placeholder="입력하지 않으시면 AI가 자동으로 추정합니다."
         label="칼로리(선택)"

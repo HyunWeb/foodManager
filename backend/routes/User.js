@@ -14,12 +14,13 @@ router.post("/signin", userController.userLogin);
 router.post("/logout", userController.userLogout);
 
 // 회원정보 수정
-router.post("/editProfile", userController.editUser);
+router.patch("/editProfile", userController.editUser);
 
 // 비밀번호 찾기
 // router.post("/findPW", userController.findPW);
 
 // 회원 탈퇴
 router.delete("/deleteUser", userController.userDelete);
+
 
 module.exports = router;

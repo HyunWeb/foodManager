@@ -3,19 +3,57 @@ const bcrypt = require("bcrypt");
 const db = require("../models");
 const sequelize = require("sequelize");
 const { bcryptPassword, compareFunc } = require("../utils/encrypt");
-const { update } = require("sequelize/lib/model");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const { User } = require("../models/index");
-const { update } = require("sequelize/lib/model");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const {
+    User,
+    Posting,
+    PostLike,
+    Recipe,
+    RecipeLike,
+} = require("../models/index");
+
+// 하루 섭취 칼로리 계산
+async function kcalCalculate(birthday, gender) {
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const prompt = `성별은 ${gender}이고, 생일이 ${birthday}일 때, 나이와 성별을 기준으로 하루 권장 칼로리를 계산해줘. 숫자만 반환해줘`;
+
+        const result = await model.generateContent(prompt);
+        console.log(result.response.text());
+        const cleanedData = result.response.text()
+            .replace(/[\n\r]/g, '') // 줄바꿈 제거
+            .replace(/\\n/g, '')    // \n 제거
+            .replace(/\\'/g, "'")  // \\' 제거 (필요시)
+            .replace(/```json|```/g, '');
+
+        return cleanedData
+    } catch (error) {
+        if (error.status === 429) {
+            console.warn("API 요청 제한: 잠시 후 재시도합니다.");
+            await StylePropertyMap(5000);
+            return kcalCalculate(birthday, gender);
+        } else {
+            console.error("API 호출 중 오류 발생: ", error);
+            return "오류 발생";
+        }
+    }
+}
+
 
 // 회원가입
 exports.postUser = async (req, res) => {
     try {
         console.log(req.body);
-        const { userid, name, pw, birthday, gender, email } = req.body;
+        console.log("저장할 user 정보", req.session.userInfo);
+        const { userid, name, pw, birthday, gender } = req.body;
         const isExist = await User.findAll({
             where: { userID: userid },
         });
+
+        const kcalPerDay = await kcalCalculate(birthday, gender);
         if (isExist.length === 0) {
             const hash = bcryptPassword(pw);
             await User.create({
@@ -24,105 +62,76 @@ exports.postUser = async (req, res) => {
                 pw: hash,
                 birthday: birthday,
                 gender: gender,
-                email: email,
+                kcalPerDay: kcalPerDay,
             });
-            res.send("계정이 성공적으로 생성되었습니다.");
+            res.json({ result: true, message: "계정이 성공적으로 생성되었습니다." });
         } else {
-            res.send("이미 존재하는 아이디입니다.");
+            res.json({ result: false, message: "이미 존재하는 아이디입니다." });
         }
     } catch (error) {
-        res.send("계정 생성에 실패하였습니다.");
+        res.json({ result: false, message: "계정 생성에 실패하였습니다." });
         console.error(error);
     }
 };
 
 // 로그인 (세션)
 exports.userLogin = async (req, res) => {
-<<<<<<< HEAD
     try {
         const { userid, pw } = req.body;
+        console.log(req.session.userInfo);
         const isExist = await User.findOne({
             where: { userID: userid },
         });
 
-        console.log(isExist.dataValues.pw);
-
-        if (isExist) {
-            const hashPw = isExist.dataValues.pw;
-            const isMatch = bcrypt.compareFunc(pw, hashPw);
-
-            if (isMatch) {
-                // res.session.userInfo = {
-                //   userid: isExist.dataValues.userid,
-                // };
-                res.send({
-                    result: true,
-                    message: "로그인 성공",
-                    userid: req.session.userInfo.userid,
-                });
-            } else {
-                res.send("비밀번호가 일치하지 않습니다.");
-            }
-        } else {
-            res.send("아이디가 존재하지 않습니다.");
-=======
-    try {
-        const { userid, pw } = req.body;
-        const isExist = await User.findOne({
-            where: { userID: userid }
-        });
         if (isExist) {
             const hashPw = isExist.dataValues.pw;
             const isMatch = compareFunc(pw, hashPw);
+
             if (isMatch) {
-                req.session.userInfo = { userid: isExist.dataValues.userID, name: isExist.dataValues.name };
-                res.send({
+                req.session.userInfo = {
+                    userid: isExist.dataValues.userID,
+                    name: isExist.dataValues.name,
+                };
+
+                res.json({
                     result: true,
                     message: "로그인 성공",
                     userid: req.session.userInfo.userid,
-                    name: req.session.userInfo.name,
                 });
-                console.log(req.session);
             } else {
-                res.send("비밀번호가 일치하지 않습니다.");
+                res.json({ result: false, message: "비밀번호가 일치하지 않습니다." });
             }
         } else {
-            res.send("아이디가 존재하지 않습니다.");
+            res.json({ result: false, message: "아이디가 존재하지 않습니다." });
         }
     } catch (error) {
         console.error(error);
     }
-}
+};
 
 // 로그아웃
 exports.userLogout = async (req, res) => {
     try {
         console.log(req.session);
-        if(req.session != undefined){
+        if (req.session !== undefined) {
             req.session.destroy(() => {
                 req.session;
             });
-            res.send({result: true})
+            res.json({ result: true });
         }
     } catch (error) {
         console.error(error);
-<<<<<<< HEAD
-        res.send({result: false});
-=======
->>>>>>> a320440b19f973086b46de8dc6c4dd6a3161612b
->>>>>>> 3b520c8566e2abcac4446d95ce464e3b750b27fc
-        }
-    } catch (error) { }
+        res.json({ result: false });
+    }
 };
 
 // 회원정보 수정
 exports.editUser = async (req, res) => {
-<<<<<<< HEAD
     try {
-        const { name, pw, birthday, gender, email } = req.body;
+        const { name, pw, birthday, gender } = req.body;
 
         // 필수 정보: 이름, 비번, 이메일
-        if (name != null && pw != null && email != null) {
+        if (name != null && pw != null) {
             await User.update(
                 {
                     name: name,
@@ -131,34 +140,19 @@ exports.editUser = async (req, res) => {
                     gender: gender,
                     email: email,
                 },
-                { where: { userID: req.session.userInfo.userID } }
+                { where: { userID: req.session.userInfo.userid } }
             );
-            res.send("수정이 완료되었습니다.");
+            res.json({ result: true, message: "수정이 완료되었습니다." });
         } else {
-            res.send("입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.");
-=======
-    try {
-        console.log(req.session.userInfo.userid);
-        const { name, pw, birthday, gender, email } = req.body;
-
-        // 필수 정보: 이름, 비번, 이메일
-        if (name != null && pw != null && email != null) {
-            await User.update({
-                name: name,
-                pw: bcryptPassword(pw),
-                birthday: birthday,
-                gender: gender,
-                email: email
-            }, { where: { userID: req.session.userInfo.userid } });
-            res.send("수정이 완료되었습니다.");
-        } else {
-            res.send("입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.");
+            res.json({
+                result: false,
+                message: "입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.",
+            });
         }
     } catch (error) {
         console.error(error);
->>>>>>> a320440b19f973086b46de8dc6c4dd6a3161612b
-        }
-    } catch (error) { }
+        res.json({ result: false });
+    }
 };
 
 // 비밀번호 찾기
@@ -170,10 +164,11 @@ exports.editUser = async (req, res) => {
 exports.userDelete = async (req, res) => {
     try {
         await User.destroy({
-            where: { userID: req.session.userInfo.userid }
+            where: { userID: req.session.userInfo.userid },
         });
-        res.send({ result: true });
+        res.json({ result: true });
     } catch (error) {
-        res.send({ result: false });
+        console.error(error);
+        res.json({ result: false });
     }
-}
+};

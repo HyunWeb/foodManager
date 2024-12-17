@@ -23,7 +23,7 @@ exports.getPosting = async (req, res) => {
         res.json(posting);
     } catch (error) {
         console.error(error);
-        res.send({result: false});
+        res.json({result: false});
     }
 }
 
@@ -35,10 +35,10 @@ exports.postPosting = async (req, res) => {
             userID: req.session.userInfo.userid,
             content: content
         })
-        res.send({result: true})
+        res.json({result: true})
     } catch (error) {
         console.error(error);
-        res.send({ result: false });
+        res.json({ result: false });
     };
 }
 
@@ -61,13 +61,13 @@ exports.editPosting = async (req, res) => {
                 where: {postingID: postingID}
             });
 
-            res.send({result: true});
+            res.json({result: true});
         } else {
-            res.send({result: false});
+            res.json({result: false});
         }
     } catch (error) {
         console.error(error);
-        res.send({result: false});
+        res.json({result: false});
     }
 }
 
@@ -86,13 +86,13 @@ exports.deletePosting = async (req, res) => {
                 where: {postingID: postingID}
             });
 
-            res.send({result: true});
+            res.json({result: true});
         } else {
-            res.send({result: false});
+            res.json({result: false});
         }
     } catch (error) {
         console.error(error);
-        res.send({result: false});
+        res.json({result: false});
     }
 }
 
@@ -115,7 +115,7 @@ exports.detailPosting = async (req, res) => {
         res.json({result: true, posting, comment, like});
     } catch (error) {
         console.error(error);
-        res.send({result: false});
+        res.json({result: false});
     }
 }
 
@@ -129,7 +129,7 @@ exports.postComment = async (req, res) => {
         console.log(req.session.userInfo.userid, req.params);
 
 
-        if(userID !== undefined){
+        if(req.session.userInfo){
             await PostComment.create({
                 userID: userID,
                 postingID: postingID,
@@ -138,6 +138,50 @@ exports.postComment = async (req, res) => {
             res.json({result: true});
         } else {
             res.json({result: false, message: "로그인 후에 댓글을 달 수 있습니다."});
+        }
+    } catch (error) {
+        console.error(error);
+        res.json({result: false});
+    }
+}
+
+// comment 수정
+exports.editComment = async (req, res) => {
+    try {
+        const userID = req.session.userInfo.userid;
+        const {commentID} = req.params;
+
+        if(req.session.userInfo){
+            const { title, content } = req.body;
+            await PostComment.update({
+                title: title,
+                content: content
+            }, {
+                where: {commentID: commentID, userID: userID}
+            });
+            res.json({result: true, message: "댓글 수정 성공"});
+        } else {
+            res.json({result: false, message: "사용자가 작성하지 않은 글입니다."});
+        }
+    } catch (error) {
+        console.error(error);
+        res.json({result: false});
+    }
+}
+
+// comment 삭제
+exports.deleteComment = async (req, res) => {
+    try {
+        const userID = req.session.userInfo.userid;
+        const {commentID} = req.params;
+
+        if(req.session.userInfo){
+            await PostComment.destroy({
+                where: {commentID: commentID, userID: userID}
+            });
+            res.json({result: true, message: "댓글 삭제 성공"});
+        } else {
+            res.json({result: false, message: "사용자가 작성하지 않은 글입니다."});
         }
     } catch (error) {
         console.error(error);
@@ -172,5 +216,28 @@ exports.postLike = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+    }
+}
+
+
+// 좋아요 누른 항목
+exports.userPostLike = async (req, res) => {
+    try {
+        // 게시물
+        const postLikes = await PostLike.findAll({
+            where: {userID: req.session.userInfo.userid}
+        });
+
+        const postingID = postLikes.map((postLike) => postLike.dataValues.postingID);
+        console.log(postingID); 
+
+        const posting = await Posting.findAll({
+            where: {postingID: postingID}
+        });
+
+        res.json({result: true, posting});
+    } catch (error) {
+        console.error(error);
+        res.json({result: false});
     }
 }
