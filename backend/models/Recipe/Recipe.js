@@ -42,7 +42,7 @@ const Recipe = (Sequelize, DataTypes) => {
       img: {
         type: DataTypes.TEXT,
         allowNull: false,
-      }
+      },
     },
     {
       tableName: "recipe",

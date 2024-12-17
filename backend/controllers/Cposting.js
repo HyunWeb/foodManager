@@ -30,17 +30,18 @@ exports.postPosting = async (req, res) => {
   try {
     if (req.session.userInfo) {
       const { title, content } = req.body;
-      console.log(req.body);
+      console.log(req.files);
       await Posting.create({
         title: title,
         userID: req.session.userInfo.userid,
         content: content,
-        img: req.files.path,
+        img: req.files[0].path,
       });
       res.json({ result: true, message: "정상적으로 post가 성공했습니다." });
     } else {
       res.json({
         result: false,
+        error: "1",
         message: "로그인X, 포스트 정보 등록 불가!",
       });
     }
@@ -48,6 +49,7 @@ exports.postPosting = async (req, res) => {
     console.error(error);
     res.json({
       result: false,
+      error: "2",
       message: "시스템에 에러가 발생했습니다.",
     });
   }

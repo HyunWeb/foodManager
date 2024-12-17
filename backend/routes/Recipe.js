@@ -16,6 +16,9 @@ const uploadDetail = multer({
       done(null, "uploads/");
     },
     filename(req, file, done) {
+      file.originalname = Buffer.from(file.originalname, "latin1").toString(
+        "utf-8"
+      ); //인코딩
       const ext = path.extname(file.originalname); // 파일 "확장자"를 추출
       // console.log("ext", ext);
       // console.log(path.basename(file.originalname, ext));
