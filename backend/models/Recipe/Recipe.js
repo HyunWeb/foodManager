@@ -39,10 +39,10 @@ const Recipe = (Sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      img: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
+      // img: {
+      //   type: DataTypes.TEXT,
+      //   allowNull: false,
+      // },
     },
     {
       tableName: "recipe",

@@ -65,10 +65,10 @@ const Recipeinsert = async (req, res) => {
       const {
         title,
         describe,
-        category,
         level,
         time,
         amount,
+        img,
         steps,
         Ingredients,
       } = req.body;
@@ -83,7 +83,7 @@ const Recipeinsert = async (req, res) => {
         level,
         time,
         amount,
-        img: req.files[0].path,
+        // img: req.files[0].path,
       });
       let stepon = await stepinsert(RecipeCreate.dataValues.recipeID, steps);
       console.log(stepon);
