@@ -8,7 +8,7 @@ import {
 } from "../ui/file-upload";
 
 interface FileUploadFormProps {
-  value: object | null;
+  value: Object | null;
   setValue: (e: object) => void;
 }
 

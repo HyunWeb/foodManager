@@ -29,6 +29,7 @@ export default function WriteRecipe() {
     { stepNo: 1, content: "" },
   ]);
   const [fileName, setFileName] = React.useState<Object | null>(null);
+
   const navigate = useNavigate();
 
 
