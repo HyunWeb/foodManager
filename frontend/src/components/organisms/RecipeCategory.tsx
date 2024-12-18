@@ -4,11 +4,10 @@ import RecipeImgBox from "../molecules/RecipeImgBox";
 import HeadingAtom from "../atoms/HeadingAtom";
 import axios from "axios";
 interface RecipeProps {
-  id: number;
+  recipeSEQ: number;
   title: string;
   src?: string;
   alt?: string;
-  rating: number;
 }
 
 const Container = styled.div`
@@ -71,8 +70,8 @@ export default function RecipeCategory({
       ) : (
         <RecipeList>
           {recipes.map((recipe) => (
-            <RecipeListItem key={recipe.id}>
-              <RecipeImgBox text={recipe.title} rating={recipe.rating} />
+            <RecipeListItem key={recipe.recipeSEQ}>
+              <RecipeImgBox text={recipe.title} />
             </RecipeListItem>
           ))}
         </RecipeList>

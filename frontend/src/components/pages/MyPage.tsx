@@ -14,7 +14,6 @@ export default function MyPage() {
     <Container>
       <Header />
       <MyPageTemplate />
-      <Notification title="테스트 타이틀" message="메시지입니다." type="info" />
       <NavBar />
     </Container>
   );
