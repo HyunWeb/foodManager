@@ -90,6 +90,7 @@ const IconButtons = styled(IconButton)<{
   bottom: ${({ bottom }) => bottom};
   left: ${({ left }) => left};
   right: ${({ right }) => right};
+  z-index: 10;
 `;
 
 export default function IconButtonAtom({

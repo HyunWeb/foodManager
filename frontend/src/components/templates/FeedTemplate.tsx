@@ -3,7 +3,7 @@ import styled from "styled-components";
 import MainCard from "../molecules/MainCard";
 
 interface FeedData {
-  id: number;
+  postingID: number;
   title: string;
   detail: string;
   userId: string;
@@ -25,10 +25,30 @@ export default function FeedTemplate() {
   useEffect(() => {
     setLoading(true);
     setFeeds([
-      { id: 1, title: "요리제목1", detail: "부가설명1", userId: "user1234" },
-      { id: 2, title: "요리제목2", detail: "부가설명2", userId: "user5678" },
-      { id: 3, title: "요리제목3", detail: "부가설명3", userId: "user9103" },
-      { id: 4, title: "요리제목4", detail: "부가설명4", userId: "user1092" },
+      {
+        postingID: 1,
+        title: "요리제목1",
+        detail: "부가설명1",
+        userId: "user1234",
+      },
+      {
+        postingID: 2,
+        title: "요리제목2",
+        detail: "부가설명2",
+        userId: "user5678",
+      },
+      {
+        postingID: 3,
+        title: "요리제목3",
+        detail: "부가설명3",
+        userId: "user9103",
+      },
+      {
+        postingID: 4,
+        title: "요리제목4",
+        detail: "부가설명4",
+        userId: "user1092",
+      },
     ]);
     setLoading(false);
   }, []);
@@ -40,7 +60,8 @@ export default function FeedTemplate() {
         <FeedList>
           {feeds.map((feed) => (
             <MainCard
-              key={feed.id}
+              key={feed.postingID}
+              postingID={feed.postingID}
               title={feed.title}
               detail={feed.detail}
               userId={feed.userId}

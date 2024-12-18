@@ -4,8 +4,12 @@ import ImageCard from "../atoms/ImageCard";
 import RecipeInfo from "./RecipeInfo";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import FeedInfo from "./FeedInfo";
+import { Link } from "react-router-dom";
 
 interface MainCardProps {
+  postingID?: number;
+  recipeID?: number;
+  // id: number;
   src?: string;
   alt?: string;
   title: string;
@@ -45,6 +49,9 @@ const LikeButton = styled(IconButtonAtom)`
 `;
 
 export default function MainCard({
+  postingID,
+  recipeID,
+  // id,
   src = "https://picsum.photos/400",
   alt = "피드 이미지",
   title,
@@ -59,22 +66,24 @@ export default function MainCard({
   };
   return (
     <Container>
-      <LikeButton
-        label="좋아요 버튼"
-        icontype="heart"
-        color={likeState ? "red" : "white"}
-        BGcolor="transparent"
-        variant="ghost"
-        onClick={() => ChangeLikeState()}
-      />
-      <ImageWrap>
-        <StyledImageCard src={src} alt={alt} />
-      </ImageWrap>
-      {type === "recipe" ? (
-        <RecipeInfo title={title} detail={detail} rating={rating} />
-      ) : (
-        <FeedInfo title={title} detail={detail} userId={userId} />
-      )}
+      <Link to={"/main/view/" + (recipeID || postingID)}>
+        <LikeButton
+          label="좋아요 버튼"
+          icontype="heart"
+          color={likeState ? "red" : "white"}
+          BGcolor="transparent"
+          variant="ghost"
+          onClick={() => ChangeLikeState()}
+        />
+        <ImageWrap>
+          <StyledImageCard src={src} alt={alt} />
+        </ImageWrap>
+        {type === "recipe" ? (
+          <RecipeInfo title={title} detail={detail} rating={rating} />
+        ) : (
+          <FeedInfo title={title} detail={detail} userId={userId} />
+        )}
+      </Link>
     </Container>
   );
 }
