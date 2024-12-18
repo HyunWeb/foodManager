@@ -5,8 +5,8 @@ import { Field } from "../ui/field";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 interface IngredientsListProps {
   placeholder: string;
-  value: { value: string }[];
-  setValue: (e: { value: string }[]) => void;
+  value: { stepNo: string; content: string }[];
+  setValue: (e: { stepNo: string; content: string }[]) => void;
 }
 
 const AddButton = styled(IconButtonAtom)`
@@ -26,13 +26,13 @@ export default function CookingSteps({
   value,
   setValue,
 }: IngredientsListProps) {
-  const addInputSet = () => setValue([...value, { value: "" }]);
-
+  const addInputSet = () =>
+    setValue([...value, { stepNo: value.length + 1 + "", content: "" }]);
   const removeInputSet = (index: number) => {
     const updateInputSet = value.filter((_, i) => i !== index);
     setValue(updateInputSet);
   };
-
+  console.log(value);
   return (
     <Field
       label="조리 순서"
@@ -59,11 +59,11 @@ export default function CookingSteps({
             <GridItem>
               <Textarea
                 placeholder={placeholder}
-                value={value[index].value}
+                value={value[index].content}
                 variant="outline"
                 onChange={(e) => {
                   const updateValue = [...value];
-                  updateValue[index].value = e.target.value;
+                  updateValue[index].content = e.target.value;
                   setValue(updateValue);
                 }}
                 height="80px"

@@ -6,8 +6,8 @@ import IconButtonAtom from "../atoms/IconButtonAtom";
 interface IngredientsListProps {
   placeholder1: string;
   placeholder2: string;
-  value: { value1: string; value2: string }[];
-  setValue: (e: { value1: string; value2: string }[]) => void;
+  value: { ingreName: string; amount: string }[];
+  setValue: (e: { ingreName: string; amount: string }[]) => void;
 }
 
 const AddButton = styled(IconButtonAtom)`
@@ -28,7 +28,7 @@ export default function IngredientsList({
   value,
   setValue,
 }: IngredientsListProps) {
-  const addInputSet = () => setValue([...value, { value1: "", value2: "" }]);
+  const addInputSet = () => setValue([...value, { ingreName: "", amount: "" }]);
 
   const removeInputSet = (index: number) => {
     const updateInputSet = value.filter((_, i) => i !== index);
@@ -54,10 +54,10 @@ export default function IngredientsList({
             <GridItem>
               <Input
                 placeholder={placeholder1}
-                value={value[index].value1}
+                value={value[index].ingreName}
                 onChange={(e) => {
                   const updateValue = [...value];
-                  updateValue[index].value1 = e.target.value;
+                  updateValue[index].ingreName = e.target.value;
                   setValue(updateValue);
                 }}
               />
@@ -65,10 +65,10 @@ export default function IngredientsList({
             <GridItem>
               <Input
                 placeholder={placeholder2}
-                value={value[index].value2}
+                value={value[index].amount}
                 onChange={(e) => {
                   const updateValue = [...value];
-                  updateValue[index].value2 = e.target.value;
+                  updateValue[index].amount = e.target.value;
                   setValue(updateValue);
                 }}
               />

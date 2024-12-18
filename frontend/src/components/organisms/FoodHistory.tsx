@@ -4,6 +4,7 @@ import HeadingAtom from "../atoms/HeadingAtom";
 import FoodBlockList from "./FoodBlockList";
 interface FoodHistoryProps {
   category: string;
+  type: "ingredient" | "food";
 }
 
 const Container = styled.div`
@@ -16,7 +17,7 @@ const HeadingName = styled(HeadingAtom)`
   margin-bottom: 20px;
 `;
 
-export default function FoodHistory({ category }: FoodHistoryProps) {
+export default function FoodHistory({ category, type }: FoodHistoryProps) {
   return (
     <Container>
       <HeadingName
@@ -27,7 +28,7 @@ export default function FoodHistory({ category }: FoodHistoryProps) {
         {category}
       </HeadingName>
 
-      <FoodBlockList />
+      <FoodBlockList type={type} />
     </Container>
   );
 }
