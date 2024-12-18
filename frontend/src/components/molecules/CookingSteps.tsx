@@ -5,8 +5,8 @@ import { Field } from "../ui/field";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 interface IngredientsListProps {
   placeholder: string;
-  value: { stepNo: string; content: string }[];
-  setValue: (e: { stepNo: string; content: string }[]) => void;
+  value: { stepNo: number; content: string }[];
+  setValue: (e: { stepNo: number; content: string }[]) => void;
 }
 
 const AddButton = styled(IconButtonAtom)`
@@ -27,7 +27,7 @@ export default function CookingSteps({
   setValue,
 }: IngredientsListProps) {
   const addInputSet = () =>
-    setValue([...value, { stepNo: value.length + 1 + "", content: "" }]);
+    setValue([...value, { stepNo: value.length + 1, content: "" }]);
   const removeInputSet = (index: number) => {
     const updateInputSet = value.filter((_, i) => i !== index);
     setValue(updateInputSet);
