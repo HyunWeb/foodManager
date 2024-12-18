@@ -71,47 +71,56 @@ exports.fetchDataAndSave = async (req, res) => {
       throw new Error('유효하지 않은 데이터');
     }
 
+    const processedData = recipes.map((recipe) => {
+      const steps = processSteps(recipe);
 
-    const processData = await Promise.all(
-      recipes.map(async (recipe) => {
-        const ingredients = await processIngredient(recipe.RCP_PARTS_DTLS);
+      if (steps) {
+        return {
+          id: recipe.RCP_SEQ,
+          title: recipe.RCP_NM,
+          img: recipe.ATT_FILE_NO_MK,
+        };
+      }
+      return null;
+    }).filter(recipe => recipe !== null)
 
-        // const steps = Object.keys(recipe)
-        //   .filter(key => key.startsWith('MANUAL') && !key.includes('IMG') && recipe[key] !== '') // Filter relevant steps
-        //   .map(key => recipe[key]);
+    console.log(processedData);
 
-
-
-        const steps = processSteps(recipe);
-        if (steps) {
-          return {
-            title: recipe.RCP_NM,
-            img: recipe.ATT_FILE_NO_MK,
-            describe: `${recipe.INFO_ENG}kcal (탄수화물 ${recipe.INFO_CAR}g, 지방 ${recipe.INFO_FAT}g, 단백질 ${recipe.INFO_PRO}g)`,
-            category: recipe.RCP_PAT2,
-            ingredients: ingredients,
-            steps: steps,
-          };
-        }
-        return null; // MANUAL01이 없는 레시피는 처리하지 않음
-      })
-    );
-
-    // 유효한 레시피만 필터링
-    const resultData = processData
-      .filter(recipe => recipe !== null)
-      .map((recipe, index) => ({
-        recipeSEQ: index + 1,
-        ...recipe,
-      }));
-
-    console.log(resultData);
-
-    // await DefaultRecipe.bulkCreate(resultData);
-
-    res.json({ result: true, message: "기본 레시피 불러오기 성공", data: resultData });
+    res.json({ result: true, message: "기본 레시피 불러오기 성공", data: processedData });
   } catch (error) {
     console.error(error);
     res.json({ result: false, message: "기본 레시피 불러오기 실패" });
   }
 };
+
+
+exports.detailAPI = async (req, res) => {
+  try {
+    const { id } = req.params
+    const response = await axios.get('http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10');
+    const recipes = response.data.COOKRCP01.row;
+
+    const recipe = recipes.filter((recipe) => {
+      return recipe.RCP_SEQ === id
+    });
+
+    const ingredients = await processIngredient(recipe[0].RCP_PARTS_DTLS);
+    const steps = processSteps(recipe[0]);
+
+    const result = {
+      title: recipe[0].RCP_NM,
+      img: recipe[0].ATT_FILE_NO_MK,
+      describe: `${recipe[0].INFO_ENG}kcal (탄수화물 ${recipe[0].INFO_CAR}g, 지방 ${recipe[0].INFO_FAT}g, 단백질 ${recipe[0].INFO_PRO}g)`,
+      category: recipe[0].RCP_PAT2,
+      ingredients: ingredients,
+      steps: steps,
+    }
+
+    console.log(result);
+
+    res.json({ result: true, message: "레시피 불러오기 성공", data: result });
+  } catch (error) {
+    console.error(error);
+    res.json({result: false, message: "레시피 불러오기 실패"});
+  }
+}
