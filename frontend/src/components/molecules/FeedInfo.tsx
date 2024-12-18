@@ -5,9 +5,10 @@ import Paragraph from "../atoms/Paragraph";
 import Profileimg from "../atoms/Profileimg";
 
 interface RecipeInfoProps {
-  userId: string;
+  userId?: string;
   title: string;
   detail: string;
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 }
 
 const Container = styled.div`
@@ -41,10 +42,15 @@ const TitleHeading = styled(HeadingAtom)`
   width: calc(100% - 50px);
 `;
 
-export default function FeedInfo({ userId, title, detail }: RecipeInfoProps) {
+export default function FeedInfo({
+  userId,
+  title,
+  detail,
+  size = "xl",
+}: RecipeInfoProps) {
   return (
     <Container>
-      <Profileimg size="xl" />
+      <Profileimg size={size} />
       <ContentWrap>
         <IdHeading level={3}>{userId}</IdHeading>
         <TitleHeading level={4}>{title}</TitleHeading>

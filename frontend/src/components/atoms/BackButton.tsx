@@ -4,8 +4,10 @@ import IconButtonAtom from "./IconButtonAtom";
 
 export default function BackButton({
   position = "relative",
+  className,
 }: {
   position?: string;
+  className?: string;
 }) {
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ export default function BackButton({
       size="30px"
       position={position}
       left="10px"
+      className={className}
     />
   );
 }
