@@ -9,7 +9,7 @@ export default function Nutrition() {
     <div>
       <Header />
       <Wrapgraph />
-      <FoodHistory category="먹은 음식" />
+      <FoodHistory category="먹은 음식" type="food" />
       <NavBar />
     </div>
   );
