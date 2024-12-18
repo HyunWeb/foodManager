@@ -98,6 +98,8 @@ exports.userLogin = async (req, res) => {
           name: isExist.dataValues.name,
         };
 
+        console.log(req.session.userInfo.userid);
+
         res.json({
           result: true,
           message: "로그인 성공",

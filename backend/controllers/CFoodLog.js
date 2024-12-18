@@ -14,7 +14,9 @@ exports.getLog = async (req, res) => {
         const {kcalPerDay} = await User.findOne({
             where: {userID: req.session.userInfo.userid}
         });
-        const log = await FoodLog.findAll();
+        const log = await FoodLog.findAll({
+            where: {userID: req.session.userInfo.userid}
+        });
         res.json({log, kcalPerDay});
     } catch (error) {
         console.error(error);

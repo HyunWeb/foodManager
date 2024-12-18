@@ -43,7 +43,7 @@ app.use("/grocery", groRouter);
 app.use("/posting", postRouter);
 app.use("/Recipe", RecipeRouter);
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
     try {
       console.log(`http://localhost:${PORT}`);
