@@ -20,20 +20,26 @@ export default function WriteFeedTab() {
     console.log(titleValue, contentValue, fileName);
     e.preventDefault();
     const formData = new FormData();
+    formData.append("title", titleValue);
+    formData.append("content", contentValue);
+    formData.append("file", fileName);
 
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/posting/post`,
-
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       withCredentials: true,
     }).then((res) => {
       if (res.data.result == true) {
         alert(res.data.message);
       } else {
-        if (res.data.message == "로그인이 되어 있지 않습니다.") {
+        if (res.data.message == "로그인X, 레시피 정보 등록 불가!") {
           navigate("/login");
         } else {
-          alert("데이터 추가 도중 오류가 발생했습니다.");
+          alert(res.data.message);
         }
       }
     });

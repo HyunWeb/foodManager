@@ -107,7 +107,7 @@ exports.fetchDataAndSave = async (req, res) => {
 
     console.log(resultData);
 
-    await DefaultRecipe.bulkCreate(resultData);
+    // await DefaultRecipe.bulkCreate(resultData);
 
     res.json({ result: true, message: "기본 레시피 불러오기 성공", data: resultData });
   } catch (error) {

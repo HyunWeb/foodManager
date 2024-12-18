@@ -23,7 +23,7 @@ export default function WriteFoodTab() {
   const [foodUnit, setFoodUnit] = useState("");
   const [kcal, setKcal] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(new Date());
-
+  const navigate = useNavigate();
   const time = [
     {
       label: `아침`,
@@ -121,7 +121,6 @@ export default function WriteFoodTab() {
   console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
 
   const handleSubmit = (e: React.FormEvent) => {
-    alert("ddd");
     e.preventDefault();
     const data = axios({
       method: "POST",
@@ -148,7 +147,11 @@ export default function WriteFoodTab() {
 
         //setTimeState setKindOfFood setFoodName setfoodAmount setFoodUnit setKcal
       } else {
-        alert(res.data.message);
+        if (res.data.message == "로그인이 되어 있지 않습니다.") {
+          navigate("/login");
+        } else {
+          alert(res.data.message);
+        }
       }
     });
   };

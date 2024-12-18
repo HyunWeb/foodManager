@@ -17,6 +17,9 @@ const uploadDetail = multer({
       done(null, "uploads/");
     },
     filename(req, file, done) {
+      file.originalname = Buffer.from(file.originalname, "latin1").toString(
+        "utf-8"
+      ); //인코딩
       const ext = path.extname(file.originalname); // 파일 "확장자"를 추출
       // console.log("ext", ext);
       // console.log(path.basename(file.originalname, ext));
@@ -24,7 +27,7 @@ const uploadDetail = multer({
 
       // 실습
       console.log("file name > req.body", req.body);
-      done(null, req.body.fileName + ext);
+      done(null, path.basename(file.originalname, ext) + ext);
     },
     // limits : 파일 제한 정보
     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB

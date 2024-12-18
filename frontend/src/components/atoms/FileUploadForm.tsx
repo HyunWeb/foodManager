@@ -8,8 +8,8 @@ import {
 } from "../ui/file-upload";
 
 interface FileUploadFormProps {
-  value: string | null;
-  setValue: (e: any) => void;
+  value: object | null;
+  setValue: (e: object) => void;
 }
 
 export default function FileUploadForm({

@@ -78,10 +78,10 @@ export default function ThreeSelectBlockUi({
 
   const timeOptions = useMemo(
     () => [
-      { label: `15min`, value: `15min` },
-      { label: `30min`, value: `30min` },
-      { label: `60min`, value: `60min` },
-      { label: `etc`, value: `etc` },
+      { label: `15분 미만`, value: `15min` },
+      { label: `30분 미만`, value: `30min` },
+      { label: `60분 미만`, value: `60min` },
+      { label: `60분 이상`, value: `etc` },
     ],
     []
   );

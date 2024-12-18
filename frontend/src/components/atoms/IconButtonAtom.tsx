@@ -54,7 +54,8 @@ interface IconButtonAtomProps {
     | "Exclamation"
     | "question"
     | "checkMark"
-    | "Notepen";
+    | "Notepen"
+    | "ex";
   size?: string;
   onClick?: () => void;
   position?: string;

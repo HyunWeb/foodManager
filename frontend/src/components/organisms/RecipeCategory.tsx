@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import RecipeImgBox from "../molecules/RecipeImgBox";
 import HeadingAtom from "../atoms/HeadingAtom";
+import axios from "axios";
 interface RecipeProps {
   id: number;
   title: string;
@@ -34,21 +35,25 @@ export default function RecipeCategory({
   category: string;
   introduce?: string;
 }) {
+  const api = process.env.REACT_APP_ROUTE;
   const [recipes, setRecipes] = useState<RecipeProps[]>([]);
   const [loading, setLoading] = useState(false);
 
   //api 요청 부분
   useEffect(() => {
-    setLoading(true);
-    setRecipes([
-      { id: 1, title: "돈까스 덮밥", rating: 4.5 },
-      { id: 2, title: "김치 볶음밥", rating: 3 },
-      { id: 3, title: "스파게티", rating: 4.8 },
-      { id: 4, title: "마라탕", rating: 2.7 },
-      { id: 5, title: "계란볶음밥", rating: 4.1 },
-      { id: 6, title: "어묵 우동", rating: 3.9 },
-    ]);
-    setLoading(false);
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`${api}/api/items`);
+        console.log(res);
+        setRecipes(res.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching items: ", error);
+      }
+    };
+
+    fetchItems();
   }, []);
 
   return (
