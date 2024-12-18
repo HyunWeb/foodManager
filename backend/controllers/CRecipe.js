@@ -65,7 +65,6 @@ const Recipeinsert = async (req, res) => {
       const {
         title,
         describe,
-        category,
         level,
         time,
         amount,

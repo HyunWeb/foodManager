@@ -6,6 +6,8 @@ import TextareaForm from "../atoms/TextareaForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import IngredientsList from "../molecules/IngredientsList";
 import CookingSteps from "../molecules/CookingSteps";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.form`
   height: 100%;
@@ -24,11 +26,42 @@ export default function WriteRecipe() {
   const [CookingStep, setCookingStep] = useState([
     { stepNo: "1", content: "" },
   ]);
-  const [fileName, setFileName] = React.useState<object | null>(null);
+  const [fileName, setFileName] = React.useState<Object | null>(null);
+  const navigate = useNavigate();
 
-  console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
+
+    e.preventDefault();
+    const data = axios({
+      method: "POST",
+      url: `http://localhost:8000/recipe/insert`,
+      data: {
+        title: "dddd",
+        describe: RecipeValue,
+        level: recipeData.option3,
+        time: recipeData.option1,
+        amount: recipeData.option2,
+        steps: CookingStep,
+        Ingredients: inputSets,
+      },
+      withCredentials: true,
+    }).then((res) => {
+      if (res.data.result == true) {
+        alert(res.data.message);
+      } else {
+        if (res.data.message == "로그인이 되어 있지 않습니다.") {
+          navigate("/login");
+        } else {
+          alert("데이터 추가 도중 오류가 발생했습니다.");
+        }
+      }
+    })
+  }
+
   return (
-    <Container>
+    <Container onSubmit={handleSubmit}>
       <WrapContent>
         <FileUploadForm value={fileName} setValue={setFileName} />
         <ThreeSelectBlockUi
