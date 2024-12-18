@@ -26,7 +26,7 @@ export default function WriteRecipe() {
   const [RecipeValue, setRecipeValue] = useState("");
   const [inputSets, setInputSets] = useState([{ ingreName: "", amount: "" }]);
   const [CookingStep, setCookingStep] = useState([
-    { stepNo: "1", content: "" },
+    { stepNo: 1, content: "" },
   ]);
   const [fileName, setFileName] = React.useState<Object | null>(null);
   const navigate = useNavigate();
@@ -34,22 +34,26 @@ export default function WriteRecipe() {
 
   const handleSubmit = (e: React.FormEvent) => {
     console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
-
     e.preventDefault();
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/recipe/insert`,
+      url: `http://localhost:8000/Recipe/insert`,
       data: {
-        title: "dddd",
+        title: titleValue,
         describe: RecipeValue,
         level: recipeData.option3,
         time: recipeData.option1,
         amount: recipeData.option2,
+        img: fileName,
         steps: CookingStep,
         Ingredients: inputSets,
       },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       withCredentials: true,
     }).then((res) => {
+      console.log(res);
       if (res.data.result == true) {
         alert(res.data.message);
       } else {
@@ -59,7 +63,9 @@ export default function WriteRecipe() {
           alert("데이터 추가 도중 오류가 발생했습니다.");
         }
       }
-    })
+    });
+
+
   }
 
   return (

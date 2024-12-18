@@ -7,6 +7,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const {
   User,
   Posting,
@@ -35,7 +39,7 @@ async function kcalCalculate(birthday, gender) {
   } catch (error) {
     if (error.status === 429) {
       console.warn("API 요청 제한: 잠시 후 재시도합니다.");
-      await StylePropertyMap(5000);
+      await sleep(5000);
       return kcalCalculate(birthday, gender);
     } else {
       console.error("API 호출 중 오류 발생: ", error);
