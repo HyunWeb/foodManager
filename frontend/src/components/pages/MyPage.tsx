@@ -14,6 +14,14 @@ export default function MyPage() {
     <Container>
       <Header />
       <MyPageTemplate />
+      {/* <Notification
+        title="테스트"
+        message="테스트입니다."
+        type="success"
+        onConfirm={() => {
+          console.log();
+        }}
+      /> */}
       <NavBar />
     </Container>
   );

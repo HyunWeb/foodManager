@@ -12,6 +12,7 @@ import Myfood from "./components/pages/Myfood";
 import MyPage from "./components/pages/MyPage";
 import SignUp from "./components/pages/SignUp";
 import FilterPosts from "./components/pages/FilterPosts";
+import View from "./components/pages/View";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/:filter" element={<FilterPosts />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/main/view/:id" element={<View />} />
         </Routes>
       </BrowserRouter>
     </Provider>

@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
 import HeadingAtom from "../atoms/HeadingAtom";
+import { Link } from "react-router-dom";
 
 interface RecipeImgBoxProps {
+  recipeID: number;
   text?: string;
   src?: string;
   alt?: string;
@@ -36,15 +38,18 @@ export default function RecipeImgBox({
   text = "요리제목",
   src = "https://picsum.photos/100",
   alt = "레시피 이미지",
+  recipeID,
 }: RecipeImgBoxProps) {
   return (
-    <Container>
-      <ImgWrap>
-        <StyledImageCard src={src} alt={alt} />
-      </ImgWrap>
-      <StyledHeading level={4} color="#121212" $marginBottom="">
-        {text}
-      </StyledHeading>
-    </Container>
+    <Link to={"/main/view/" + recipeID}>
+      <Container>
+        <ImgWrap>
+          <StyledImageCard src={src} alt={alt} />
+        </ImgWrap>
+        <StyledHeading level={4} color="#121212" $marginBottom="">
+          {text}
+        </StyledHeading>
+      </Container>
+    </Link>
   );
 }

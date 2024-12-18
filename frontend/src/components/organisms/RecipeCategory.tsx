@@ -44,7 +44,7 @@ export default function RecipeCategory({
       try {
         setLoading(true);
         const res = await axios.get(`${api}/api/items`);
-        console.log(res);
+        // console.log(res);
         setRecipes(res.data.data);
         setLoading(false);
       } catch (error) {
@@ -71,7 +71,7 @@ export default function RecipeCategory({
         <RecipeList>
           {recipes.map((recipe) => (
             <RecipeListItem key={recipe.recipeSEQ}>
-              <RecipeImgBox text={recipe.title} />
+              <RecipeImgBox text={recipe.title} recipeID={recipe.recipeSEQ} />
             </RecipeListItem>
           ))}
         </RecipeList>
