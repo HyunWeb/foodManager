@@ -62,20 +62,14 @@ const Recipeinsert = async (req, res) => {
 
   try {
     if (req.session.userInfo) {
-      const {
-        title,
-        describe,
-        level,
-        time,
-        amount,
-        img,
-        steps,
-        Ingredients,
-      } = req.body;
+      const { title, describe, level, time, amount, steps, Ingredients } =
+        req.body;
+
+      console.log(steps[0], Ingredients[0]);
+
       //steps은 레시피의 단계 정보가 담겨 있는 객체 배열
       //Ingredients는 레시피의 재료가 들어있는 객체 배열
       //const userID = req.session.userID;
-
       const RecipeCreate = await Recipe.create({
         userID: req.session.userInfo.userid,
         title,
@@ -83,7 +77,7 @@ const Recipeinsert = async (req, res) => {
         level,
         time,
         amount,
-        // img: req.files[0].path,
+        img: req.files[0].path,
       });
       let stepon = await stepinsert(RecipeCreate.dataValues.recipeID, steps);
       console.log(stepon);
