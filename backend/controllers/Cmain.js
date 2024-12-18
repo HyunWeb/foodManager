@@ -108,6 +108,7 @@ exports.detailAPI = async (req, res) => {
     const steps = processSteps(recipe[0]);
 
     const result = {
+      id: id,
       title: recipe[0].RCP_NM,
       img: recipe[0].ATT_FILE_NO_MK,
       describe: `${recipe[0].INFO_ENG}kcal (탄수화물 ${recipe[0].INFO_CAR}g, 지방 ${recipe[0].INFO_FAT}g, 단백질 ${recipe[0].INFO_PRO}g)`,
