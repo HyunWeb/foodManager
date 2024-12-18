@@ -24,7 +24,8 @@ export default function WriteRecipe() {
   const [CookingStep, setCookingStep] = useState([
     { stepNo: "1", content: "" },
   ]);
-  const [fileName, setFileName] = React.useState<string | null>(null);
+  const [fileName, setFileName] = React.useState<object | null>(null);
+
   console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
   return (
     <Container>
