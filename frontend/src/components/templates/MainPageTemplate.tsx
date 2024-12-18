@@ -2,12 +2,9 @@ import React from "react";
 import NavBar from "../organisms/NavBar";
 import Header from "../organisms/Header";
 
-export default function MainPageTemplate({ children }) {
+export default function MainPageTemplate() {
   return (
-    <div className>
-      <NavBar />
-      <Heade />
-      <main>{children}</main>
+    <div>
     </div>
   );
 }
