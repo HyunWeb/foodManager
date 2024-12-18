@@ -25,17 +25,25 @@ export default function WriteRecipe() {
   });
   const [RecipeValue, setRecipeValue] = useState("");
   const [inputSets, setInputSets] = useState([{ ingreName: "", amount: "" }]);
-  const [CookingStep, setCookingStep] = useState([
-    { stepNo: 1, content: "" },
-  ]);
-  const [fileName, setFileName] = React.useState<Object | null>(null);
-
+  const [CookingStep, setCookingStep] = useState([{ stepNo: 1, content: "" }]);
+  const [fileName, setFileName] = React.useState<Blob | null>(null);
   const navigate = useNavigate();
 
-
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
+    console.log(fileName);
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", titleValue);
+    formData.append("describe", RecipeValue);
+    formData.append("level", recipeData.option3);
+    formData.append("time", recipeData.option1);
+    if (fileName !== null) {
+      formData.append("file", fileName);
+    }
+    formData.append("amount", recipeData.option2);
+    formData.append("steps", JSON.stringify(CookingStep));
+    formData.append("Ingredients", JSON.stringify(inputSets));
+
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/Recipe/insert`,
@@ -65,9 +73,7 @@ export default function WriteRecipe() {
         }
       }
     });
-
-
-  }
+  };
 
   return (
     <Container onSubmit={handleSubmit}>
