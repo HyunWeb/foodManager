@@ -22,7 +22,7 @@ export default function WriteRecipe() {
   const [RecipeValue, setRecipeValue] = useState("");
   const [inputSets, setInputSets] = useState([{ value1: "", value2: "" }]);
   const [CookingStep, setCookingStep] = useState([{ value: "" }]);
-  const [fileName, setFileName] = React.useState<string | null>(null);
+  const [fileName, setFileName] = React.useState<any | null>(null);
   console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
   return (
     <Container>
