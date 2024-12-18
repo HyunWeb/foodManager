@@ -11,6 +11,7 @@ const Container = styled.div`
   align-items: center;
   position: relative;
   height: 55px;
+  background-color: #ffffff;
 `;
 
 const LoginButton = styled(Link)`
