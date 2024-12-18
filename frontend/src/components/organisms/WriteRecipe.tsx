@@ -8,6 +8,7 @@ import IngredientsList from "../molecules/IngredientsList";
 import CookingSteps from "../molecules/CookingSteps";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import TextInputForm from "../atoms/TextInputForm";
 
 const Container = styled.form`
   height: 100%;
@@ -16,6 +17,7 @@ const Container = styled.form`
 const WrapContent = styled.div``;
 
 export default function WriteRecipe() {
+  const [titleValue, setTitleValue] = useState("");
   const [recipeData, setrecipeData] = useState({
     option1: "",
     option2: "",
@@ -64,6 +66,12 @@ export default function WriteRecipe() {
     <Container onSubmit={handleSubmit}>
       <WrapContent>
         <FileUploadForm value={fileName} setValue={setFileName} />
+        <TextInputForm
+          placeholder="레시피 이름을 입력하세요"
+          label="레시피 이름"
+          value={titleValue}
+          setValue={setTitleValue}
+        />
         <ThreeSelectBlockUi
           title="레시피 정보"
           placeholder1="조리시간"
