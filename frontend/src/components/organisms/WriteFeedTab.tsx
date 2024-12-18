@@ -14,7 +14,7 @@ const Container = styled.form`
 export default function WriteFeedTab() {
   const [titleValue, setTitleValue] = useState("");
   const [contentValue, setContentValue] = useState("");
-  const [fileName, setFileName] = React.useState<string | null>(null);
+  const [fileName, setFileName] = React.useState<any | null>(null);
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent) => {
     console.log(titleValue, contentValue, fileName);

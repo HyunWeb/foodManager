@@ -9,7 +9,7 @@ import {
 
 interface FileUploadFormProps {
   value: string | null;
-  setValue: (e: string) => void;
+  setValue: (e: any) => void;
 }
 
 export default function FileUploadForm({
@@ -20,7 +20,7 @@ export default function FileUploadForm({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setValue(event.target.files[0].name);
+      setValue(event.target.files[0]);
     }
   };
   return (

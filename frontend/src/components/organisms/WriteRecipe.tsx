@@ -20,8 +20,10 @@ export default function WriteRecipe() {
     option3: "",
   });
   const [RecipeValue, setRecipeValue] = useState("");
-  const [inputSets, setInputSets] = useState([{ value1: "", value2: "" }]);
-  const [CookingStep, setCookingStep] = useState([{ value: "" }]);
+  const [inputSets, setInputSets] = useState([{ ingreName: "", amount: "" }]);
+  const [CookingStep, setCookingStep] = useState([
+    { stepNo: "1", content: "" },
+  ]);
   const [fileName, setFileName] = React.useState<string | null>(null);
   console.log(recipeData, fileName, RecipeValue, inputSets, CookingStep);
   return (
