@@ -70,8 +70,6 @@ const Recipeinsert = async (req, res) => {
       //steps은 레시피의 단계 정보가 담겨 있는 객체 배열
       //Ingredients는 레시피의 재료가 들어있는 객체 배열
       //const userID = req.session.userID;
-      steps = JSON.parse(steps);
-      Ingredients = JSON.parse(Ingredients);
       const RecipeCreate = await Recipe.create({
         userID: req.session.userInfo.userid,
         title,
