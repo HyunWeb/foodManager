@@ -19,8 +19,9 @@ const {
 exports.getPosting = async (req, res) => {
   try {
     const posting = await Posting.findAll({
-      attributes: { postingID, title, userId },
+      attributes: ["postingID", "title", "userId", "img"],
     });
+    console.log(posting);
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
   } catch (error) {
     console.error(error);
