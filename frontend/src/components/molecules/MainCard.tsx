@@ -9,10 +9,9 @@ import { Link } from "react-router-dom";
 interface MainCardProps {
   postingID?: number;
   recipeID?: number;
-  src?: string;
+  img: string;
   alt?: string;
   title: string;
-  detail: string;
   rating?: number;
   type?: "recipe" | "feed";
   userId?: string;
@@ -50,10 +49,9 @@ const LikeButton = styled(IconButtonAtom)`
 export default function MainCard({
   postingID,
   recipeID,
-  src = "https://picsum.photos/400",
+  img = "https://picsum.photos/400",
   alt = "피드 이미지",
   title,
-  detail,
   rating = 2.5,
   type = "recipe",
   userId = "user1234",
@@ -75,12 +73,12 @@ export default function MainCard({
           onClick={() => ChangeLikeState()}
         />
         <ImageWrap>
-          <StyledImageCard src={src} alt={alt} />
+          <StyledImageCard src={img} alt={alt} />
         </ImageWrap>
         {type === "recipe" ? (
-          <RecipeInfo title={title} detail={detail} rating={rating} />
+          <RecipeInfo title={title} rating={rating} />
         ) : (
-          <FeedInfo title={title} detail={detail} userId={userId} />
+          <FeedInfo title={title} userId={userId} />
         )}
       </Link>
     </Container>

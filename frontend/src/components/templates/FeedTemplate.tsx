@@ -5,8 +5,8 @@ import MainCard from "../molecules/MainCard";
 interface FeedData {
   postingID: number;
   title: string;
-  detail: string;
   userId: string;
+  img: string;
 }
 
 const FeedList = styled.ul``;
@@ -28,26 +28,26 @@ export default function FeedTemplate() {
       {
         postingID: 1,
         title: "요리제목1",
-        detail: "부가설명1",
         userId: "user1234",
+        img: "https://picsum.photos/400",
       },
       {
         postingID: 2,
         title: "요리제목2",
-        detail: "부가설명2",
         userId: "user5678",
+        img: "https://picsum.photos/400",
       },
       {
         postingID: 3,
         title: "요리제목3",
-        detail: "부가설명3",
         userId: "user9103",
+        img: "https://picsum.photos/400",
       },
       {
         postingID: 4,
         title: "요리제목4",
-        detail: "부가설명4",
         userId: "user1092",
+        img: "https://picsum.photos/400",
       },
     ]);
     setLoading(false);
@@ -63,8 +63,8 @@ export default function FeedTemplate() {
               key={feed.postingID}
               postingID={feed.postingID}
               title={feed.title}
-              detail={feed.detail}
               userId={feed.userId}
+              img={feed.img}
               type="feed"
             />
           ))}
