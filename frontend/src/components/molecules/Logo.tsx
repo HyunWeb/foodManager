@@ -4,7 +4,18 @@ import LogoImg from "../atoms/LogoImg";
 import ImageCard from "../atoms/ImageCard";
 
 const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  z-index: 99;
+`;
+
+const LogoWrap = styled.div`
   text-align: center;
+  z-index: 100;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -21,8 +32,10 @@ const ImageStyle = styled(ImageCard)`
 export default function Logo() {
   return (
     <Container>
-      <ImageStyle src="/LogoImg.png" alt="로고 이미지" />
-      <LogoImg large={true} />
+      <LogoWrap>
+        <ImageStyle src="/LogoImg.png" alt="로고 이미지" />
+        <LogoImg large={true} />
+      </LogoWrap>
     </Container>
   );
 }

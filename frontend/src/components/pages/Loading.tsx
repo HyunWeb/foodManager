@@ -6,11 +6,9 @@ export default function Loading() {
   const naviagte = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       naviagte("/main");
     }, 2000);
-
-    return () => clearTimeout(timer);
   }, [naviagte]);
 
   return <Logo />;

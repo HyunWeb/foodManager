@@ -4,9 +4,9 @@ import RecipeImgBox from "../molecules/RecipeImgBox";
 import HeadingAtom from "../atoms/HeadingAtom";
 import axios from "axios";
 interface RecipeProps {
-  recipeSEQ: number;
+  id: number;
   title: string;
-  src?: string;
+  img: string;
   alt?: string;
 }
 
@@ -27,6 +27,11 @@ const CategoryIntro = styled.p`
   color: #a9a9a9;
   margin-bottom: 20px;
 `;
+
+const LoadingFont = styled.p`
+  font-weight: 700;
+  font-size: 20px;
+`;
 export default function RecipeCategory({
   category,
   introduce,
@@ -44,7 +49,6 @@ export default function RecipeCategory({
       try {
         setLoading(true);
         const res = await axios.get(`${api}/api/items`);
-        // console.log(res);
         setRecipes(res.data.data);
         setLoading(false);
       } catch (error) {
@@ -66,13 +70,19 @@ export default function RecipeCategory({
       </HeadingAtom>
       {introduce && <CategoryIntro>{introduce}</CategoryIntro>}
       {loading ? (
-        <p>Loading</p>
+        <RecipeList>
+          <LoadingFont>Loading...</LoadingFont>
+        </RecipeList>
       ) : (
         <RecipeList>
           {recipes && recipes.length > 0 ? (
             recipes.map((recipe) => (
-              <RecipeListItem key={recipe.recipeSEQ}>
-                <RecipeImgBox text={recipe.title} recipeID={recipe.recipeSEQ} />
+              <RecipeListItem key={recipe.id}>
+                <RecipeImgBox
+                  text={recipe.title}
+                  recipeID={recipe.id}
+                  src={recipe.img}
+                />
               </RecipeListItem>
             ))
           ) : (

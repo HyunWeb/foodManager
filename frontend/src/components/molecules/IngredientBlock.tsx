@@ -23,7 +23,8 @@ const Container = styled.div<{ $img: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: ${({ $img }) => `url('./menu/${$img}.png')`};
+  background-image: ${({ $img }) =>
+    `url('${process.env.PUBLIC_URL}/ingredients/${$img}.png')`};
   background-repeat: no-repeat;
   background-size: 70px;
   background-position: 10% center;
