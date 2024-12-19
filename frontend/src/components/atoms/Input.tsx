@@ -6,6 +6,8 @@ interface InputProps {
   name: string;
   placeholder: string;
   required?: boolean;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
@@ -14,6 +16,8 @@ export default function Input({
   name,
   placeholder,
   required,
+  value,
+  onChange,
 }: InputProps) {
   return (
     <input
@@ -22,6 +26,8 @@ export default function Input({
       name={name}
       placeholder={placeholder}
       required={required}
+      value={value}
+      onChange={onchange}
     />
   );
 }
