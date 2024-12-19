@@ -19,7 +19,7 @@ const PasswordResetPage: React.FC = () => {
   };
 
   const handlePasswordReset = (newPassword: string) => {
-    alert("비밀번호가 성공적으로 재설정되었습니다.");
+    alert("비밀번호가 성공적으로 변경되었습니다.");
   };
 
   return (
