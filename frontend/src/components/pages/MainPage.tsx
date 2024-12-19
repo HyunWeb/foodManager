@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 import SearchBlock from "../molecules/SearchBlock";
 import SwitchTab from "../molecules/SwitchTab";
-import RecipeImgBox from "../molecules/RecipeImgBox";
 import RecipeTemplate from "../templates/RecipeTemplate";
 import Header from "../organisms/Header";
 import NavBar from "../organisms/NavBar";

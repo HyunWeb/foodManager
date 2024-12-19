@@ -33,6 +33,8 @@ const StyledHeading = styled(HeadingAtom)`
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 100px;
+  font-size: 14px;
+  font-weight: 500;
 `;
 export default function RecipeImgBox({
   text = "요리제목",

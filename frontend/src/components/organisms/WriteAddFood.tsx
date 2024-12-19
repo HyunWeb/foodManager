@@ -30,44 +30,28 @@ export default function WriteAddFood() {
   );
   const kindOfFoodData = [
     {
-      label: `채소 & 과일`,
+      label: `신선식품`,
       value: `1`,
     },
     {
-      label: `정육 & 수산 & 계란`,
+      label: `곡물 및 견과류`,
       value: `2`,
     },
     {
-      label: `유제품`,
+      label: `가공 및 저장식품`,
       value: `3`,
     },
     {
-      label: `수산물`,
+      label: `유제품`,
       value: `4`,
     },
     {
-      label: `쌀 & 잡곡  & 견과`,
+      label: `음료`,
       value: `5`,
     },
     {
-      label: `냉동식품`,
-      value: `6`,
-    },
-    {
-      label: `조미료`,
-      value: `7`,
-    },
-    {
-      label: `빵 & 떡 & 잼`,
-      value: `8`,
-    },
-    {
-      label: `김치`,
-      value: `9`,
-    },
-    {
       label: `기타`,
-      value: `10`,
+      value: `6`,
     },
   ];
   // [category, groceryname, amount, unit, expiration ]
