@@ -18,7 +18,8 @@ const Container = styled.div<{ $img: number }>`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  background-image: ${({ $img }) => `url('./menu/${$img}.png')`};
+  background-image: ${({ $img }) =>
+    `url('${process.env.PUBLIC_URL}/menu/${$img}.png')`};
   background-repeat: no-repeat;
   background-size: 70px;
   background-position: 90% center;

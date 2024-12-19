@@ -12,7 +12,9 @@ export default function View() {
   const { id } = useParams<{ id: string }>();
   const [params] = useSearchParams();
   const type = params.get("type");
-  console.log(id);
+  console.log(type);
+  const route = process.env.REACT_APP_ROUTE;
+
   const [starValue, setStarValue] = useState(0);
   const [RecipeData, setRecipeData] = useState({
     recipeID: 0,
@@ -54,6 +56,15 @@ export default function View() {
       comment: "",
     },
   ]);
+
+  const recipeData = axios({
+    method: "GET",
+    url: `${route}/Recipe/find/${id}`,
+    withCredentials: true,
+  }).then((res) => {
+    console.log(res);
+  });
+
   useEffect(() => {
     //댓글 데이터 업데이트
     setCommentList([

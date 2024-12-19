@@ -6,15 +6,14 @@ import FoodHistory from "../organisms/FoodHistory";
 import axios from "axios";
 
 export default function Nutrition() {
-
   const route = process.env.REACT_APP_ROUTE;
   const data = axios({
     method: "GET",
     url: `${route}/foodlog`,
     withCredentials: true,
   }).then((res) => {
-    const {log, kcalPerDay} = res.data;
-    console.log(log, kcalPerDay);
+    const { log, kcalPerDay } = res.data;
+    // console.log(log, kcalPerDay);
   });
 
   return (

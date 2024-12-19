@@ -13,6 +13,19 @@ const {
   User,
 } = require("../models/index");
 
+const getRecipe = async (req, res) => {
+  try {
+    const recipe = await Recipe.findAll();
+    const review = await RecipeReview.findAll();
+    if(recipe && review){
+      res.json({result: true, message: "레시피 정보 불러오기 성공", data: {recipe, review}});
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({result: false, message: "레시피 정보를 불러올 수 없습니다."});
+  }
+}
+
 async function stepinsert(recipeID, step) {
   //step이라는 stepNo, content를 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
   try {
@@ -134,6 +147,7 @@ const Recipeinsert = async (req, res) => {
     console.log(error);
   }
 };
+
 const Recipeupdate = async (req, res) => {
   //레시피 update 완료
 
@@ -260,6 +274,7 @@ const RecipefindOne = async (req, res) => {
               Message: "정상적으로 Recipe data를 찾았습니다.",
               recipe: Recipefind,
               steps: stepfind,
+              ingredient: ingredientfind,
             });
           } else {
             res.json({
@@ -611,6 +626,7 @@ const PWchange = async (req, res) => {
 //인증번호의 존재 유무를 확인하는 코드를 클라이언트 단에서 작성해야 함.
 
 module.exports = {
+  getRecipe,
   Recipeinsert,
   Recipeupdate,
   RecipeDelete,
