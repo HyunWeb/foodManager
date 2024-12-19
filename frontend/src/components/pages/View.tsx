@@ -4,7 +4,7 @@ import NavBar from "../organisms/NavBar";
 import { useParams, useSearchParams } from "react-router-dom";
 import ViewTemplateRecipe from "../templates/ViewTemplateRecipe";
 import ViewTemplatePosting from "../templates/ViewTemplatePosting";
-
+import axios from "axios";
 const Container = styled.div`
   background-color: #ededed;
 `;
@@ -12,8 +12,7 @@ export default function View() {
   const { id } = useParams<{ id: string }>();
   const [params] = useSearchParams();
   const type = params.get("type");
-  console.log(type);
-
+  console.log(id);
   const [starValue, setStarValue] = useState(0);
   const [RecipeData, setRecipeData] = useState({
     recipeID: 0,
@@ -146,6 +145,18 @@ export default function View() {
         },
       ],
     });
+
+    if (type == "posting") {
+      const data = axios({
+        method: "GET",
+        url: `/posting/${id}`,
+        withCredentials: true,
+      }).then((res) => {
+        console.log(res.data.posting);
+        setPostingData(res.data.posting);
+        setCommentList(res.data.comment);
+      });
+    }
   }, []);
 
   return (
