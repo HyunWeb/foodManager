@@ -41,7 +41,7 @@ export default function RecipeImgBox({
   recipeID,
 }: RecipeImgBoxProps) {
   return (
-    <Link to={"/main/view/" + recipeID}>
+    <Link to={"/main/view/" + recipeID + "?type=recipe"}>
       <Container>
         <ImgWrap>
           <StyledImageCard src={src} alt={alt} />

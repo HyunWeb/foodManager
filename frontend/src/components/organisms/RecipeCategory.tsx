@@ -69,11 +69,15 @@ export default function RecipeCategory({
         <p>Loading</p>
       ) : (
         <RecipeList>
-          {recipes.map((recipe) => (
-            <RecipeListItem key={recipe.recipeSEQ}>
-              <RecipeImgBox text={recipe.title} recipeID={recipe.recipeSEQ} />
-            </RecipeListItem>
-          ))}
+          {recipes && recipes.length > 0 ? (
+            recipes.map((recipe) => (
+              <RecipeListItem key={recipe.recipeSEQ}>
+                <RecipeImgBox text={recipe.title} recipeID={recipe.recipeSEQ} />
+              </RecipeListItem>
+            ))
+          ) : (
+            <p>No data available</p>
+          )}
         </RecipeList>
       )}
     </Container>
