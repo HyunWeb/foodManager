@@ -53,7 +53,6 @@ export default function MainCard({
   src = "https://picsum.photos/400",
   alt = "피드 이미지",
   title,
-  detail,
   rating = 2.5,
   type = "recipe",
   userId = "user1234",

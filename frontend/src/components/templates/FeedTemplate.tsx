@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MainCard from "../molecules/MainCard";
+import axios from "axios";
+import { ColorSwatch } from "@chakra-ui/react";
 
 interface FeedData {
   postingID: number;
@@ -24,32 +26,14 @@ export default function FeedTemplate() {
   const [Loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    setFeeds([
-      {
-        postingID: 1,
-        title: "요리제목1",
-        detail: "부가설명1",
-        userId: "user1234",
-      },
-      {
-        postingID: 2,
-        title: "요리제목2",
-        detail: "부가설명2",
-        userId: "user5678",
-      },
-      {
-        postingID: 3,
-        title: "요리제목3",
-        detail: "부가설명3",
-        userId: "user9103",
-      },
-      {
-        postingID: 4,
-        title: "요리제목4",
-        detail: "부가설명4",
-        userId: "user1092",
-      },
-    ]);
+    const data = axios({
+      method: "GET",
+      url: "/posting",
+    }).then((res) => {
+      console.log(res.data.posting);
+      setFeeds(res.data.posting);
+      console.log(feeds);
+    });
     setLoading(false);
   }, []);
   return (
