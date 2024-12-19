@@ -7,8 +7,8 @@ import { ColorSwatch } from "@chakra-ui/react";
 interface FeedData {
   postingID: number;
   title: string;
-  detail: string;
   userId: string;
+  img: string;
 }
 
 const FeedList = styled.ul``;
@@ -47,8 +47,8 @@ export default function FeedTemplate() {
               key={feed.postingID}
               postingID={feed.postingID}
               title={feed.title}
-              detail={feed.detail}
               userId={feed.userId}
+              img={feed.img}
               type="feed"
             />
           ))}
