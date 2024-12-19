@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import HeadingAtom from "../atoms/HeadingAtom";
-import Paragraph from "../atoms/Paragraph";
 import Profileimg from "../atoms/Profileimg";
 
 interface RecipeInfoProps {
   userId?: string;
   title: string;
-  detail: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 }
 
@@ -22,14 +20,6 @@ const ContentWrap = styled.div`
   width: 100%;
 `;
 
-const StyleParagraph = styled(Paragraph)`
-  font-size: 14px;
-  color: #a1a1a1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: calc(100% - 50px);
-`;
 const IdHeading = styled(HeadingAtom)`
   font-weight: 500;
   font-size: 15px;
@@ -45,7 +35,6 @@ const TitleHeading = styled(HeadingAtom)`
 export default function FeedInfo({
   userId,
   title,
-  detail,
   size = "xl",
 }: RecipeInfoProps) {
   return (
@@ -54,7 +43,6 @@ export default function FeedInfo({
       <ContentWrap>
         <IdHeading level={3}>{userId}</IdHeading>
         <TitleHeading level={4}>{title}</TitleHeading>
-        <StyleParagraph>{detail}</StyleParagraph>
       </ContentWrap>
     </Container>
   );
