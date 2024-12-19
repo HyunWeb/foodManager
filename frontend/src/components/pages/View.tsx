@@ -4,6 +4,7 @@ import NavBar from "../organisms/NavBar";
 import { useParams, useSearchParams } from "react-router-dom";
 import ViewTemplateRecipe from "../templates/ViewTemplateRecipe";
 import ViewTemplatePosting from "../templates/ViewTemplatePosting";
+import axios from "axios";
 
 const Container = styled.div`
   background-color: #ededed;
@@ -13,6 +14,7 @@ export default function View() {
   const [params] = useSearchParams();
   const type = params.get("type");
   console.log(type);
+  const route = process.env.REACT_APP_ROUTE;
 
   const [starValue, setStarValue] = useState(0);
   const [RecipeData, setRecipeData] = useState({
@@ -55,6 +57,15 @@ export default function View() {
       comment: "",
     },
   ]);
+
+  const recipeData = axios({
+    method: "GET",
+    url: `${route}/Recipe/find/${id}`,
+    withCredentials: true,
+  }).then((res) => {
+    console.log(res);
+  });
+
   useEffect(() => {
     //댓글 데이터 업데이트
     setCommentList([
