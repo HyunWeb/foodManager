@@ -141,12 +141,11 @@ exports.detailPosting = async (req, res) => {
 exports.postComment = async (req, res) => {
   try {
     const { content } = req.body;
-    const userID = req.session.userInfo.userid;
     const { postingID } = req.params;
 
-    console.log(req.session.userInfo.userid, req.params);
-
     if (req.session.userInfo) {
+      const userID = req.session.userInfo.userid;
+      console.log(req.session.userInfo.userid, req.params);
       await PostComment.create({
         userID: userID,
         postingID: postingID,
