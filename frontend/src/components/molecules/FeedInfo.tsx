@@ -7,7 +7,6 @@ interface RecipeInfoProps {
   userId?: string;
   title: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
-  detail: string;
 }
 
 const Container = styled.div`
@@ -36,7 +35,6 @@ const TitleHeading = styled(HeadingAtom)`
 export default function FeedInfo({
   userId,
   title,
-  detail,
   size = "xl",
 }: RecipeInfoProps) {
   return (
