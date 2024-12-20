@@ -27,6 +27,15 @@ type Review = {
 };
 
 const FeedList = styled.ul``;
+const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const HeadingStyle = styled(HeadingAtom)`
+  align-self: flex-start;
+  margin-bottom: 20px;
+`;
 
 const route = process.env.REACT_APP_ROUTE;
 
@@ -103,10 +112,10 @@ export default function FeedCategory() {
     // ]);
   }, []);
   return (
-    <div>
-      <HeadingAtom level={3} color="#121212" $marginBottom="10px">
+    <ContentWrap>
+      <HeadingStyle level={3} color="#121212" $marginBottom="10px">
         레시피
-      </HeadingAtom>
+      </HeadingStyle>
       {Loading ? (
         <p>Loading...</p>
       ) : (
@@ -123,6 +132,6 @@ export default function FeedCategory() {
           ))}
         </FeedList>
       )}
-    </div>
+    </ContentWrap>
   );
 }

@@ -69,12 +69,21 @@ exports.postUser = async (req, res) => {
         gender: gender,
         kcalPerDay: kcalPerDay,
       });
-      res.json({ result: true, message: "계정이 성공적으로 생성되었습니다." });
+      res.json({
+        result: true,
+        message: ["회원가입 성공", "계정이 성공적으로 생성되었습니다."],
+      });
     } else {
-      res.json({ result: false, message: "이미 존재하는 아이디입니다." });
+      res.json({
+        result: false,
+        message: ["중복된 계정", "이미 존재하는 아이디입니다."],
+      });
     }
   } catch (error) {
-    res.json({ result: false, message: "계정 생성에 실패하였습니다." });
+    res.json({
+      result: false,
+      message: ["회원가입 실패", "계정 생성에 실패하였습니다."],
+    });
     console.error(error);
   }
 };
@@ -119,12 +128,15 @@ exports.userLogin = async (req, res) => {
 // 로그아웃
 exports.userLogout = async (req, res) => {
   try {
-    console.log(req.session);
-    if (req.session !== undefined) {
+    // 'domain'을 제거하고 'path'만 설정
+    // res.clearCookie("connect.sid", { path: "/", httpOnly: true });
+
+    if (req.session) {
       req.session.destroy(() => {
         req.session;
       });
-      res.json({ result: true });
+    } else {
+      res.json({ result: true }); // 이미 세션이 없을 경우
     }
   } catch (error) {
     console.error(error);
@@ -174,6 +186,34 @@ exports.userDelete = async (req, res) => {
       where: { userID: req.session.userInfo.userid },
     });
     res.json({ result: true });
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false });
+  }
+};
+
+// 회원정보 가져오기
+exports.userSearch = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { userID: req.session.userInfo.userid },
+    });
+
+    res.json({ result: user });
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false });
+  }
+};
+
+// 로그인 상태 확인
+exports.userCheck = async (req, res) => {
+  try {
+    if (req.session && req.session.userInfo) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false });
+    }
   } catch (error) {
     console.error(error);
     res.json({ result: false });

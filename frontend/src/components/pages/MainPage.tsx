@@ -13,6 +13,7 @@ interface Item {
 const Container = styled.div`
   position: relative;
 `;
+
 export default function MainPage() {
   const [items, setItems] = useState<Item>();
   const [selected, setSelected] = useState(1); // 탭전환

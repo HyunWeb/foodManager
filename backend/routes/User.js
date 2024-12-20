@@ -3,7 +3,6 @@ const router = express.Router();
 const controller = require("../controllers/Cmain");
 const userController = require("../controllers/Cuser");
 
-
 // 회원가입
 router.post("/signup", userController.postUser);
 
@@ -22,5 +21,10 @@ router.patch("/editProfile", userController.editUser);
 // 회원 탈퇴
 router.delete("/deleteUser", userController.userDelete);
 
+// 회원 정보 가져오기
+router.get("/getUser", userController.userSearch);
+
+// 로그인 상태인지 세션 확인
+router.get("/check", userController.userCheck);
 
 module.exports = router;

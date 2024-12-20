@@ -74,9 +74,10 @@ export default function CommentForm() {
   return (
     <Form
       onSubmit={(e) => {
-        contented(e);
+        e.preventDefault();
       }}
     >
+    
       <Input
         type="text"
         placeholder="댓글을 입력해 주세요"
@@ -84,7 +85,7 @@ export default function CommentForm() {
         onChange={(e) => {
           setcontent(e.target.value);
         }}
-      ></Input>
+      />
       <Button type="button">
         <FaCircleArrowUp size={35} color="#FE8D00" />
       </Button>

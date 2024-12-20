@@ -16,6 +16,12 @@ const Container = styled.div`
 const RecipeList = styled.ul`
   display: flex;
   overflow: scroll;
+
+  @media (min-width: 768px) {
+    gap: 40px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
 `;
 
 const RecipeListItem = styled.li`

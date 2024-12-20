@@ -11,6 +11,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+  }
 `;
 
 const CalenderWrap = styled.div`

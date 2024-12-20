@@ -7,6 +7,11 @@ import FoodHistory from "../organisms/FoodHistory";
 
 const Container = styled.div`
   padding: 20px;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+  }
 `;
 
 export default function Myfood() {

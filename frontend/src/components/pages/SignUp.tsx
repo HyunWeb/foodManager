@@ -8,6 +8,8 @@ import SelectBlockUi from "../molecules/SelectBlockUi";
 import ButtonAtom from "../atoms/ButtonAtom";
 import Header from "../organisms/Header";
 import axios from "axios";
+import Notification from "../organisms/Notification";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   padding: 20px;
@@ -19,6 +21,9 @@ const InputWrap = styled.form`
 `;
 
 export default function SignUp() {
+  const naviagte = useNavigate();
+  const [alertDisplay, setAlertDisplay] = useState(false);
+  const [message, setMessage] = useState(["", ""]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,7 +69,11 @@ export default function SignUp() {
       },
       withCredentials: true,
     }).then((response) => {
-      alert(response.data.message);
+      const title = response.data.message[0];
+      const detailMessage = response.data.message[1];
+      setMessage([title, detailMessage]);
+      // alert(response.data.message);
+      setAlertDisplay(!alertDisplay);
     });
   };
 
@@ -115,8 +124,28 @@ export default function SignUp() {
           title={"성별"}
         />
         {/* 회원가입 버튼 */}
-        <ButtonAtom text="회원가입" buttontype="signUp" type="submit" />
+        <ButtonAtom
+          text="회원가입"
+          buttontype="signUp"
+          type="submit"
+          onClick={() => setAlertDisplay(!alertDisplay)}
+        />
       </InputWrap>
+
+      <Notification
+        title={message[0]}
+        message={message[1]}
+        type="success"
+        onConfirm={() => {
+          if (message[0] === "회원가입 성공") {
+            naviagte("/login");
+            setAlertDisplay(!alertDisplay);
+          } else {
+            setAlertDisplay(!alertDisplay);
+          }
+        }}
+        alertDisplay={alertDisplay}
+      />
     </Container>
   );
 }

@@ -9,7 +9,7 @@ const User = (Sequelize, DataTypes) => {
     "user",
     {
       userID: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(30),
         allowNull: false,
         primaryKey: true,
       },
@@ -32,7 +32,7 @@ const User = (Sequelize, DataTypes) => {
       kcalPerDay: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      }
+      },
     },
     {
       tableName: "user",

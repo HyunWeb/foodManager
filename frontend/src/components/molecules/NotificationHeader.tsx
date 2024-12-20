@@ -16,17 +16,20 @@ const HeaderContainer = styled.div`
 const Title = styled(HeadingAtom)`
   flex-grow: 1;
   color: #333333;
-  text-align: left;
+  text-align: center;
+  font-size: 18px;
 `;
 
 interface NotificationHeaderProps {
   title: string;
   type: "info" | "success" | "warning" | "error";
+  onConfirm: () => void;
 }
 
 const NotificationHeader: React.FC<NotificationHeaderProps> = ({
   title,
   type,
+  onConfirm,
 }) => {
   const iconColorMap = {
     info: "orange",
@@ -47,7 +50,7 @@ const NotificationHeader: React.FC<NotificationHeaderProps> = ({
       />
 
       {/* 알림 제목 */}
-      <Title>{title}</Title>
+      <Title level={2}>{title}</Title>
 
       {/* 닫기 버튼 */}
       <IconButtonAtom
@@ -56,7 +59,7 @@ const NotificationHeader: React.FC<NotificationHeaderProps> = ({
         variant="ghost"
         icontype="ex" // 닫기 버튼 아이콘
         color="#AAAAAA"
-        onClick={() => console.log("Notification closed")}
+        onClick={() => onConfirm()}
       />
     </HeaderContainer>
   );

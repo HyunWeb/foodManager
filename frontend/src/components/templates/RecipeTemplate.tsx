@@ -6,6 +6,11 @@ import FeedCategory from "../organisms/FeedCategory";
 const Container = styled.div`
   padding: 20px;
   margin-bottom: 100px;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+  }
 `;
 
 export default function RecipeTemplate() {
