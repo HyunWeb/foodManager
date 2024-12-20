@@ -8,6 +8,7 @@ interface InputFieldProps {
   id: string;
   name: string;
   type: string;
+  value?: string;
   placeholder: string;
   errorMessage?: string;
 }
