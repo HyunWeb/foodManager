@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SelectBlockUi from "../molecules/SelectBlockUi";
 import TextInputForm from "../atoms/TextInputForm";
@@ -7,6 +7,8 @@ import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import ReactDataPicker from "../atoms/ReactDataPicker";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { usePageRender } from "./PageRenderContext"; // 작성한 PageRenderContext 파일
+
 const Container = styled.form``;
 const CalenderWrap = styled.div`
   display: flex;
@@ -15,15 +17,28 @@ const CalenderWrap = styled.div`
 `;
 const InputWrap = styled.form``;
 
-export default function WriteFoodTab() {
-  const [TimeState, setTimeState] = useState("");
-  const [KindOfFood, setKindOfFood] = useState("");
+export default function WriteFoodTab({
+  onClose,
+  setSelected,
+}: {
+  onClose: () => void;
+  setSelected: (e: number) => void;
+}) {
+  const [TimeState, setTimeState] = useState<string | null>("");
+  const [KindOfFood, setKindOfFood] = useState<string | null>("");
   const [foodName, setFoodName] = useState("");
   const [foodAmount, setfoodAmount] = useState("1");
   const [foodUnit, setFoodUnit] = useState("");
   const [kcal, setKcal] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
+
+  // 컨텍스트 사용
+  const { pageRender, setPageRender } = usePageRender();
+
+  const togglePageRender = () => {
+    setPageRender(!pageRender);
+  };
   const time = [
     {
       label: `아침`,
@@ -138,19 +153,22 @@ export default function WriteFoodTab() {
     }).then((res) => {
       if (res.data.result == true) {
         alert("성공적으로 정보가 저장되었습니다.");
-        setTimeState("");
-        setKindOfFood("");
+        setTimeState(null);
+        setKindOfFood(null);
         setFoodName("");
         setfoodAmount("1");
         setFoodUnit("");
         setKcal("");
-
+        setSelected(1); //
+        onClose(); // 자동으로 입력창 닫기
+        togglePageRender(); // 컨텍스트를 활용한 영양소 페이지 강제 재 렌더링
         //setTimeState setKindOfFood setFoodName setfoodAmount setFoodUnit setKcal
       } else {
         if (res.data.message == "로그인이 되어 있지 않습니다.") {
           navigate("/login");
         } else {
           alert(res.data.message);
+          alert("제대로된 음식 정보가 아닙니다.");
         }
       }
     });

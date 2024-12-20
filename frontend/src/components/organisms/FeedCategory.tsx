@@ -10,11 +10,24 @@ interface FeedData {
   rating: number;
 }
 
-const FeedList = styled.ul``;
+const FeedList = styled.ul`
+  @media (min-width: 1200px) {
+    display: flex;
+    flex-direction: row;
+    width: 850px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+`;
 const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+  }
 `;
 const HeadingStyle = styled(HeadingAtom)`
   align-self: flex-start;

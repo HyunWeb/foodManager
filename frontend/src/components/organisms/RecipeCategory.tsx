@@ -12,15 +12,19 @@ interface RecipeProps {
 
 const Container = styled.div`
   margin-bottom: 20px;
+  @media (min-width: 768px) {
+    padding-left: 170px;
+  }
 `;
 const RecipeList = styled.ul`
   display: flex;
-  overflow: scroll;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  gap: 25px;
 
   @media (min-width: 768px) {
     gap: 40px;
-    overflow-x: auto;
-    overflow-y: hidden;
   }
 `;
 

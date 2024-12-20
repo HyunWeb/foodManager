@@ -23,6 +23,21 @@ const Container = styled.div<{ $img: number }>`
   background-repeat: no-repeat;
   background-size: 70px;
   background-position: 90% center;
+
+  @media (min-width: 768px) {
+    width: 450px;
+    height: 150px;
+  }
+  @media (min-width: 1024px) {
+    width: 40%;
+    flex-direction: column;
+    padding: 0 0 30px 0;
+    justify-content: flex-end;
+    height: 300px;
+    text-align: center;
+    background-size: 100px;
+    background-position: center 30%;
+  }
 `;
 
 export default function FoodBlock({

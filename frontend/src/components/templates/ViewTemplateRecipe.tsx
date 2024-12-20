@@ -34,12 +34,21 @@ const Container = styled.div`
   margin-bottom: 200px;
   position: relative;
   background-color: #ffffff;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+    margin-bottom: 200px;
+  }
 `;
 
 const ButtonStyle = styled(BackButton)`
   background-color: white;
   border-radius: 50%;
   top: 30px;
+  @media (min-width: 768px) {
+    left: 10px;
+  }
 `;
 const StarStyle = styled(Rating)`
   position: absolute;

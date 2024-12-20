@@ -13,7 +13,7 @@ interface CommentListProps {
   content: string;
 }
 const Container = styled.div`
-  background-color: #ededed;
+  background-color: #ffffff;
 `;
 // Create the context with a default value
 export const CommentContext = React.createContext<
@@ -50,8 +50,6 @@ export default function View() {
     time: "",
     mealCount: "",
     level: "",
-    ingreName: "",
-    amount: "",
     ingred: [
       {
         recipeID: 0,
@@ -123,55 +121,6 @@ export default function View() {
         content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
-      {
-        commentID: 5,
-        userId: "홍길동",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
-      {
-        commentID: 6,
-        userId: "홍길동",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
-      {
-        commentID: 7,
-        userId: "홍길동",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
-      {
-        commentID: 8,
-        userId: "홍길동",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
-      {
-        commentID: 9,
-        userId: "홍길동22",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
-      {
-        commentID: 10,
-        userId: "홍길동33",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
-      {
-        commentID: 11,
-        userId: "홍길동44",
-        date: "2024/12/27",
-        comment:
-          "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
-      },
     ]);
     // 포스팅 데이터 업데이트
     setPostingData({
@@ -194,8 +143,6 @@ export default function View() {
       time: "15분",
       mealCount: "2인분",
       level: "하",
-      ingreName: "감자",
-      amount: "2개",
       ingred: [
         { recipeID: 1, ingreName: "감자", amount: "2개" },
         { recipeID: 2, ingreName: "양파", amount: "2개" },
@@ -250,6 +197,12 @@ export default function View() {
     <Container>
       <CommentContext.Provider value={{ CommentList, setCommentList }}>
         {type === "recipe" ? (
+          <ViewTemplateRecipe
+            starValue={starValue}
+            setStarValue={setStarValue}
+            RecipeData={RecipeData}
+          />
+        ) : type === "defaultRecipe" ? (
           <ViewTemplateRecipe
             starValue={starValue}
             setStarValue={setStarValue}
