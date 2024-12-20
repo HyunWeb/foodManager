@@ -4,15 +4,42 @@ import NavBar from "../organisms/NavBar";
 import { useParams, useSearchParams } from "react-router-dom";
 import ViewTemplateRecipe from "../templates/ViewTemplateRecipe";
 import ViewTemplatePosting from "../templates/ViewTemplatePosting";
-
+import axios from "axios";
+import { createContext } from "react";
+interface CommentListProps {
+  commentID: number;
+  userID: string;
+  date: string;
+  content: string;
+}
 const Container = styled.div`
   background-color: #ededed;
 `;
+// Create the context with a default value
+export const CommentContext = React.createContext<
+  CommentContextType | undefined
+>(undefined);
+
+type CommentContextType = {
+  CommentList: {
+    commentID: number;
+    userID: string;
+    date: string;
+    content: string;
+  }[];
+
+  setCommentList: React.Dispatch<
+    React.SetStateAction<
+      { commentID: number; userID: string; date: string; content: string }[]
+    >
+  >;
+};
 export default function View() {
   const { id } = useParams<{ id: string }>();
   const [params] = useSearchParams();
   const type = params.get("type");
   console.log(type);
+  const route = process.env.REACT_APP_ROUTE;
 
   const [starValue, setStarValue] = useState(0);
   const [RecipeData, setRecipeData] = useState({
@@ -39,51 +66,61 @@ export default function View() {
       },
     ],
   });
-  const [PostingData, setPostingData] = useState({
-    postingID: 0,
-    image: "",
-    title: "",
-    userId: "",
-    date: "",
-    feed: "",
-  });
   const [CommentList, setCommentList] = useState([
     {
       commentID: 0,
-      userId: "",
+      userID: "",
       date: "",
-      comment: "",
+      content: "",
     },
   ]);
+
+  const [PostingData, setPostingData] = useState({
+    postingID: 0,
+    img: "",
+    title: "",
+    userID: "",
+    date: "",
+    content: "",
+  });
+
+  // const recipeData = axios({
+  //   method: "GET",
+  //   url: `${route}/Recipe/find/${id}`,
+  //   withCredentials: true,
+  // }).then((res) => {
+  //   console.log(res);
+  // });
+
   useEffect(() => {
     //댓글 데이터 업데이트
     setCommentList([
       {
         commentID: 1,
-        userId: "user5678",
+        userID: "user5678",
         date: "2024/12/25",
-        comment:
+        content:
           "국회는 헌법 또는 법률에 특별한 규정이 없는 한 재적의원 과반수의 출석과 출석의원 과반수의 찬성으로 의결한다. 가부동수인 때에는 부결된 것으로 본다.",
       },
       {
         commentID: 2,
-        userId: "user9012",
+        userID: "user9012",
         date: "2024/12/26",
-        comment:
+        content:
           "누구든지 체포 또는 구속을 당한 때에는 적부의 심사를 법원에 청구할 권리를 가진다.",
       },
       {
         commentID: 3,
-        userId: "user3456",
+        userID: "user3456",
         date: "2024/12/27",
-        comment:
+        content:
           "국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다.",
       },
       {
         commentID: 4,
-        userId: "홍길동",
+        userID: "홍길동",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
@@ -139,11 +176,11 @@ export default function View() {
     // 포스팅 데이터 업데이트
     setPostingData({
       postingID: 1,
-      image: "https://picsum.photos/500",
+      img: "https://picsum.photos/500",
       title: "제목입니다.",
-      userId: "user1234",
+      userID: "user1234",
       date: "2024/12/25",
-      feed: ` 모든 국민은 법률이 정하는 바에 의하여 국가기관에 문서로 청원할 권리를
+      content: ` 모든 국민은 법률이 정하는 바에 의하여 국가기관에 문서로 청원할 권리를
           가진다. 국민경제의 발전을 위한 중요정책의 수립에 관하여 대통령의
           자문에 응하기 위하여 국민경제자문회의를 둘 수 있다.`,
     });
@@ -195,23 +232,34 @@ export default function View() {
         },
       ],
     });
+
+    if (type == "posting") {
+      const data = axios({
+        method: "GET",
+        url: `/posting/${id}`,
+        withCredentials: true,
+      }).then((res) => {
+        console.log(res.data.posting);
+        setPostingData(res.data.posting);
+        setCommentList(res.data.comment);
+      });
+    }
   }, []);
 
   return (
     <Container>
-      {type === "recipe" ? (
-        <ViewTemplateRecipe
-          starValue={starValue}
-          setStarValue={setStarValue}
-          RecipeData={RecipeData}
-        />
-      ) : (
-        <ViewTemplatePosting
-          PostingData={PostingData}
-          CommentList={CommentList}
-        />
-      )}
-      <NavBar />
+      <CommentContext.Provider value={{ CommentList, setCommentList }}>
+        {type === "recipe" ? (
+          <ViewTemplateRecipe
+            starValue={starValue}
+            setStarValue={setStarValue}
+            RecipeData={RecipeData}
+          />
+        ) : (
+          <ViewTemplatePosting PostingData={PostingData} />
+        )}
+        <NavBar />
+      </CommentContext.Provider>
     </Container>
   );
 }

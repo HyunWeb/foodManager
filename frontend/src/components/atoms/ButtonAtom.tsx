@@ -57,6 +57,7 @@ interface ButtonAtomProps {
   type: "button" | "reset" | "submit" | undefined;
   label?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export default function ButtonAtom({
@@ -64,13 +65,22 @@ export default function ButtonAtom({
   buttontype,
   onClick,
   type = "button",
+  disabled = false,
 }: ButtonAtomProps) {
   const renderButton = () => {
     switch (buttontype) {
       case "login":
-        return <LoginButton type={type}>{text}</LoginButton>;
+        return (
+          <LoginButton type={type} disabled={disabled}>
+            {text}
+          </LoginButton>
+        );
       case "signUp":
-        return <LongButton type={type}>{text}</LongButton>;
+        return (
+          <LongButton type={type} disabled={disabled}>
+            {text}
+          </LongButton>
+        );
       case "upload":
         return <UploadButton type={type}>{text}</UploadButton>;
       case "confirm":
@@ -90,6 +100,7 @@ export default function ButtonAtom({
           <OffButton type={type} onClick={onClick}>
             {text}
           </OffButton>
+
         );
       default:
         return null;

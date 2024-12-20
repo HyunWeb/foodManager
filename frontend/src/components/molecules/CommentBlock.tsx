@@ -5,7 +5,7 @@ import FeedInfo from "./FeedInfo";
 interface CommentBlockProps {
   userId: string;
   date: string;
-  comment: string;
+  content: string;
 }
 const Container = styled.div`
   padding: 20px;
@@ -21,12 +21,12 @@ const Comment = styled.p`
 export default function CommentBlock({
   userId,
   date,
-  comment,
+  content,
 }: CommentBlockProps) {
   return (
     <Container>
       <FeedInfo title={userId} detail={date} size="md" />
-      <Comment>{comment}</Comment>
+      <Comment>{content}</Comment>
     </Container>
   );
 }

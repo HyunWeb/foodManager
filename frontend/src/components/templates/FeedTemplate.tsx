@@ -29,6 +29,7 @@ export default function FeedTemplate() {
     const data = axios({
       method: "GET",
       url: "/posting",
+      withCredentials: true,
     }).then((res) => {
       console.log(res.data.posting);
       setFeeds(res.data.posting);
