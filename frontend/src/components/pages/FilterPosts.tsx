@@ -10,7 +10,7 @@ interface FeedData {
   recipeID?: number;
   postingID?: number;
   title: string;
-  detail: string;
+  describe: string;
   userId?: string;
   rating?: number;
 }
@@ -32,10 +32,10 @@ export default function FilterPosts() {
     if (filter?.includes("recipe")) {
       setFeeds([
         // 모의 데이터
-        { recipeID: 1, title: "요리제목1", detail: "부가설명1", rating: 3.5 },
-        { recipeID: 2, title: "요리제목2", detail: "부가설명2", rating: 4 },
-        { recipeID: 3, title: "요리제목3", detail: "부가설명3", rating: 5 },
-        { recipeID: 4, title: "요리제목4", detail: "부가설명4", rating: 1 },
+        { recipeID: 1, title: "요리제목1", describe: "부가설명1", rating: 3.5 },
+        { recipeID: 2, title: "요리제목2", describe: "부가설명2", rating: 4 },
+        { recipeID: 3, title: "요리제목3", describe: "부가설명3", rating: 5 },
+        { recipeID: 4, title: "요리제목4", describe: "부가설명4", rating: 1 },
       ]);
       setCardType("recipe");
     } else if (filter?.includes("posting")) {
@@ -44,25 +44,25 @@ export default function FilterPosts() {
         {
           postingID: 1,
           title: "요리제목1",
-          detail: "부가설명1",
+          describe: "부가설명1",
           userId: "user1234",
         },
         {
           postingID: 2,
           title: "요리제목2",
-          detail: "부가설명2",
+          describe: "부가설명2",
           userId: "user5678",
         },
         {
           postingID: 3,
           title: "요리제목3",
-          detail: "부가설명3",
+          describe: "부가설명3",
           userId: "user9103",
         },
         {
           postingID: 4,
           title: "요리제목4",
-          detail: "부가설명4",
+          describe: "부가설명4",
           userId: "user1092",
         },
       ]);
@@ -83,7 +83,7 @@ export default function FilterPosts() {
             postingID={feed.postingID}
             recipeID={feed.recipeID}
             title={feed.title}
-            detail={feed.detail}
+            describe={feed.describe}
             userId={feed.userId}
             type={cardType}
           />

@@ -38,7 +38,7 @@ export default function ViewPostingInfo({
         <HeadingAtom level={2} $marginBottom="10px">
           {value.title}
         </HeadingAtom>
-        <FeedInfo title={value.userId} detail={value.date} />
+        <FeedInfo title={value.userId} describe={value.date} />
         <Paragraph>{value.feed}</Paragraph>
       </PostingInfo>
     </Container>

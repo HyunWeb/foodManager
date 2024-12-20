@@ -13,6 +13,7 @@ interface MainCardProps {
   alt?: string;
   title: string;
   rating?: number;
+  describe?: string;
   type?: "recipe" | "feed";
   userId?: string;
 }
