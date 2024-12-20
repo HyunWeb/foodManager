@@ -50,23 +50,26 @@ async function stepinsert(recipeID, step) {
 }
 async function ingredientinsert(recipeID, Ingredients) {
   //Ingredients이라는 ingreName, amount을 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
+
   try {
-    console.log(Ingredients);
+    console.log("현재 길이 :", Ingredients.length);
     for (let i = 0; i < Ingredients.length; i++) {
-      const Ingredinentinsert = await Ingredient.create({
+      console.log("ddddd");
+      const insert = await Ingredient.create({
         recipeID,
         ingreName: Ingredients[i].ingreName,
-        content: Ingredients[i].amount,
+        amount: Ingredients[i].amount,
       });
-      if (Ingredinentinsert != null) {
+      console.log("현재 추가할 항목 :", insert);
+      if (insert != null) {
         console.log("재료 등록 성공");
+        return true;
       } else {
         return false;
       }
     }
-
-    return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 }
@@ -93,7 +96,7 @@ const Recipeinsert = async (req, res) => {
         img: req.files[0].path,
       });
       let stepon = await stepinsert(RecipeCreate.dataValues.recipeID, steps);
-      console.log(stepon);
+      console.log("단계 등록 성공 여부 : ", stepon);
 
       if (stepon != true) {
         console.log(
@@ -112,9 +115,9 @@ const Recipeinsert = async (req, res) => {
           Ingredients
         );
         console.log(ingredienton);
-        if (stepon != true) {
+        if (ingredienton != true) {
           console.log(
-            "레시피 단계 설정에서 오류가 발생하여, 레시피를 삭제합니다."
+            "재료 단계 설정에서 오류가 발생하여, 레시피를 삭제합니다."
           );
           const recipedelete = await Recipe.destroy({
             where: { recipeID: RecipeCreate.dataValues.recipeID },

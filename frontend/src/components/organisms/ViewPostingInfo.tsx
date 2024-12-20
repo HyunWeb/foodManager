@@ -5,11 +5,11 @@ import HeadingAtom from "../atoms/HeadingAtom";
 import FeedInfo from "../molecules/FeedInfo";
 
 interface PostingDataProps {
-  image: string;
+  img: string;
   title: string;
-  userId: string;
+  userID: string;
   date: string;
-  feed: string;
+  content: string;
 }
 const Paragraph = styled.p`
   font-size: 15px;
@@ -32,14 +32,14 @@ export default function ViewPostingInfo({
 }) {
   return (
     <Container>
-      <ViewImage value={value.image} />
+      <ViewImage value={value.img} />
 
       <PostingInfo>
         <HeadingAtom level={2} $marginBottom="10px">
           {value.title}
         </HeadingAtom>
-        <FeedInfo title={value.userId} describe={value.date} />
-        <Paragraph>{value.feed}</Paragraph>
+        <FeedInfo title={value.userID} detail={value.date} />
+        <Paragraph>{value.content}</Paragraph>
       </PostingInfo>
     </Container>
   );
