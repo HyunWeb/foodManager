@@ -12,17 +12,17 @@ const RecipeName = styled.div`
 
 export default function ViewRecipeHead({
   title,
-  detail,
+  describe,
 }: {
   title: string;
-  detail: string;
+  describe: string;
 }) {
   return (
     <RecipeName>
       <HeadingAtom level={2} $marginBottom="10px">
         {title}
       </HeadingAtom>
-      <ParaGraph>{detail}</ParaGraph>
+      <ParaGraph>{describe}</ParaGraph>
     </RecipeName>
   );
 }
