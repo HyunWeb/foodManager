@@ -6,7 +6,7 @@ import ViewIconWrap from "../molecules/ViewIconWrap";
 import ViewRecipeHead from "../molecules/ViewRecipeHead";
 interface RecipeDataProps {
   title: string;
-  detail: string;
+  describe: string;
   time: string;
   mealCount: string;
   level: string;
@@ -33,7 +33,7 @@ export default function ViewRecipeInfo({ value }: { value: RecipeDataProps }) {
           level={value.level}
         />
         {/* 제목과 상세정보 부분 */}
-        <ViewRecipeHead title={value.title} detail={value.detail} />
+        <ViewRecipeHead title={value.title} describe={value.describe} />
       </RecipeInfo>
     </div>
   );

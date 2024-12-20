@@ -45,7 +45,7 @@ export default function View() {
   const [RecipeData, setRecipeData] = useState({
     recipeID: 0,
     title: "",
-    detail: "",
+    describe: "",
     image: "",
     time: "",
     mealCount: "",
@@ -138,7 +138,7 @@ export default function View() {
     setRecipeData({
       recipeID: 1,
       title: "김치찌개",
-      detail: "한국인의 소울푸드 김치찌개를 만드는 방법 입니다.",
+      describe: "한국인의 소울푸드 김치찌개를 만드는 방법 입니다.",
       image: "https://picsum.photos/500",
       time: "15분",
       mealCount: "2인분",
