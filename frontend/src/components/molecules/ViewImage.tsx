@@ -23,7 +23,7 @@ const ImageStyle = styled(ImageCard)`
 export default function ViewImage({ value }: { value: string }) {
   return (
     <ImageWrap>
-      <ImageStyle src={value} alt="피드 이미지" />
+      <ImageStyle src={"../../" + value} alt="피드 이미지" />
     </ImageWrap>
   );
 }

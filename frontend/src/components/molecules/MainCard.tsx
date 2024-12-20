@@ -5,6 +5,7 @@ import RecipeInfo from "./RecipeInfo";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import FeedInfo from "./FeedInfo";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 interface MainCardProps {
   postingID?: number;
@@ -50,7 +51,7 @@ export default function MainCard({
   postingID,
   recipeID,
   img = "https://picsum.photos/400",
-  alt = "피드 이미지",
+  alt = img,
   title,
   rating = 2.5,
   type = "recipe",
@@ -61,6 +62,7 @@ export default function MainCard({
     setLikeState(!likeState);
   };
   const params = recipeID ? "recipe" : "posting";
+
   return (
     <Container>
       <Link to={"/main/view/" + (recipeID || postingID) + "?type=" + params}>

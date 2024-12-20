@@ -29,6 +29,7 @@ export default function FeedTemplate() {
     const data = axios({
       method: "GET",
       url: "/posting",
+      withCredentials: true,
     }).then((res) => {
       console.log(res.data.posting);
       setFeeds(res.data.posting);
@@ -42,16 +43,20 @@ export default function FeedTemplate() {
         <p>Loading...</p>
       ) : (
         <FeedList>
-          {feeds.map((feed) => (
-            <MainCard
-              key={feed.postingID}
-              postingID={feed.postingID}
-              title={feed.title}
-              userId={feed.userId}
-              img={feed.img}
-              type="feed"
-            />
-          ))}
+          {feeds && feeds.length > 0 ? (
+            feeds.map((feed) => (
+              <MainCard
+                key={feed.postingID}
+                postingID={feed.postingID}
+                title={feed.title}
+                userId={feed.userId}
+                img={feed.img}
+                type="feed"
+              />
+            ))
+          ) : (
+            <p>No data available</p>
+          )}
         </FeedList>
       )}
     </Container>

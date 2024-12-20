@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import { FaCircleArrowUp } from "react-icons/fa6";
-
+import axios from "axios";
+import { CommentContext } from "../pages/View";
+import { useContext } from "react";
 const Form = styled.form`
   position: fixed;
 
@@ -32,11 +35,56 @@ const Button = styled.button`
   background-color: #ffffff;
   border-radius: 50%;
 `;
-
+interface CommentListProps {
+  commentID: number;
+  userID: string;
+  date: string;
+  content: string;
+}
 export default function CommentForm() {
+  const [content, setcontent] = useState("");
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const text = useContext(CommentContext);
+  const contented = (e: React.FormEvent) => {
+    e.preventDefault();
+    axios({
+      method: "POST",
+      url: `http://localhost:8000/posting/${id}/comment`,
+      data: {
+        content: content,
+      },
+      withCredentials: true,
+    }).then((res) => {
+      if (res.data.result == true) {
+        axios({
+          method: "GET",
+          url: `http://localhost:8000/posting/${id}`,
+          withCredentials: true,
+        }).then((res) => {
+          console.log(res.data);
+          text?.setCommentList(res.data.comment);
+          setcontent("");
+        });
+      } else {
+        alert(res.data.message);
+      }
+    });
+  };
   return (
-    <Form>
-      <Input type="text" placeholder="댓글을 입력해 주세요"></Input>
+    <Form
+      onSubmit={(e) => {
+        contented(e);
+      }}
+    >
+      <Input
+        type="text"
+        placeholder="댓글을 입력해 주세요"
+        value={content}
+        onChange={(e) => {
+          setcontent(e.target.value);
+        }}
+      ></Input>
       <Button type="button">
         <FaCircleArrowUp size={35} color="#FE8D00" />
       </Button>

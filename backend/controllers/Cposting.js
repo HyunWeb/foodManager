@@ -19,8 +19,9 @@ const {
 exports.getPosting = async (req, res) => {
   try {
     const posting = await Posting.findAll({
-      attributes: { postingID, title, userId },
+      attributes: ["postingID", "title", "userId", "img"],
     });
+    console.log(posting);
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
   } catch (error) {
     console.error(error);
@@ -140,12 +141,11 @@ exports.detailPosting = async (req, res) => {
 exports.postComment = async (req, res) => {
   try {
     const { content } = req.body;
-    const userID = req.session.userInfo.userid;
     const { postingID } = req.params;
 
-    console.log(req.session.userInfo.userid, req.params);
-
     if (req.session.userInfo) {
+      const userID = req.session.userInfo.userid;
+      console.log(req.session.userInfo.userid, req.params);
       await PostComment.create({
         userID: userID,
         postingID: postingID,

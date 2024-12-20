@@ -33,6 +33,8 @@ const uploadDetail = multer({
   }),
 });
 
+router.get("/", controller.getRecipe);
+
 router.post("/insert", uploadDetail.any(), controller.Recipeinsert); //레시피를 추가를 요청하는 router
 
 router.get("/find/:recipeID", controller.RecipefindOne); // 레시피의 정보를 찾는 라우터
