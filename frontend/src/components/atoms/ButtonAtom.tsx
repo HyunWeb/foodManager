@@ -82,7 +82,11 @@ export default function ButtonAtom({
           </LongButton>
         );
       case "upload":
-        return <UploadButton type={type}>{text}</UploadButton>;
+        return (
+          <UploadButton type={type} onClick={onClick}>
+            {text}
+          </UploadButton>
+        );
       case "confirm":
         return (
           <ConfirmButton type={type} onClick={onClick}>
@@ -100,7 +104,6 @@ export default function ButtonAtom({
           <OffButton type={type} onClick={onClick}>
             {text}
           </OffButton>
-
         );
       default:
         return null;

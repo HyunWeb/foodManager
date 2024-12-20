@@ -31,9 +31,14 @@ const Container = styled.div``;
 const List = styled.ul`
   margin-top: 20px;
   margin-bottom: 100px;
-  background-color: #ededed;
+  background-color: #ffffff;
   box-sizing: border-box;
   padding-bottom: 80px;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+  }
 `;
 const ListItem = styled.li``;
 export default function PostingCommentList() {

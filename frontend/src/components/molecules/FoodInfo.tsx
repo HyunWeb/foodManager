@@ -12,15 +12,28 @@ const FoodCategory = styled(HeadingAtom)`
   font-size: 20px;
   color: #fe8d00;
   font-weight: 700;
+
+  @media (min-width: 768px) {
+    font-size: 23px;
+  }
 `;
 const FoodName = styled(HeadingAtom)`
   font-size: 15px;
   font-weight: 500;
+
+  @media (min-width: 768px) {
+    font-size: 17px;
+    margin: 5px 0;
+  }
 `;
 const KcalStyled = styled.p`
   color: #9c9c9c;
   font-size: 15px;
   font-weight: 500;
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 `;
 const KcalImpact = styled.strong`
   font-size: 20px;

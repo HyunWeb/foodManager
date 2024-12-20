@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { createListCollection, Text } from "@chakra-ui/react";
 
@@ -23,7 +23,7 @@ export default function SelectBlockUi({
   title,
   placeholder,
 }: {
-  OptionState: string;
+  OptionState: string | null;
   setOptionState: (gender: string) => void;
   Data: { label: string; value: string }[];
   title: String;
@@ -39,6 +39,7 @@ export default function SelectBlockUi({
         collection={DataCollection}
         size="sm"
         width="240px"
+        value={OptionState ? [OptionState] : undefined} // 타입 맞추기 용도 <string[] : undefined>
         onValueChange={(value) => setOptionState(value.value[0])}
       >
         <SelectTrigger>

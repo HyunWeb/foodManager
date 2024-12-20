@@ -2,13 +2,29 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import FoodBlock from "../molecules/FoodBlock";
 import IngredientBlock from "../molecules/IngredientBlock";
+import axios from "axios";
 
-interface FoodData {
-  id: number;
-  $img: number;
-  kindFood: string;
-  foodName: string;
+// interface FoodLog {
+//   amount: number; // 음식의 수량
+//   category: number; // 음식 카테고리 (예: 1 = 특정 카테고리)
+//   foodname: string; // 음식 이름
+//   kcal: number; // 칼로리
+//   logID: number; // 로그 ID
+//   mealtype: string; // 식사 타입 (예: "Breakfast", "Lunch", "Dinner" 등)
+//   unit: string; // 단위 (예: '마리', '개')
+//   userID: string; // 사용자 ID
+//   when: string; // 기록 날짜 (예: "2024-12-20")
+// }
+interface FoodLog {
+  amount: number;
+  category: number;
+  foodname: string;
   kcal: number;
+  logID: number;
+  mealtype: string;
+  unit: string;
+  userID: string;
+  when: string;
 }
 interface IngredientData {
   id: number;
@@ -24,23 +40,52 @@ const FoodList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: 768px) {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
 `;
 
 export default function FoodBlockList({
   type,
+  foodLog,
 }: {
   type: "ingredient" | "food";
+  foodLog?: FoodLog[];
 }) {
-  const [foods, setFoods] = useState<FoodData[]>([]);
+  // const [foods, setFoods] = useState<FoodLog[]>([]);
   const [ingredient, setIngredient] = useState<IngredientData[]>([]);
   const [Loading, setLoading] = useState(false);
 
+  const kindOfFood = [
+    "",
+    `치킨`,
+    `중식`,
+    `일식`,
+    `패스트푸드`,
+    `찜 & 탕`,
+    `고기`,
+    `분식`,
+    `카페 & 디저트`,
+    `한식`,
+    `양식`,
+    `아시안`,
+    `도시락`,
+    `샐러드`,
+    `과자`,
+    `기타`,
+  ];
+
   const NutritionData = [
-    { id: 1, $img: 9, kindFood: "한식", foodName: "김밥", kcal: 200 },
-    { id: 2, $img: 4, kindFood: "패스트푸드", foodName: "햄버거", kcal: 500 },
-    { id: 3, $img: 2, kindFood: "중식", foodName: "짜장면", kcal: 600 },
-    { id: 4, $img: 14, kindFood: "과자", foodName: "스윙칩", kcal: 300 },
-    { id: 5, $img: 1, kindFood: "치킨", foodName: "양념치킨", kcal: 900 },
+    // { id: 1, $img: 9, kindFood: "한식", foodName: "김밥", kcal: 200 },
+    // { id: 2, $img: 4, kindFood: "패스트푸드", foodName: "햄버거", kcal: 500 },
+    // { id: 3, $img: 2, kindFood: "중식", foodName: "짜장면", kcal: 600 },
+    // { id: 4, $img: 14, kindFood: "과자", foodName: "스윙칩", kcal: 300 },
+    // { id: 5, $img: 1, kindFood: "치킨", foodName: "양념치킨", kcal: 900 },
   ];
 
   const IngredientData = [
@@ -94,11 +139,11 @@ export default function FoodBlockList({
     },
   ];
 
-  useEffect(() => {
-    setLoading(true);
-    type === "food" ? setFoods(NutritionData) : setIngredient(IngredientData);
-    setLoading(false);
-  }, [type]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   type === "food" ? setFoods(log) : setIngredient(IngredientData);
+  //   setLoading(false);
+  // }, []);
   return (
     <div>
       {Loading ? (
@@ -106,12 +151,13 @@ export default function FoodBlockList({
       ) : (
         <FoodList>
           {type === "food"
-            ? foods.map((food) => (
+            ? foodLog &&
+              foodLog.map((food) => (
                 <FoodBlock
-                  key={food.id}
-                  $img={food.$img}
-                  kindFood={food.kindFood}
-                  foodName={food.foodName}
+                  key={food.logID}
+                  $img={food.category}
+                  foodName={food.foodname + " _ " + food.amount + food.unit}
+                  kindFood={kindOfFood[food.category]}
                   kcal={food.kcal}
                 />
               ))

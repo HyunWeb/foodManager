@@ -21,7 +21,14 @@ interface CommentListProps {
   content: string;
 }
 const Container = styled.div`
-  background-color: #ededed;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
 `;
 const ButtonStyle = styled(BackButton)`
   background-color: white;

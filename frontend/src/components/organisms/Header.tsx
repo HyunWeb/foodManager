@@ -16,6 +16,7 @@ const Container = styled.div`
   height: 55px;
   background-color: #ffffff;
   gap: 10px;
+  padding-right: 20px;
 
   @media (min-width: 768px) {
     gap: 20px;
@@ -49,7 +50,6 @@ export default function Header({ hide = false }: { hide?: boolean }) {
           withCredentials: true,
         });
         setIsLogin(data.result);
-        console.log(data.result);
       } catch (error) {
         console.error("Error fetching items: ", error);
       }

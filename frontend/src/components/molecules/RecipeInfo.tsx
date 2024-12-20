@@ -9,11 +9,14 @@ interface RecipeInfoProps {
 }
 
 const Container = styled.div`
-  height: 40%;
+  height: 30%;
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  @media (min-width: 768px) {
+    height: 30%;
+  }
 `;
 
 export default function RecipeInfo({ title, rating = 2.5 }: RecipeInfoProps) {

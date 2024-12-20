@@ -22,12 +22,31 @@ const Container = styled.div<{ $img: number }>`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 124px;
   background-image: ${({ $img }) =>
     `url('${process.env.PUBLIC_URL}/ingredients/${$img}.png')`};
   background-repeat: no-repeat;
   background-size: 70px;
   background-position: 10% center;
+
+  @media (min-width: 768px) {
+    padding-left: 130px;
+    width: 450px;
+    height: 150px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 45%;
+    height: 250px;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 30px;
+    justify-content: flex-end;
+    background-size: 100px;
+    background-position: center 30px;
+  }
 `;
 const ExBox = styled.div`
   position: absolute;
@@ -39,6 +58,11 @@ const ExBox = styled.div`
   display: grid;
   gap: 5px;
   justify-items: center;
+
+  @media (min-width: 1024px) {
+    top: 20px;
+    right: 20px;
+  }
 `;
 export default function IngredientBlock({
   $img,
