@@ -13,18 +13,28 @@ interface RecipeImgBoxProps {
 
 const Container = styled.div`
   display: inline-block;
+  text-align: center;
 `;
 
 const StyledImageCard = styled(ImageCard)`
-  width: 100px;
-  height: 100px;
-  border-radius: 15px;
-  margin: 0;
-  transform: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 const ImgWrap = styled.div`
   position: relative;
   display: inline-block;
+  border-radius: 15px;
+
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    width: 120px;
+    height: 120px;
+  }
 `;
 
 const StyledHeading = styled(HeadingAtom)`
@@ -35,6 +45,11 @@ const StyledHeading = styled(HeadingAtom)`
   width: 100px;
   font-size: 14px;
   font-weight: 500;
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+    width: 120px;
+  }
 `;
 export default function RecipeImgBox({
   text = "요리제목",

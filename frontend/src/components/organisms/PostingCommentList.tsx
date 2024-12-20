@@ -9,9 +9,7 @@ interface CommentListProps {
   date: string;
   comment: string;
 }
-const Container = styled.div`
-  height: 100vh;
-`;
+const Container = styled.div``;
 const List = styled.ul`
   margin-top: 20px;
   margin-bottom: 100px;

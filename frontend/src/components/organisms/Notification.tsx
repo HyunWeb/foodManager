@@ -4,17 +4,34 @@ import NotificationHeader from "../molecules/NotificationHeader";
 import NotificationBody from "../molecules/NotificationBody";
 import ButtonGroup from "../molecules/ButtonGroup";
 
-const NotificationContainer = styled.div`
+const NotificationContainer = styled.div<{ $display: boolean }>`
+  z-index: 200;
   width: 300px;
+  min-height: 250px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: ${({ $display }) => ($display ? "block" : "none")};
+`;
+
+const Container = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  padding: 0 20px;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #6e6e6e;
 `;
 
 interface NotificationProps {
@@ -23,6 +40,7 @@ interface NotificationProps {
   type: "info" | "success" | "warning" | "error";
   onConfirm: () => void;
   onCancel?: () => void;
+  alertDisplay: boolean;
 }
 
 const Notification: React.FC<NotificationProps> = ({
@@ -31,14 +49,15 @@ const Notification: React.FC<NotificationProps> = ({
   type,
   onConfirm,
   onCancel,
+  alertDisplay,
 }) => {
   return (
-    <NotificationContainer>
+    <NotificationContainer $display={alertDisplay}>
       {/* Header */}
-      <NotificationHeader title={title} type={type} />
+      <NotificationHeader title={title} type={type} onConfirm={onConfirm} />
 
       {/* Body */}
-      <NotificationBody message={message} />
+      <Container>{message}</Container>
 
       {/* Buttons */}
       <ButtonGroup onConfirm={onConfirm} onCancel={onCancel} />

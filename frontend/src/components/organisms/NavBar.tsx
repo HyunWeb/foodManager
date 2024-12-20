@@ -15,10 +15,33 @@ const Container = styled.nav`
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
   background-color: white;
   z-index: 999;
+
+  @media (min-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    padding-left: 20px;
+    padding-top: 40px;
+
+    gap: 30px;
+  }
 `;
 
 const Button = styled.button`
   cursor: pointer;
+
+  @media (min-width: 768px) {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    color: #fe8d00;
+  }
 `;
 
 export default function NavBar() {
@@ -30,13 +53,13 @@ export default function NavBar() {
     <>
       <Container>
         <InputModal $isOpen={isModalOpen} onClose={closeModal} />
-        <LinkAtom url="/main" label="홈 페이지" status="House" />
-        <LinkAtom url="/nutrition" label="식단분석 페이지" status="Data" />
+        <LinkAtom url="/main" label="홈" status="House" />
+        <LinkAtom url="/nutrition" label="식단분석" status="Data" />
         <Button onClick={openModal}>
           <BsPlusCircle size="32" />
         </Button>
-        <LinkAtom url="/myfood" label="재료 관리 페이지" status="Box" />
-        <LinkAtom url="/mypage" label="마이 페이지" status="Profile" />
+        <LinkAtom url="/myfood" label="재료 관리" status="Box" />
+        <LinkAtom url="/mypage" label="내 정보" status="Profile" />
       </Container>
     </>
   );

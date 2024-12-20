@@ -35,8 +35,12 @@ const Button = styled.button`
 
 export default function CommentForm() {
   return (
-    <Form>
-      <Input type="text" placeholder="댓글을 입력해 주세요"></Input>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
+      <Input type="text" placeholder="댓글을 입력해 주세요" />
       <Button type="button">
         <FaCircleArrowUp size={35} color="#FE8D00" />
       </Button>
