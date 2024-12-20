@@ -11,6 +11,15 @@ interface FeedData {
 }
 
 const FeedList = styled.ul``;
+const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const HeadingStyle = styled(HeadingAtom)`
+  align-self: flex-start;
+  margin-bottom: 20px;
+`;
 
 export default function FeedCategory() {
   const [feeds, setFeeds] = useState<FeedData[]>([]);
@@ -27,25 +36,25 @@ export default function FeedCategory() {
     setLoading(false);
   }, []);
   return (
-    <div>
-      <HeadingAtom level={3} color="#121212" $marginBottom="10px">
+    <ContentWrap>
+      <HeadingStyle level={3} color="#121212" $marginBottom="10px">
         레시피
-      </HeadingAtom>
+      </HeadingStyle>
       {Loading ? (
         <p>Loading...</p>
       ) : (
         <FeedList>
           {feeds.map((feed) => (
             <MainCard
+              img="https://picsum.photos/400"
               key={feed.recipeID}
               recipeID={feed.recipeID}
               title={feed.title}
-              detail={feed.detail}
               rating={feed.rating}
             />
           ))}
         </FeedList>
       )}
-    </div>
+    </ContentWrap>
   );
 }

@@ -28,6 +28,29 @@ const LongButton = styled(Button)`
 const UploadButton = styled(LongButton)`
   position: fixed;
 `;
+
+const ConfirmButton = styled(Button)`
+  background-color: #fe8d00;
+  font-weight: bold;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 15px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const OnButton = styled(ConfirmButton)`
+  left: 70%;
+`;
+const OffButton = styled(ConfirmButton)`
+  left: 30%;
+  border: 2px solid #fe8d00;
+  background-color: #ffffff;
+  color: #676767;
+`;
 interface ButtonAtomProps {
   text: string;
   buttontype: string;
@@ -40,6 +63,7 @@ interface ButtonAtomProps {
 export default function ButtonAtom({
   text,
   buttontype,
+  onClick,
   type = "button",
   disabled = false,
 }: ButtonAtomProps) {
@@ -58,10 +82,25 @@ export default function ButtonAtom({
           </LongButton>
         );
       case "upload":
+        return <UploadButton type={type}>{text}</UploadButton>;
+      case "confirm":
         return (
-          <UploadButton type={type} disabled={disabled}>
+          <ConfirmButton type={type} onClick={onClick}>
             {text}
-          </UploadButton>
+          </ConfirmButton>
+        );
+      case "On":
+        return (
+          <OnButton type={type} onClick={onClick}>
+            {text}
+          </OnButton>
+        );
+      case "Off":
+        return (
+          <OffButton type={type} onClick={onClick}>
+            {text}
+          </OffButton>
+
         );
       default:
         return null;

@@ -23,6 +23,7 @@ interface CommentListProps {
   date: string;
   content: string;
 }
+
 interface postingIDProps {
   postingID: number;
 }

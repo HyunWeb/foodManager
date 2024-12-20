@@ -24,9 +24,12 @@ const ModalPage = styled.div<{ $isOpen: boolean }>`
 `;
 
 const ModalContent = styled.div<{ $isOpen: boolean }>`
+  left: 50%;
+  transform: translateX(-50%);
   position: absolute;
   z-index: 10;
   width: 100vw;
+  max-width: 700px;
   height: 95%;
   background-color: #ffffff;
   top: ${({ $isOpen }) => ($isOpen ? "5%" : "100%")};

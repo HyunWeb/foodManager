@@ -27,11 +27,12 @@ import { BsBox2Heart } from "react-icons/bs";
 import { HiArrowRightEndOnRectangle } from "react-icons/hi2";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { PiNotePencilFill } from "react-icons/pi";
+import { IoPerson } from "react-icons/io5";
 
 interface IconButtonAtomProps {
   label: string;
-  BGcolor: string;
-  variant: "solid" | "subtle" | "surface" | "outline" | "ghost" | "plain";
+  BGcolor?: string;
+  variant?: "solid" | "subtle" | "surface" | "outline" | "ghost" | "plain";
   color?: string;
   icontype:
     | "trash"
@@ -67,7 +68,7 @@ interface IconButtonAtomProps {
 }
 
 const IconButtons = styled(IconButton)<{
-  BGcolor: string;
+  BGcolor?: string;
   color?: string;
   size?: string;
   position?: string;
@@ -96,7 +97,7 @@ const IconButtons = styled(IconButton)<{
 export default function IconButtonAtom({
   label,
   BGcolor,
-  variant = "solid",
+  variant = "ghost",
   icontype,
   color,
   size,

@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Link, useParams } from "react-router-dom";
 import { IconButton } from "@chakra-ui/react";
 
 import { BsBox2Heart } from "react-icons/bs";
@@ -13,10 +14,29 @@ interface LinkAtomProps {
   status: "House" | "Data" | "Box" | "Profile";
 }
 
+const LinkStyle = styled(Link)`
+  @media (min-width: 768px) {
+    display: block;
+    width: 100%;
+  }
+`;
+const ButtonStyle = styled(IconButton)`
+  @media (min-width: 768px) {
+    justify-content: left;
+    width: 100%;
+  }
+`;
+const Span = styled.span`
+  display: none;
+  @media (min-width: 768px) {
+    display: inline;
+    font-size: 18px;
+  }
+`;
 export default function LinkAtom({ url, label, status }: LinkAtomProps) {
   return (
-    <Link to={url}>
-      <IconButton
+    <LinkStyle to={url}>
+      <ButtonStyle
         aria-label={label}
         variant="ghost"
         size="lg"
@@ -40,7 +60,8 @@ export default function LinkAtom({ url, label, status }: LinkAtomProps) {
               );
           }
         })()}
-      </IconButton>
-    </Link>
+        <Span>{label}</Span>
+      </ButtonStyle>
+    </LinkStyle>
   );
 }

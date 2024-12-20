@@ -25,14 +25,19 @@ const Container = styled.div<{
     $ThreeMenu ? "space-around" : "center"};
   margin-top: ${({ $buttonStyle }) =>
     $buttonStyle === "style1" ? "0px" : "20px"};
+
+  @media (min-width: 768px) {
+    height: 60px;
+  }
 `;
 
 const ButtonTab = styled.button<{
   $ThreeMenu?: boolean;
   $buttonStyle?: "style1" | "style2";
 }>`
-  height: 44px;
+  height: 100%;
   width: ${({ $ThreeMenu }) => ($ThreeMenu ? "25%" : "35%")};
+  max-width: 300px;
   font-size: 16px;
   font-weight: bold;
   border-bottom: ${({ $buttonStyle }) =>
