@@ -32,6 +32,34 @@ const getRecipe = async (req, res) => {
   }
 };
 
+const getRecipeuser = async (req, res) => {
+  try {
+    if (req.session.userInfo) {
+      const recipes = await Recipe.findAll({
+        order: [["createdAt", "DESC"]],
+        where: { userID: req.session.userInfo.userid },
+      });
+      if (recipes) {
+        res.json({
+          result: true,
+          message: "레시피 정보 불러오기 성공",
+          recipes,
+        });
+      } else {
+        res.json({ result: true, messsage: "레시피 데이터가 없습니다." });
+      }
+    } else {
+      res.json({
+        result: false,
+        message: "로그인X, 레시피 정보 확인 불가!",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false, message: "레시피 정보를 불러올 수 없습니다." });
+  }
+};
+
 async function stepinsert(recipeID, step) {
   //step이라는 stepNo, content를 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
   try {
@@ -669,6 +697,7 @@ module.exports = {
   RecipeReviewMYfind,
   userselect,
   PWchange,
+  getRecipeuser,
 };
 //레시피 관련 코드 작성 완료(단, 이미지 업로드 관련 기능은 react 레시피 페이지 완성 후 추가 예정)
 //레시피 동작 상황에 대하여 모든 라우터가 작성되었는지 확인

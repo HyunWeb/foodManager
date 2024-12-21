@@ -34,8 +34,8 @@ interface RecipeData {
 }
 
 interface RecipeType {
-  recipeID: string,
-  type: string,
+  recipeID: string;
+  type: string;
 }
 
 // interface DefaultData {
@@ -84,7 +84,6 @@ export default function ViewTemplateRecipe({
   starValue: number;
   setStarValue: (e: number) => void;
 }) {
-
   const [isLoading, setIsLoading] = useState(true);
   const route = process.env.REACT_APP_ROUTE;
   const [RecipeData, setRecipeData] = useState({
@@ -117,27 +116,29 @@ export default function ViewTemplateRecipe({
         method: "GET",
         url: `${route}/api/${RecipeType.recipeID}`,
         withCredentials: true,
-      }).then((res) => {
-        const { id, title, img, describe, ingredients, steps } = res.data.data;
-        console.log(id, title, img, describe, ingredients, steps);
-        console.log(res.data);
-        setRecipeData({
-          recipeID: id,
-          title: title,
-          img: img,
-          time: "",
-          amount: "",
-          level: "",
-          describe: describe,
-          ingredients: ingredients,
-          steps: steps,
-        });
       })
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => {
-        console.log(RecipeData);
-        setIsLoading(false)
-      });
+        .then((res) => {
+          const { id, title, img, describe, ingredients, steps } =
+            res.data.data;
+          console.log(id, title, img, describe, ingredients, steps);
+          console.log(res.data);
+          setRecipeData({
+            recipeID: id,
+            title: title,
+            img: img,
+            time: "",
+            amount: "",
+            level: "",
+            describe: describe,
+            ingredients: ingredients,
+            steps: steps,
+          });
+        })
+        .catch((error) => console.error("Error fetching data:", error))
+        .finally(() => {
+          console.log(RecipeData);
+          setIsLoading(false);
+        });
     }
 
     // 레시피 데이터 업데이트
@@ -146,36 +147,38 @@ export default function ViewTemplateRecipe({
       axios({
         method: "GET",
         url: `${route}/Recipe//find/${RecipeType.recipeID}`,
-        withCredentials: true
-      }).then((res) => {
-        console.log(res.data);
-        const { recipeID, title, describe, img, time, amount, level } = res.data.recipe;
-        setRecipeData({
-          recipeID: recipeID,
-          title: title,
-          describe: describe,
-          img: img,
-          time: time,
-          amount: amount,
-          level: level,
-          ingredients: res.data.ingredient,
-          steps: res.data.steps,
-        });
+        withCredentials: true,
       })
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => setIsLoading(false));
+        .then((res) => {
+          console.log(res.data);
+          const { recipeID, title, describe, img, time, amount, level } =
+            res.data.recipe;
+          setRecipeData({
+            recipeID: recipeID,
+            title: title,
+            describe: describe,
+            img: img,
+            time: time,
+            amount: amount,
+            level: level,
+            ingredients: res.data.ingredient,
+            steps: res.data.steps,
+          });
+        })
+        .catch((error) => console.error("Error fetching data:", error))
+        .finally(() => setIsLoading(false));
     }
-  }, [RecipeType])
+  }, [RecipeType]);
 
   if (isLoading) {
     return <div>Loading...</div>; // 또는 스켈레톤 UI를 표시
-  } 
+  }
 
   return (
     <Container>
       <ButtonStyle position="absolute" />
       <ViewRecipeInfo value={RecipeData} />
-      <ViewIngredient value={RecipeData.ingredient} />
+      <ViewIngredient value={RecipeData.ingredients} />
       <ViewCookingStep value={RecipeData.steps} />
       <StarStyle
         size="lg"
@@ -183,7 +186,7 @@ export default function ViewTemplateRecipe({
         onValueChange={(e) => setStarValue(e.value)}
         allowHalf
         colorPalette="orange"
-      />}
+      />
     </Container>
-  )
+  );
 }

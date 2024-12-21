@@ -61,6 +61,8 @@ router.post("/find/reviews", controller.RecipeReviewFindAll);
 router.post("/find/myreview", controller.RecipeReviewMYfind);
 //자신이 남긴 리뷰 목록
 
+router.post("/find/user", controller.getRecipeuser);
+
 router.post("/userselect", controller.userselect);
 
 router.post("/pwchange", controller.PWchange);

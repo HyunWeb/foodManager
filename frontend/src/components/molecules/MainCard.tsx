@@ -82,6 +82,7 @@ export default function MainCard({
         }
       });
     } else {
+      console.log(postingID);
       const main = axios({
         method: "POST",
         url: `/posting/${postingID}/likepost`,

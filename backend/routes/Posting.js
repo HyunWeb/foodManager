@@ -34,9 +34,11 @@ const uploadDetail = multer({
   }),
 });
 
+//router 본인이 작성한 list
 // router
 router.get("/", postController.getPosting);
 
+router.post("/userselect", postController.getUserPosting);
 // posting 등록
 router.post("/post", uploadDetail.any(), postController.postPosting);
 

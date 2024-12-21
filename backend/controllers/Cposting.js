@@ -16,6 +16,32 @@ const {
   Grocery,
 } = require("../models/index");
 
+exports.getUserPosting = async (req, res) => {
+  try {
+    if (req.session.userInfo) {
+      const posting = await Posting.findAll({
+        attributes: ["postingID", "title", "userId", "img"],
+        order: [["createdAt", "DESC"]],
+        where: { userID: req.session.userInfo.userid },
+      });
+      console.log(posting);
+      res.json({
+        result: true,
+        message: "개인의 posting 정보 불러오기 성공",
+        posting,
+      });
+    } else {
+      res.json({
+        result: false,
+        message: "로그인X, 포스트 정보 확인 불가!",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false });
+  }
+};
+
 exports.getPosting = async (req, res) => {
   try {
     const posting = await Posting.findAll({
