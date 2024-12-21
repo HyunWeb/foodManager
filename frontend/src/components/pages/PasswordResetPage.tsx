@@ -32,6 +32,74 @@ const Title = styled.h1`
   color: #333;
 `;
 
+const StyledEmailInputForm = styled(EmailInputForm)`
+  width: 100%;
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+    display: block;
+  }
+`;
+
+const StyledVerificationCodeForm = styled(VerificationCodeForm)`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+`;
+
+const StyledPasswordResetForm = styled(PasswordResetForm)`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+`;
+
 const PasswordResetPage: React.FC = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -55,15 +123,15 @@ const PasswordResetPage: React.FC = () => {
     <Container>
       <StepWrapper>
         <Title>비밀번호 재설정</Title>
-        {step === 1 && <EmailInputForm onEmailSubmit={handleEmailSubmit} />}
+        {step === 1 && <StyledEmailInputForm onEmailSubmit={handleEmailSubmit} />}
         {step === 2 && (
-          <VerificationCodeForm
+          <StyledVerificationCodeForm
             onCodeSubmit={handleCodeSubmit}
             initialTime={180}
           />
         )}
         {step === 3 && (
-          <PasswordResetForm onPasswordReset={handlePasswordReset} />
+          <StyledPasswordResetForm onPasswordReset={handlePasswordReset} />
         )}
       </StepWrapper>
     </Container>
