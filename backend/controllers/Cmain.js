@@ -108,7 +108,7 @@ async function processIngredient(data) {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `이 데이터를 배열형식으로 정리해줘 [{ingreName, amount}, {ingreName, amount}] 형식으로, ${data} \n 이에 대한 부가설명은 달지 않아도 됨.`;
+    const prompt = `이 데이터를 배열형식으로 정리해줘 [{ingredientID, ingreName, amount}, {ingredientID, ingreName, amount}] 형식으로, ${data} \n 이에 대한 부가설명은 달지 않아도 됨.`;
     const result = await model.generateContent(prompt);
 
     const cleanedString = result.response
@@ -149,7 +149,7 @@ function processSteps(recipe) {
   for (let i = 1; i <= 20; i++) {
     const key = `MANUAL${String(i).padStart(2, "0")}`;
     if (recipe[key] && recipe[key].trim() !== "") {
-      steps.push(recipe[key]);
+      steps.push({stepNo: i, content: recipe[key]});
     }
   }
 
@@ -159,7 +159,8 @@ function processSteps(recipe) {
 exports.fetchDataAndSave = async (req, res) => {
   try {
     const response = await axios.get(
-      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
+      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
+      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
     if (!recipes || !Array.isArray(recipes)) {
@@ -198,7 +199,8 @@ exports.detailAPI = async (req, res) => {
   try {
     const { id } = req.params;
     const response = await axios.get(
-      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
+      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
+      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
 
