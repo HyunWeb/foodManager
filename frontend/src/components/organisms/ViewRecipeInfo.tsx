@@ -8,9 +8,9 @@ interface RecipeDataProps {
   title: string;
   describe: string;
   time: string;
-  mealCount: string;
+  amount: string;
   level: string;
-  image: string;
+  img: string;
 }
 
 const RecipeInfo = styled.section`
@@ -23,13 +23,13 @@ export default function ViewRecipeInfo({ value }: { value: RecipeDataProps }) {
   return (
     <div>
       {/* 최상단 메인 이미지 */}
-      <ViewImage value={value.image} />
+      <ViewImage value={value.img} />
 
       <RecipeInfo>
         {/* 시계, 인분, 난이도 아이콘 */}
         <ViewIconWrap
           time={value.time}
-          mealCount={value.mealCount}
+          mealCount={value.amount}
           level={value.level}
         />
         {/* 제목과 상세정보 부분 */}

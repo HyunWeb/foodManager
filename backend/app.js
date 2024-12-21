@@ -6,6 +6,9 @@ const session = require("express-session");
 const app = express();
 const PORT = process.env.PORT;
 const db = require("./models");
+const cookieparser = require("cookie-parser");
+
+app.use(cookieparser());
 
 // // s3에 필요한 모듈
 // const aws = require("aws-sdk");

@@ -6,7 +6,7 @@ import { MdOutlineArrowRight } from "react-icons/md";
 interface ViewIngredientProps {
   ingreName: string;
   amount: string;
-  recipeID: number;
+  ingredientID: number;
 }
 
 const Container = styled.div`
@@ -45,7 +45,7 @@ export default function ViewIngredient({
       </HeadingAtom>
       <IngredList>
         {value.map((item) => (
-          <IngredItem key={item.recipeID}>
+          <IngredItem key={item.ingredientID}>
             <MdOutlineArrowRight size={25} color={"#FE8D00"} />
             <Span>{item.ingreName}</Span>_ {item.amount}
           </IngredItem>
