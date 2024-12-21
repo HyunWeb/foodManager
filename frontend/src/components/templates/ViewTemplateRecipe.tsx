@@ -6,7 +6,7 @@ import ViewIngredient from "../organisms/ViewIngredient";
 import ViewCookingStep from "../organisms/ViewCookingStep";
 import { Rating } from "../ui/rating";
 interface Ingredient {
-  recipeID: number; // 해당 레시피 ID (참조)
+  ingredientID: number; // 해당 레시피 ID (참조)
   ingreName: string; // 재료 이름
   amount: string; // 재료 양
 }
@@ -22,9 +22,9 @@ interface RecipeData {
   recipeID: number; // 레시피 ID
   title: string; // 레시피 이름
   describe: string; // 상세 설명
-  image: string; // 이미지 URL
+  img: string; // 이미지 URL
   time: string; // 조리 시간
-  mealCount: string; // 몇 인분인지
+  amount: string; // 몇 인분인지
   level: string; // 난이도
   ingred: Ingredient[]; // 재료 리스트
   step: CookingStep[]; // 조리 단계 리스트

@@ -4,8 +4,11 @@ const db = require("../models");
 const sequelize = require("sequelize");
 const { bcryptPassword, compareFunc } = require("../utils/encrypt");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-
+const cookieparser = require("cookie-parser");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const express = require("express");
+const user = express();
+user.use(cookieparser());
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -129,18 +132,26 @@ exports.userLogin = async (req, res) => {
 exports.userLogout = async (req, res) => {
   try {
     // 'domain'을 제거하고 'path'만 설정
-    // res.clearCookie("connect.sid", { path: "/", httpOnly: true });
-
-    if (req.session) {
-      req.session.destroy(() => {
-        req.session;
+    console.log("현재 상태", req.session.userInfo);
+    if (req.session.userInfo) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.log(err);
+        }
+        res.clearCookie("connect.sid", { secure: false });
+        console.log(req.session);
+        res.json({
+          result: true,
+          message: "세션 삭제에 성공",
+          session: req.session,
+        }); // 이미 세션이 없을 경우
       });
     } else {
-      res.json({ result: true }); // 이미 세션이 없을 경우
+      res.json({ result: true, message: "이미 세션이 삭제되어 있음" }); // 이미 세션이 없을 경우
     }
   } catch (error) {
-    console.error(error);
-    res.json({ result: false });
+    console.log("현재 에러가 발생함 :", error);
+    res.json({ result: false, message: error });
   }
 };
 
@@ -209,13 +220,14 @@ exports.userSearch = async (req, res) => {
 // 로그인 상태 확인
 exports.userCheck = async (req, res) => {
   try {
-    if (req.session && req.session.userInfo) {
-      res.json({ result: true });
+    console.log("지금 로그인 상태", req.session.userInfo);
+    if (req.session.userInfo) {
+      res.json({ result: true, message: "현재 세션이 살아있습니다." });
     } else {
-      res.json({ result: false });
+      res.json({ result: false, message: "현재 세션이 죽었습니다." });
     }
   } catch (error) {
     console.error(error);
-    res.json({ result: false });
+    res.json({ result: false, message: "세션이 죽었는지 살았는지 확인 불가!" });
   }
 };

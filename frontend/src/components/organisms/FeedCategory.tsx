@@ -7,7 +7,6 @@ import axios from "axios";
 interface FeedData {
   recipeID: number;
   title: string;
-  describe: string;
   rating: number;
   img: string;
 }
@@ -24,7 +23,6 @@ const FeedList = styled.ul`
 type Recipe = {
   recipeID: number;
   title: string;
-  describe: string;
   img: string;
 };
 
@@ -71,12 +69,12 @@ const calculateReview = (
 
   // 레시피 데이터를 가공하여 결과 생성
   return recipes.map((recipe) => {
-    const { recipeID, title, describe, img } = recipe;
+    const { recipeID, title, img } = recipe;
     const ratingData = ratingMap[recipeID] || { total: 0, count: 0 };
     const averageRating =
       ratingData.count > 0 ? parseFloat((ratingData.total / ratingData.count).toFixed(1)) : 0;
 
-    return { recipeID, title, describe, img, rating: averageRating };
+    return { recipeID, title, img, rating: averageRating };
   });
 };
 
@@ -140,7 +138,6 @@ export default function FeedCategory() {
               key={feed.recipeID}
               recipeID={feed.recipeID}
               title={feed.title}
-              describe={feed.describe}
               rating={feed.rating}
             />
           ))}

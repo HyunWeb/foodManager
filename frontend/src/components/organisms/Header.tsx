@@ -41,33 +41,40 @@ const LoginButton = styled(Link)`
 export default function Header({ hide = false }: { hide?: boolean }) {
   // const [cookies, setCookie, removeCookie] = useCookies(["connect.sid"]);
   const [isDisplay, setIsDisplay] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const api = process.env.REACT_APP_ROUTE;
+  const fetchItems = async () => {
+    try {
+      const usering = await axios({
+        method: "GET",
+        url: `http://localhost:8000/user/check`,
+        withCredentials: true,
+      });
+      console.log(usering.data);
+      setIsLogin(usering.data.result);
+    } catch (error) {
+      console.error("Error fetching items: ", error);
+    }
+  };
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const { data } = await axios.get(`${api}/user/check`, {
-          withCredentials: true,
-        });
-        setIsLogin(data.result);
-      } catch (error) {
-        console.error("Error fetching items: ", error);
-      }
-    };
     fetchItems();
   }, []);
   // interface Props extends ReactCookieProps {}
-  const Logout = () => {
-    const fetchItems = async () => {
-      try {
-        const { data } = await axios.post(`${api}/user/logout`);
-        // domain 옵션을 제거하고 path만 설정
-        // removeCookie("connect.sid", { path: "/" });
-      } catch (error) {
-        console.error("Error Logout: ", error);
-      }
-    };
-    fetchItems();
+  const Logout = async () => {
+    try {
+      const { data } = await axios({
+        method: "post",
+        url: `http://localhost:8000/user/logout`,
+        withCredentials: true,
+      });
+      // domain 옵션을 제거하고 path만 설정
+      // removeCookie("connect.sid", { path: "/" });
+      console.log("ddd", data);
+      document.cookie =
+        "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+    } catch (error) {
+      console.error("Error Logout: ", error);
+    }
   };
   return (
     <>
@@ -76,10 +83,10 @@ export default function Header({ hide = false }: { hide?: boolean }) {
         message="로그아웃 하시겠습니까?"
         alertDisplay={isDisplay}
         type="warning"
-        onConfirm={() => {
-          Logout(); // 로그아웃 api 요청
-          setIsLogin(false); // 아이콘 다시 로그인버튼으로
-          setIsDisplay(false); // 알림창 제거
+        onConfirm={async () => {
+          await Logout(); // 로그아웃 api 요청
+          await setIsLogin(false); // 아이콘 다시 로그인버튼으로
+          await setIsDisplay(false); // 알림창 제거
         }}
         onCancel={() => {
           setIsDisplay(false); // 알림창만 제거
