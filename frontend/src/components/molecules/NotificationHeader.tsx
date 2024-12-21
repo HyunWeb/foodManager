@@ -24,12 +24,14 @@ interface NotificationHeaderProps {
   title: string;
   type: "info" | "success" | "warning" | "error";
   onConfirm: () => void;
+  onCancel?: () => void;
 }
 
 const NotificationHeader: React.FC<NotificationHeaderProps> = ({
   title,
   type,
   onConfirm,
+  onCancel,
 }) => {
   const iconColorMap = {
     info: "orange",
@@ -59,7 +61,7 @@ const NotificationHeader: React.FC<NotificationHeaderProps> = ({
         variant="ghost"
         icontype="ex" // 닫기 버튼 아이콘
         color="#AAAAAA"
-        onClick={() => onConfirm()}
+        onClick={() => onCancel && onCancel()}
       />
     </HeaderContainer>
   );

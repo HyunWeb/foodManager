@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import FoodInfo from "./FoodInfo";
+import IconButtonAtom from "../atoms/IconButtonAtom";
+import Notification from "../organisms/Notification";
+import axios from "axios";
 
 interface FoodBlockProps {
+  id: number;
   $img: number;
   kindFood: string;
   foodName: string;
   kcal: number;
 }
 
+const CloseButton = styled(IconButtonAtom)`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+`;
 const Container = styled.div<{ $img: number }>`
+  position: relative;
   width: 350px;
   height: 120px;
   padding-left: 30px;
@@ -41,14 +51,49 @@ const Container = styled.div<{ $img: number }>`
 `;
 
 export default function FoodBlock({
+  id,
   $img,
   kindFood,
   foodName,
   kcal,
 }: FoodBlockProps) {
+  const [display, setDisplay] = useState(false);
+  const Alert = () => {
+    setDisplay((prev) => !prev);
+  };
+  const route = process.env.REACT_APP_ROUTE;
+  const DeleteFood = () => {
+    const data = axios({
+      method: "GET",
+      url: `${route}/foodlog`,
+      // params: { startDate },
+      withCredentials: true,
+    }).then((res) => {
+      const { log, kcalPerDay } = res.data;
+      // setFoodLog(log);
+      // setNeedKcal(kcalPerDay);
+    });
+  };
   return (
     <Container $img={$img}>
       <FoodInfo kindFood={kindFood} foodName={foodName} kcal={kcal} />
+      <CloseButton
+        label="닫기 버튼"
+        icontype="ex"
+        color="#bababa"
+        size="25px"
+        onClick={Alert}
+      />
+      <Notification
+        title="음식 삭제"
+        message="음식을 지우시겠습니까?"
+        type="info"
+        onConfirm={() => {}}
+        onCancel={() => {
+          setDisplay((prev) => !prev);
+        }}
+        alertDisplay={display}
+      />
     </Container>
   );
 }

@@ -155,6 +155,7 @@ export default function FoodBlockList({
               foodLog.map((food) => (
                 <FoodBlock
                   key={food.logID}
+                  id={food.logID}
                   $img={food.category}
                   foodName={food.foodname + " _ " + food.amount + food.unit}
                   kindFood={kindOfFood[food.category]}

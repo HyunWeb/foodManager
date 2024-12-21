@@ -40,7 +40,7 @@ interface NotificationProps {
   type: "info" | "success" | "warning" | "error";
   onConfirm: () => void;
   onCancel?: () => void;
-  alertDisplay: boolean;
+  alertDisplay?: boolean;
 }
 
 const Notification: React.FC<NotificationProps> = ({
@@ -49,12 +49,17 @@ const Notification: React.FC<NotificationProps> = ({
   type,
   onConfirm,
   onCancel,
-  alertDisplay,
+  alertDisplay = true,
 }) => {
   return (
     <NotificationContainer $display={alertDisplay}>
       {/* Header */}
-      <NotificationHeader title={title} type={type} onConfirm={onConfirm} />
+      <NotificationHeader
+        title={title}
+        type={type}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      />
 
       {/* Body */}
       <Container>{message}</Container>
