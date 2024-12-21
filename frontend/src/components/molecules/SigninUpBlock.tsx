@@ -20,6 +20,7 @@ export default function SigninUpBlock() {
   return (
     <Container>
       <ButtonAtom text="로그인" buttontype="login" type="submit" />
+      {/* <SignUpButton to="/findpw">비밀번호 찾기</SignUpButton> */}
       <SignUpButton to="/signUp">회원가입</SignUpButton>
     </Container>
   );
