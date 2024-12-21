@@ -24,17 +24,17 @@ export default function MainPage() {
     { id: "3", text: "Option 3" },
   ];
 
-  // useEffect(() => {
-  //   const fetchItems = async () => {
-  //     try {
-  //       const response = await axios.get(`${api}/api/items`);
-  //       setItems(response.data); // {name: "jonghyun"}
-  //     } catch (error) {
-  //       console.error("Error fetching items: ", error);
-  //     }
-  //   };
-  //   fetchItems();
-  // }, []);
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get(`${api}/api/items`);
+        setItems(response.data); // {name: "jonghyun"}
+      } catch (error) {
+        console.error("Error fetching items: ", error);
+      }
+    };
+    fetchItems();
+  }, []);
 
   return (
     <Container>

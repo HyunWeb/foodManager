@@ -5,14 +5,14 @@ import NavBar from "../organisms/NavBar";
 import { useParams } from "react-router-dom";
 import MainCard from "../molecules/MainCard";
 import BackButton from "../atoms/BackButton";
-
+import axios from "axios";
 interface FeedData {
   recipeID?: number;
   postingID?: number;
   title: string;
-  describe: string;
   userId?: string;
   rating?: number;
+  img: string;
 }
 
 const Container = styled.div``;
@@ -30,42 +30,66 @@ export default function FilterPosts() {
   useEffect(() => {
     // 페이지가 레시피인지 게시물인지 판단해서 데이터 요청
     if (filter?.includes("recipe")) {
-      setFeeds([
-        // 모의 데이터
-        { recipeID: 1, title: "요리제목1", describe: "부가설명1", rating: 3.5 },
-        { recipeID: 2, title: "요리제목2", describe: "부가설명2", rating: 4 },
-        { recipeID: 3, title: "요리제목3", describe: "부가설명3", rating: 5 },
-        { recipeID: 4, title: "요리제목4", describe: "부가설명4", rating: 1 },
-      ]);
+      const data = axios({
+        method: "POST",
+        url: `/Recipe/finds/Like`,
+      }).then((res) => {
+        let database = [];
+        if (res.data.result == true) {
+          for (let i = 0; i < res.data.recipe.length; i++) {
+            console.log(res.data.recipe[i]);
+            database.push({
+              recipeID: res.data.recipe[i].recipeID,
+              title: res.data.recipe[i].title,
+              userId: res.data.recipe[i].userID,
+              img: res.data.recipe[i].img,
+            });
+          }
+          setFeeds(database);
+          console.log("dddd", database);
+          //   if (i == 0) {
+
+          //   } else {
+
+          //   }
+          //   console.log(feeds);
+          // }
+        } else {
+          alert(res.data.message);
+        }
+      });
+
       setCardType("recipe");
     } else if (filter?.includes("posting")) {
-      setFeeds([
-        // 모의 데이터
-        {
-          postingID: 1,
-          title: "요리제목1",
-          describe: "부가설명1",
-          userId: "user1234",
-        },
-        {
-          postingID: 2,
-          title: "요리제목2",
-          describe: "부가설명2",
-          userId: "user5678",
-        },
-        {
-          postingID: 3,
-          title: "요리제목3",
-          describe: "부가설명3",
-          userId: "user9103",
-        },
-        {
-          postingID: 4,
-          title: "요리제목4",
-          describe: "부가설명4",
-          userId: "user1092",
-        },
-      ]);
+      const data = axios({
+        method: "POST",
+        url: `/Posting/Like`,
+      }).then((res) => {
+        let database = [];
+        if (res.data.result == true) {
+          for (let i = 0; i < res.data.posting.length; i++) {
+            console.log(res.data.posting[i]);
+            database.push({
+              recipeID: res.data.posting[i].postingID,
+              title: res.data.posting[i].title,
+              img: res.data.posting[i].img,
+              userId: res.data.posting[i].userID,
+            });
+          }
+          setFeeds(database);
+          console.log("dddd", database);
+          //   if (i == 0) {
+
+          //   } else {
+
+          //   }
+          //   console.log(feeds);
+          // }
+        } else {
+          alert(res.data.message);
+        }
+      });
+
       setCardType("feed");
     } else {
       console.error("Page Params Error");
@@ -79,7 +103,7 @@ export default function FilterPosts() {
         <BackButton />
         {feeds.map((feed) => (
           <MainCard
-            img="https://picsum.photos/400"
+            img={"../../" + feed.img}
             key={feed.recipeID || feed.postingID}
             postingID={feed.postingID}
             recipeID={feed.recipeID}

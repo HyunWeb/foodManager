@@ -26,8 +26,8 @@ interface RecipeData {
   time: string; // 조리 시간
   amount: string; // 몇 인분인지
   level: string; // 난이도
-  ingred: Ingredient[]; // 재료 리스트
-  step: CookingStep[]; // 조리 단계 리스트
+  ingredient: Ingredient[]; // 재료 리스트
+  steps: CookingStep[]; // 조리 단계 리스트
 }
 
 const Container = styled.div`
@@ -70,8 +70,8 @@ export default function ViewTemplateRecipe({
     <Container>
       <ButtonStyle position="absolute" />
       <ViewRecipeInfo value={RecipeData} />
-      <ViewIngredient value={RecipeData.ingred} />
-      <ViewCookingStep value={RecipeData.step} />
+      <ViewIngredient value={RecipeData.ingredient} />
+      <ViewCookingStep value={RecipeData.steps} />
       <StarStyle
         size="lg"
         value={starValue}

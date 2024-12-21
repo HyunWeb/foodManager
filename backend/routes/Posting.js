@@ -61,7 +61,10 @@ router.delete("/:postingID/:commentID/delete", postController.deleteComment);
 // posting 좋아요 누르기
 router.post("/:postingID/like", postController.postLike);
 
-// 좋아요 누른 posting 확인
+//좋아요를 눌렀는지 여부 확인
+router.post("/:postingID/likepost", postController.Likeing);
+
+// 좋아요 누른 posting 확인 - mypage
 router.post("/like", postController.userPostLike);
 
 module.exports = router;

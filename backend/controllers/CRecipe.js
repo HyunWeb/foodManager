@@ -16,17 +16,21 @@ const {
 const getRecipe = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
     });
     const reviews = await RecipeReview.findAll();
-    if(recipes && reviews){
-      res.json({result: true, message: "레시피 정보 불러오기 성공", data: {recipes, reviews}});
+    if (recipes && reviews) {
+      res.json({
+        result: true,
+        message: "레시피 정보 불러오기 성공",
+        data: { recipes, reviews },
+      });
     }
   } catch (error) {
     console.error(error);
-    res.json({result: false, message: "레시피 정보를 불러올 수 없습니다."});
+    res.json({ result: false, message: "레시피 정보를 불러올 수 없습니다." });
   }
-}
+};
 
 async function stepinsert(recipeID, step) {
   //step이라는 stepNo, content를 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
@@ -317,11 +321,34 @@ const RecipeLikeFindAll = async (req, res) => {
         where: { userID: req.session.userInfo.userid },
       });
       if (LikeFindAll != null) {
-        res.json({
-          result: true,
-          Message: "스크랩 레시피 목록 불러오기 완료",
-          RecipeLike: LikeFindAll,
+        const recipeID = await LikeFindAll.map(
+          (recipeLike) => recipeLike.dataValues.recipeID
+        );
+        console.log("좋아요 누른 DB :", recipeID);
+        const recipe = await Recipe.findAll({
+          where: { recipeID: recipeID },
         });
+        console.log("현재 데이터 : ", recipe);
+
+        const Review = await RecipeReview.findAll({
+          where: { recipeID: recipeID },
+        });
+
+        if (recipe != null) {
+          res.json({
+            result: true,
+            Message: "스크랩 레시피 목록 불러오기 완료",
+            RecipeLike: LikeFindAll,
+            recipe: recipe,
+            Review: Review,
+          });
+        } else {
+          res.json({
+            result: false,
+            Message: "스크랩 레시피 목록 불러오기 실패",
+            RecipeLike: LikeFindAll,
+          });
+        }
       } else {
         res.json({
           result: false,
@@ -347,7 +374,6 @@ const RecipeLikeFindOne = async (req, res) => {
       const Likefindone = await RecipeLike.findOne({
         where: { userID: req.session.userInfo.userid, recipeID },
       });
-      ㅏ;
       if (Likefindone != null) {
         res.json({
           result: true,
@@ -358,7 +384,7 @@ const RecipeLikeFindOne = async (req, res) => {
     } else {
       res.json({
         result: false,
-        message: "로그인X, 찜 정보 찾기 불가!",
+        Message: "로그인X, 찜 정보 찾기 불가!",
       });
     }
   } catch (err) {
@@ -395,7 +421,7 @@ const RecipeLikeDB = async (req, res) => {
     } else {
       res.json({
         result: false,
-        message: "로그인X, 좋아하는 레시피 삭제 불가!",
+        Message: "로그인X, 좋아하는 레시피 삭제 불가!",
       });
     }
   } catch (err) {

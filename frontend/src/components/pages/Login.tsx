@@ -34,7 +34,6 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password });
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/user/signin`,
@@ -46,7 +45,6 @@ export default function Login() {
     }).then((res) => {
       if (res.data.result == true) {
         navigate(`/main`);
-        console.log(res);
       } else {
         alert(res.data.message);
       }

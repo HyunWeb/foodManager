@@ -15,7 +15,6 @@ import FilterPosts from "./components/pages/FilterPosts";
 import View from "./components/pages/View";
 //import { Provider } from "react-redux";
 import store from "./store";
-import { CookiesProvider } from "react-cookie"; //추가
 import { PageRenderProvider } from "./components/organisms/PageRenderContext"; // 작성한 PageRenderContext 파일
 import PasswordResetPage from "./components/pages/PasswordResetPage";
 
@@ -24,20 +23,18 @@ function App() {
     <PageRenderProvider>
       <ChakraProvider>
         <BrowserRouter>
-          <CookiesProvider>
-            <Routes>
-              <Route path="/" element={<Loading />} />
-              <Route path="/main" element={<MainPage />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/nutrition" element={<Nutrition />} />
-              <Route path="/myfood" element={<Myfood />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/mypage/:filter" element={<FilterPosts />} />
-              <Route path="/signup" element={<SignUp />} />
-              {/* <Route path="/findpw" element={<PasswordResetPage />} /> */}
-              <Route path="/main/view/:id" element={<View />} />
-            </Routes>
-          </CookiesProvider>
+          <Routes>
+            <Route path="/" element={<Loading />} />
+            <Route path="/main" element={<MainPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/nutrition" element={<Nutrition />} />
+            <Route path="/myfood" element={<Myfood />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage/:filter" element={<FilterPosts />} />
+            <Route path="/signup" element={<SignUp />} />
+            {/* <Route path="/findpw" element={<PasswordResetPage />} /> */}
+            <Route path="/main/view/:id" element={<View />} />
+          </Routes>
         </BrowserRouter>
       </ChakraProvider>
     </PageRenderProvider>

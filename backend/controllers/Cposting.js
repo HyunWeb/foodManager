@@ -20,7 +20,7 @@ exports.getPosting = async (req, res) => {
   try {
     const posting = await Posting.findAll({
       attributes: ["postingID", "title", "userId", "img"],
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
     });
     console.log(posting);
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
@@ -214,14 +214,12 @@ exports.deleteComment = async (req, res) => {
 
 exports.postLike = async (req, res) => {
   try {
-    const userID = req.session.userInfo.userid;
-    const { postingID } = req.params;
-
-    const isLike = await PostLike.findOne({
-      where: { userID: userID, postingID: postingID },
-    });
-
-    if (userID !== undefined) {
+    if (req.session.userInfo) {
+      const userID = req.session.userInfo.userid;
+      const { postingID } = req.params;
+      const isLike = await PostLike.findOne({
+        where: { userID: userID, postingID: postingID },
+      });
       if (!isLike) {
         await PostLike.create({
           userID: userID,
@@ -263,6 +261,32 @@ exports.userPostLike = async (req, res) => {
     });
 
     res.json({ result: true, posting });
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false });
+  }
+};
+
+// 해당 항목에 좋아요를 눌렀는지 여부 확인
+exports.Likeing = async (req, res) => {
+  try {
+    if (req.session.userInfo) {
+      // 게시물
+      const { postingID } = req.params;
+
+      const postLikes = await PostLike.findOne({
+        where: { userID: req.session.userInfo.userid, postingID },
+      });
+
+      if (postLikes !== null) {
+        res.json({ result: true, message: "좋아요를 누른 항목입니다." });
+      } else {
+        res.json({
+          result: false,
+          message: "좋아요를 누르지 않은 항목입니다.",
+        });
+      }
+    }
   } catch (error) {
     console.error(error);
     res.json({ result: false });

@@ -37,7 +37,6 @@ export default function MyProfile() {
     };
     fetchItems();
   }, []);
-  console.log(userInfo);
   return (
     <Container>
       <HeadingAtom level={2}>내 프로필</HeadingAtom>
