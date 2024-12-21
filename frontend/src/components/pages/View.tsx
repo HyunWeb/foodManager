@@ -46,13 +46,13 @@ export default function View() {
     recipeID: 0,
     title: "",
     describe: "",
-    image: "",
+    img: "",
     time: "",
-    mealCount: "",
+    amount: "", //몇인분인지
     level: "",
     ingred: [
       {
-        recipeID: 0,
+        ingredientID: 0,
         ingreName: "",
         amount: "",
       },
@@ -81,14 +81,6 @@ export default function View() {
     date: "",
     content: "",
   });
-
-  // const recipeData = axios({
-  //   method: "GET",
-  //   url: `${route}/Recipe/find/${id}`,
-  //   withCredentials: true,
-  // }).then((res) => {
-  //   console.log(res);
-  // });
 
   useEffect(() => {
     //댓글 데이터 업데이트
@@ -184,6 +176,28 @@ export default function View() {
     });
 
     // 레시피 데이터 업데이트
+    if (type == "recipe") {
+      const data = axios({
+        method: "GET",
+        url: `${route}/Recipe//find/${id}`,
+        withCredentials: true,
+      }).then((res) => {
+        console.log(res.data);
+        const { recipeID, title, describe, img, time, amount, level } =
+          res.data.recipe;
+        setRecipeData({
+          recipeID: recipeID,
+          title: title,
+          describe: describe,
+          img: img,
+          time: time,
+          amount: amount,
+          level: level,
+          ingred: res.data.ingredient,
+          step: res.data.steps,
+        });
+      });
+    }
     setRecipeData({
       recipeID: 1,
       title: "김치찌개",

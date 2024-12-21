@@ -20,6 +20,7 @@ exports.getPosting = async (req, res) => {
   try {
     const posting = await Posting.findAll({
       attributes: ["postingID", "title", "userId", "img"],
+      order: [['createdAt', 'DESC']],
     });
     console.log(posting);
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
