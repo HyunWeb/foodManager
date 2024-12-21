@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
 import RecipeInfo from "./RecipeInfo";
@@ -67,10 +67,66 @@ export default function MainCard({
   userId = "user1234",
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
-  const ChangeLikeState = () => {
-    setLikeState(!likeState);
-  };
   const params = recipeID ? "recipe" : "posting";
+  useEffect(() => {
+    if (type == "recipe") {
+      const main = axios({
+        method: "POST",
+        url: `/Recipe/find/Like`,
+        data: {
+          recipeID,
+        },
+      }).then((res) => {
+        if (res.data.result == true) {
+          setLikeState(res.data.result);
+        }
+      });
+    } else {
+      console.log(postingID);
+      const main = axios({
+        method: "POST",
+        url: `/posting/${postingID}/likepost`,
+      }).then((res) => {
+        if (res.data.result == true) {
+          setLikeState(res.data.result);
+          console.log(res.data.message);
+        } else {
+          console.log(res.data.message);
+        }
+      });
+    }
+  }, []);
+  const ChangeLikeState = () => {
+    if (type == "recipe") {
+      const main = axios({
+        method: "POST",
+        url: `/Recipe/update/Like`,
+        data: {
+          recipeID,
+        },
+      }).then((res) => {
+        if (res.data.result == true) {
+          setLikeState(!likeState);
+          alert(res.data.Message);
+        } else {
+          alert(res.data.Message);
+        }
+      });
+    } else {
+      alert("posting 찜 추가");
+      const main = axios({
+        method: "POST",
+        url: `/posting/${postingID}/like`,
+      }).then((res) => {
+        if (res.data.result == true) {
+          setLikeState(!likeState);
+          alert(res.data.message);
+        } else {
+          alert(res.data.message);
+        }
+      });
+    }
+  };
 
   return (
     <Container>
