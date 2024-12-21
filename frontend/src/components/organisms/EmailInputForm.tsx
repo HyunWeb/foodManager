@@ -25,7 +25,7 @@ const EmailInputForm: React.FC<EmailInputFormProps> = ({ onEmailSubmit }) => {
         placeholder="이메일을 입력하세요"
         onChange={(e) => setEmail(e.target.value)}
       />
-      <ButtonAtom text="확인" buttontype="submit" type="submit" />
+      <ButtonAtom text="확인" buttontype="confirm" type="submit" />
     </form>
   );
 };
