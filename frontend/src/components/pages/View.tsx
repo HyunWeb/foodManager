@@ -211,12 +211,6 @@ export default function View() {
             setStarValue={setStarValue}
             RecipeType={RecipeType}
           />
-        ) : type === "defaultRecipe" ? (
-          <ViewTemplateRecipe
-            starValue={starValue}
-            setStarValue={setStarValue}
-            RecipeData={RecipeData}
-          />
         ) : (
           <ViewTemplatePosting PostingData={PostingData} />
         )}
