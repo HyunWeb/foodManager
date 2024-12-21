@@ -39,31 +39,58 @@ export default function View() {
   const [params] = useSearchParams();
   const type = params.get("type");
   console.log(type);
-  const route = process.env.REACT_APP_ROUTE;
 
+  // const [loading, setLoading] = useState(true);
   const [starValue, setStarValue] = useState(0);
-  const [RecipeData, setRecipeData] = useState({
-    recipeID: 0,
-    title: "",
-    describe: "",
-    img: "",
-    time: "",
-    amount: "", //몇인분인지
-    level: "",
-    ingred: [
-      {
-        ingredientID: 0,
-        ingreName: "",
-        amount: "",
-      },
-    ],
-    step: [
-      {
-        stepNo: "",
-        content: "",
-      },
-    ],
+  // const [RecipeData, setRecipeData] = useState({
+  //   recipeID: 0,
+  //   title: "",
+  //   describe: "",
+  //   img: "",
+  //   time: "",
+  //   amount: "", //몇인분인지
+  //   level: "",
+  //   ingredients: [
+  //     {
+  //       ingredientID: 0,
+  //       ingreName: "",
+  //       amount: "",
+  //     },
+  //   ],
+  //   steps: [
+  //     {
+  //       stepNo: "",
+  //       content: "",
+  //     },
+  //   ],
+  // });
+  const [RecipeType, setRecipeType] = useState({
+    recipeID: "",
+    type: "",
   });
+
+  // const [DefaultData, setDefaultData] = useState({
+  //   recipeID: 0,
+  //   title: "",
+  //   img: "",
+  //   time: "",
+  //   amount: "",
+  //   level: "",
+  //   describe: "",
+  //   category: "",
+  //   ingredients: [
+  //     {
+  //       ingredientID: 0,
+  //       ingreName: "",
+  //       amount: ""
+  //     }
+  //   ],
+  //   steps: [{
+  //     stepNo: "",
+  //     content: ""
+  //   }]
+  // })
+
   const [CommentList, setCommentList] = useState([
     {
       commentID: 0,
@@ -83,28 +110,75 @@ export default function View() {
   });
 
   useEffect(() => {
+    // if (type == "defaultRecipe") {
+      // const fetchData = async () => {
+      //   const res = await axios({
+      //     method: "GET",
+      //     url: `${route}/api/${id}`,
+      //     withCredentials: true,
+      //   });
+      //   const { recipeSEQ, title, img, describe, category, ingredients, steps } = await res.data;
+      //   await setDefaultData({
+      //     recipeID: recipeSEQ,
+      //     title: title,
+      //     img: img,
+      //     time: "",
+      //     amount: "",
+      //     level: "",
+      //     describe: describe,
+      //     category: category,
+      //     ingredients: ingredients,
+      //     steps: steps,
+      //   });
+      //   setLoading(false);
+      // };
+
+      // fetchData();
+      // const data = axios({
+      //   method: "GET",
+      //   url: `${route}/api/${id}`,
+      //   withCredentials: true,
+      // }).then((res) => {
+      //   const { recipeSEQ, title, img, describe, category, ingredients, steps } = res.data;
+      //   console.log(res.data);
+      //   setDefaultData({
+      //     recipeID: recipeSEQ,
+      //     title: title,
+      //     img: img,
+      //     time: "",
+      //     amount: "",
+      //     level: "",
+      //     describe: describe,
+      //     category: category,
+      //     ingredients: ingredients,
+      //     steps: steps,
+      //   });
+      //   setLoading(false);
+      // });
+    // }
     // 레시피 데이터 업데이트
-    if(type == "recipe") {
-      const data = axios({
-        method: "GET",
-        url: `${route}/Recipe//find/${id}`,
-        withCredentials: true
-      }).then((res) => {
-        console.log(res.data);
-        const {recipeID, title, describe, img, time, amount, level} = res.data.recipe;
-        setRecipeData({
-          recipeID: recipeID, 
-          title: title, 
-          describe: describe, 
-          img: img, 
-          time: time, 
-          amount: amount,
-          level: level,
-          ingred: res.data.ingredient,
-          step: res.data.steps,
-        })
-      })
-    }
+    // if (type == "recipe") {
+      // const data = axios({
+      //   method: "GET",
+      //   url: `${route}/Recipe//find/${id}`,
+      //   withCredentials: true
+      // }).then((res) => {
+      //   console.log(res.data);
+      //   const { recipeID, title, describe, img, time, amount, level } = res.data.recipe;
+      //   setRecipeData({
+      //     recipeID: recipeID,
+      //     title: title,
+      //     describe: describe,
+      //     img: img,
+      //     time: time,
+      //     amount: amount,
+      //     level: level,
+      //     ingredients: res.data.ingredient,
+      //     steps: res.data.steps,
+      //   });
+      //   setLoading(false);
+      // })
+    // }
 
     if (type == "posting") {
       const data = axios({
@@ -115,18 +189,27 @@ export default function View() {
         console.log(res.data.posting);
         setPostingData(res.data.posting);
         setCommentList(res.data.comment);
+        // setLoading(false);
       });
+    } else if((id && type)) {
+      setRecipeType({
+        recipeID: id,
+        type: type,
+      })
     }
   }, []);
 
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
   return (
     <Container>
       <CommentContext.Provider value={{ CommentList, setCommentList }}>
-        {type === "recipe" ? (
+        {type === "recipe" || type === "defaultRecipe" ? (
           <ViewTemplateRecipe
             starValue={starValue}
             setStarValue={setStarValue}
-            RecipeData={RecipeData}
+            RecipeType={RecipeType}
           />
         ) : (
           <ViewTemplatePosting PostingData={PostingData} />
