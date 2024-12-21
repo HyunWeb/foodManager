@@ -34,7 +34,7 @@ function App() {
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/mypage/:filter" element={<FilterPosts />} />
               <Route path="/signup" element={<SignUp />} />
-              {/* <Route path="/findpw" element={<PasswordResetPage />} /> */}
+              <Route path="/findpw" element={<PasswordResetPage />} />
               <Route path="/main/view/:id" element={<View />} />
             </Routes>
           </CookiesProvider>
