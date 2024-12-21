@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ReactDataPicker from "../atoms/ReactDataPicker";
 import ReactCircularProgressbar from "../atoms/ReactCircularProgressbar";
+import { usePageRender } from "../organisms/PageRenderContext"; // 작성한 PageRenderContext 파일
 
 const Container = styled.div`
   height: 45vh;
@@ -23,19 +24,23 @@ const CalenderWrap = styled.div`
   justify-content: center;
 `;
 
-export default function Wrapgraph() {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [GraphValue, setGraphValue] = useState<number>(1500);
-  const [GraphMaxValue, setGraphMaxValue] = useState<number>(2700);
-
+export default function Wrapgraph({
+  NeedKcal = 2700,
+  Totalkcal,
+}: {
+  NeedKcal: number;
+  Totalkcal: number;
+}) {
+  // const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const { startDate, setStartDate } = usePageRender();
   return (
     <Container>
       <CalenderWrap>
         <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
       </CalenderWrap>
       <ReactCircularProgressbar
-        GraphValue={GraphValue}
-        GraphMaxValue={GraphMaxValue}
+        GraphValue={Totalkcal}
+        GraphMaxValue={NeedKcal}
       />
     </Container>
   );

@@ -18,7 +18,6 @@ const Paragraph = styled.p`
 
 const PostingInfo = styled.section`
   padding: 20px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Container = styled.div`

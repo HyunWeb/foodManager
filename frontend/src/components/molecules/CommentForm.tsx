@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import IconButtonAtom from "../atoms/IconButtonAtom";
@@ -14,6 +14,13 @@ const Form = styled.form`
   width: 100%;
   height: 80px;
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 768px) {
+    bottom: 0;
+    left: 150px;
+    width: calc(100vw - 120px);
+    margin-top: 20px;
+  }
 `;
 const Input = styled.input`
   background-color: #ffffff;
@@ -46,44 +53,53 @@ export default function CommentForm() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const text = useContext(CommentContext);
-  const contented = (e: React.FormEvent) => {
-    e.preventDefault();
-    axios({
-      method: "POST",
-      url: `http://localhost:8000/posting/${id}/comment`,
-      data: {
-        content: content,
-      },
-      withCredentials: true,
-    }).then((res) => {
-      if (res.data.result == true) {
+  const contented = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log(content);
+
+      if (content !== "") {
         axios({
-          method: "GET",
-          url: `http://localhost:8000/posting/${id}`,
+          method: "POST",
+          url: `http://localhost:8000/posting/${id}/comment`,
+          data: {
+            content: content,
+          },
           withCredentials: true,
         }).then((res) => {
-          console.log(res.data);
-          text?.setCommentList(res.data.comment);
-          setcontent("");
+          if (res.data.result == true) {
+            axios({
+              method: "GET",
+              url: `http://localhost:8000/posting/${id}`,
+              withCredentials: true,
+            }).then((res) => {
+              console.log(res.data);
+              text?.setCommentList(res.data.comment);
+              setcontent("");
+            });
+          } else {
+            alert(res.data.message);
+          }
         });
       } else {
-        alert(res.data.message);
+        alert("댓글창 미입력!! 입력해주세요.");
       }
-    });
-  };
+    },
+    [content]
+  );
   return (
     <Form
       onSubmit={(e) => {
-        e.preventDefault();
+        contented(e);
       }}
     >
-    
       <Input
         type="text"
         placeholder="댓글을 입력해 주세요"
         value={content}
         onChange={(e) => {
           setcontent(e.target.value);
+          console.log(e.target.value);
         }}
       />
       <Button type="button">

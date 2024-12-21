@@ -75,15 +75,15 @@ export default function FilterPosts() {
   return (
     <Container>
       <Header />
-      <BackButton />
       <FeedList>
+        <BackButton />
         {feeds.map((feed) => (
           <MainCard
+            img="https://picsum.photos/400"
             key={feed.recipeID || feed.postingID}
             postingID={feed.postingID}
             recipeID={feed.recipeID}
             title={feed.title}
-            describe={feed.describe}
             userId={feed.userId}
             type={cardType}
           />

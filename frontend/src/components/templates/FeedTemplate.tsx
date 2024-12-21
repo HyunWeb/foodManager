@@ -11,7 +11,15 @@ interface FeedData {
   img: string;
 }
 
-const FeedList = styled.ul``;
+const FeedList = styled.ul`
+  @media (min-width: 1200px) {
+    display: flex;
+    flex-direction: row;
+    width: 850px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+`;
 
 const Container = styled.div`
   display: flex;

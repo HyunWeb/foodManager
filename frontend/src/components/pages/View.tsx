@@ -13,7 +13,7 @@ interface CommentListProps {
   content: string;
 }
 const Container = styled.div`
-  background-color: #ededed;
+  background-color: #ffffff;
 `;
 // Create the context with a default value
 export const CommentContext = React.createContext<
@@ -210,6 +210,12 @@ export default function View() {
             starValue={starValue}
             setStarValue={setStarValue}
             RecipeType={RecipeType}
+          />
+        ) : type === "defaultRecipe" ? (
+          <ViewTemplateRecipe
+            starValue={starValue}
+            setStarValue={setStarValue}
+            RecipeData={RecipeData}
           />
         ) : (
           <ViewTemplatePosting PostingData={PostingData} />
