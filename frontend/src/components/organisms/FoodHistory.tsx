@@ -2,9 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import HeadingAtom from "../atoms/HeadingAtom";
 import FoodBlockList from "./FoodBlockList";
+interface FoodLog {
+  amount: number;
+  category: number;
+  foodname: string;
+  kcal: number;
+  logID: number;
+  mealtype: string;
+  unit: string;
+  userID: string;
+  when: string;
+}
 interface FoodHistoryProps {
   category: string;
   type: "ingredient" | "food";
+  foodLog?: FoodLog[];
 }
 
 const Container = styled.div`
@@ -22,7 +34,11 @@ const HeadingName = styled(HeadingAtom)`
   margin-bottom: 20px;
 `;
 
-export default function FoodHistory({ category, type }: FoodHistoryProps) {
+export default function FoodHistory({
+  category,
+  type,
+  foodLog,
+}: FoodHistoryProps) {
   return (
     <Container>
       <HeadingName
@@ -33,7 +49,7 @@ export default function FoodHistory({ category, type }: FoodHistoryProps) {
         {category}
       </HeadingName>
 
-      <FoodBlockList type={type} />
+      <FoodBlockList type={type} foodLog={foodLog} />
     </Container>
   );
 }

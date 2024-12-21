@@ -1,51 +1,74 @@
 import React, { useState } from "react";
-import InputField from "../molecules/InputField";
-import ButtonAtom from "../atoms/ButtonAtom";
+import styled from "styled-components";
+import EmailInputForm from "../organisms/EmailInputForm";
+import VerificationCodeForm from "../organisms/VerificationCodeForm";
+import PasswordResetForm from "../organisms/PasswordResetForm";
 
-interface PasswordResetFormProps {
-  onPasswordReset: (newPassword: string) => void;
-}
+const Container = styled.div`
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+`;
 
-const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
-  onPasswordReset,
-}) => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+const StepWrapper = styled.div`
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+`;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newPassword === confirmPassword) {
-      onPasswordReset(newPassword);
-    } else {
-      setError("비밀번호가 일치하지 않습니다.");
-    }
+const Title = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+`;
+
+const PasswordResetPage: React.FC = () => {
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+
+  const handleEmailSubmit = (submittedEmail: string) => {
+    setEmail(submittedEmail);
+    setStep(2);
+  };
+
+  const handleCodeSubmit = (submittedCode: string) => {
+    setVerificationCode(submittedCode);
+    setStep(3);
+  };
+
+  const handlePasswordReset = (newPassword: string) => {
+    alert("비밀번호가 성공적으로 변경되었습니다.");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <InputField
-        label="새 비밀번호"
-        id="newPassword"
-        name="newPassword"
-        type="password"
-        value={newPassword}
-        placeholder="새 비밀번호를 입력하세요"
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <InputField
-        label="비밀번호 확인"
-        id="confirmPassword"
-        name="confirmPassword"
-        type="password"
-        value={confirmPassword}
-        placeholder="비밀번호를 다시 입력하세요"
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ButtonAtom text="비밀번호 재설정" buttontype="submit" type="submit" />
-    </form>
+    <Container>
+      <StepWrapper>
+        <Title>비밀번호 재설정</Title>
+        {step === 1 && <EmailInputForm onEmailSubmit={handleEmailSubmit} />}
+        {step === 2 && (
+          <VerificationCodeForm
+            onCodeSubmit={handleCodeSubmit}
+            initialTime={180}
+          />
+        )}
+        {step === 3 && (
+          <PasswordResetForm onPasswordReset={handlePasswordReset} />
+        )}
+      </StepWrapper>
+    </Container>
   );
 };
 
-export default PasswordResetForm;
+export default PasswordResetPage;
+

@@ -15,10 +15,10 @@ const {
 
 const getRecipe = async (req, res) => {
   try {
-    const recipe = await Recipe.findAll();
-    const review = await RecipeReview.findAll();
-    if(recipe && review){
-      res.json({result: true, message: "레시피 정보 불러오기 성공", data: {recipe, review}});
+    const recipes = await Recipe.findAll();
+    const reviews = await RecipeReview.findAll();
+    if(recipes && reviews){
+      res.json({result: true, message: "레시피 정보 불러오기 성공", data: {recipes, reviews}});
     }
   } catch (error) {
     console.error(error);

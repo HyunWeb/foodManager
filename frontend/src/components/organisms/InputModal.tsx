@@ -9,6 +9,8 @@ import WriteAddFood from "./WriteAddFood";
 interface InputModalProps {
   $isOpen: boolean;
   onClose: () => void;
+  selected: number;
+  setSelected: (e: number) => void;
 }
 
 const ModalPage = styled.div<{ $isOpen: boolean }>`
@@ -21,6 +23,9 @@ const ModalPage = styled.div<{ $isOpen: boolean }>`
   visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
   transition-duration: 500ms;
+  @media (min-width: 768px) {
+    transform: translateX(-20px);
+  }
 `;
 
 const ModalContent = styled.div<{ $isOpen: boolean }>`
@@ -39,15 +44,20 @@ const ModalContent = styled.div<{ $isOpen: boolean }>`
   padding-top: 50px;
 `;
 
-export default function InputModal({ $isOpen, onClose }: InputModalProps) {
-  const [selected, setSelected] = useState(1); // 탭전환
+export default function InputModal({
+  $isOpen,
+  onClose,
+  selected,
+  setSelected,
+}: InputModalProps) {
+  // const [selected, setSelected] = useState(1); // 탭전환
 
   const render = () => {
     switch (selected) {
       case 1:
         return <WritePostTab />;
       case 2:
-        return <WriteFoodTab />;
+        return <WriteFoodTab onClose={onClose} setSelected={setSelected} />;
       case 3:
         return <WriteAddFood />;
     }

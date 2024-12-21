@@ -14,6 +14,7 @@ interface MainCardProps {
   alt?: string;
   title: string;
   rating?: number;
+  describe?: string;
   type?: "recipe" | "feed";
   userId?: string;
 }
@@ -26,11 +27,19 @@ const Container = styled.li`
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    width: 400px;
+    height: 350px;
+  }
 `;
 const ImageWrap = styled.div`
-  height: 60%;
+  height: 70%;
   overflow: hidden;
   position: relative;
+  @media (min-width: 768px) {
+    height: 70%;
+  }
 `;
 const StyledImageCard = styled(ImageCard)`
   position: absolute;
@@ -65,15 +74,15 @@ export default function MainCard({
 
   return (
     <Container>
+      <LikeButton
+        label="좋아요 버튼"
+        icontype="heart"
+        color={likeState ? "red" : "white"}
+        BGcolor="transparent"
+        variant="ghost"
+        onClick={() => ChangeLikeState()}
+      />
       <Link to={"/main/view/" + (recipeID || postingID) + "?type=" + params}>
-        <LikeButton
-          label="좋아요 버튼"
-          icontype="heart"
-          color={likeState ? "red" : "white"}
-          BGcolor="transparent"
-          variant="ghost"
-          onClick={() => ChangeLikeState()}
-        />
         <ImageWrap>
           <StyledImageCard src={img} alt={alt} />
         </ImageWrap>

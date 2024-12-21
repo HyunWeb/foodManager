@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Timer = ({ initialTime, onTimeUp }) => {
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+interface TimerProps {
+  initialTime: number;
+  onTimeUp: () => void;
+}
+
+const Timer: React.FC<TimerProps> = ({ initialTime, onTimeUp }) => {
+  const [timeLeft, setTimeLeft] = useState<number>(initialTime);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -12,9 +17,9 @@ const Timer = ({ initialTime, onTimeUp }) => {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
     return () => clearInterval(timerId);
-  }, [timeLeft, onTimeUp]);
+  }, [onTimeUp]);
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
@@ -24,3 +29,4 @@ const Timer = ({ initialTime, onTimeUp }) => {
 };
 
 export default Timer;
+

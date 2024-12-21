@@ -13,7 +13,7 @@ interface CommentListProps {
   content: string;
 }
 const Container = styled.div`
-  background-color: #ededed;
+  background-color: #ffffff;
 `;
 // Create the context with a default value
 export const CommentContext = React.createContext<
@@ -45,13 +45,11 @@ export default function View() {
   const [RecipeData, setRecipeData] = useState({
     recipeID: 0,
     title: "",
-    detail: "",
+    describe: "",
     image: "",
     time: "",
     mealCount: "",
     level: "",
-    ingreName: "",
-    amount: "",
     ingred: [
       {
         recipeID: 0,
@@ -189,13 +187,11 @@ export default function View() {
     setRecipeData({
       recipeID: 1,
       title: "김치찌개",
-      detail: "한국인의 소울푸드 김치찌개를 만드는 방법 입니다.",
+      describe: "한국인의 소울푸드 김치찌개를 만드는 방법 입니다.",
       image: "https://picsum.photos/500",
       time: "15분",
       mealCount: "2인분",
       level: "하",
-      ingreName: "감자",
-      amount: "2개",
       ingred: [
         { recipeID: 1, ingreName: "감자", amount: "2개" },
         { recipeID: 2, ingreName: "양파", amount: "2개" },
@@ -250,6 +246,12 @@ export default function View() {
     <Container>
       <CommentContext.Provider value={{ CommentList, setCommentList }}>
         {type === "recipe" ? (
+          <ViewTemplateRecipe
+            starValue={starValue}
+            setStarValue={setStarValue}
+            RecipeData={RecipeData}
+          />
+        ) : type === "defaultRecipe" ? (
           <ViewTemplateRecipe
             starValue={starValue}
             setStarValue={setStarValue}

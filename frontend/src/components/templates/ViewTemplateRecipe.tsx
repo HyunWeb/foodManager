@@ -21,7 +21,7 @@ interface CookingStep {
 interface RecipeData {
   recipeID: number; // 레시피 ID
   title: string; // 레시피 이름
-  detail: string; // 상세 설명
+  describe: string; // 상세 설명
   image: string; // 이미지 URL
   time: string; // 조리 시간
   mealCount: string; // 몇 인분인지
@@ -34,12 +34,21 @@ const Container = styled.div`
   margin-bottom: 200px;
   position: relative;
   background-color: #ffffff;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin: 0 auto;
+    margin-bottom: 200px;
+  }
 `;
 
 const ButtonStyle = styled(BackButton)`
   background-color: white;
   border-radius: 50%;
   top: 30px;
+  @media (min-width: 768px) {
+    left: 10px;
+  }
 `;
 const StarStyle = styled(Rating)`
   position: absolute;

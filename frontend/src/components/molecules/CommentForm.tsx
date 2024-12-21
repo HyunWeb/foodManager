@@ -14,6 +14,13 @@ const Form = styled.form`
   width: 100%;
   height: 80px;
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 768px) {
+    bottom: 0;
+    left: 150px;
+    width: calc(100vw - 120px);
+    margin-top: 20px;
+  }
 `;
 const Input = styled.input`
   background-color: #ffffff;
