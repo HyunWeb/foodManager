@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import IconButtonAtom from "../atoms/IconButtonAtom";
@@ -53,35 +53,44 @@ export default function CommentForm() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const text = useContext(CommentContext);
-  const contented = (e: React.FormEvent) => {
-    e.preventDefault();
-    axios({
-      method: "POST",
-      url: `http://localhost:8000/posting/${id}/comment`,
-      data: {
-        content: content,
-      },
-      withCredentials: true,
-    }).then((res) => {
-      if (res.data.result == true) {
+  const contented = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log(content);
+
+      if (content !== "") {
         axios({
-          method: "GET",
-          url: `http://localhost:8000/posting/${id}`,
+          method: "POST",
+          url: `http://localhost:8000/posting/${id}/comment`,
+          data: {
+            content: content,
+          },
           withCredentials: true,
         }).then((res) => {
-          console.log(res.data);
-          text?.setCommentList(res.data.comment);
-          setcontent("");
+          if (res.data.result == true) {
+            axios({
+              method: "GET",
+              url: `http://localhost:8000/posting/${id}`,
+              withCredentials: true,
+            }).then((res) => {
+              console.log(res.data);
+              text?.setCommentList(res.data.comment);
+              setcontent("");
+            });
+          } else {
+            alert(res.data.message);
+          }
         });
       } else {
-        alert(res.data.message);
+        alert("댓글창 미입력!! 입력해주세요.");
       }
-    });
-  };
+    },
+    [content]
+  );
   return (
     <Form
       onSubmit={(e) => {
-        e.preventDefault();
+        contented(e);
       }}
     >
       <Input
@@ -90,6 +99,7 @@ export default function CommentForm() {
         value={content}
         onChange={(e) => {
           setcontent(e.target.value);
+          console.log(e.target.value);
         }}
       />
       <Button type="button">

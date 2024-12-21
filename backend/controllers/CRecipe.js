@@ -15,7 +15,9 @@ const {
 
 const getRecipe = async (req, res) => {
   try {
-    const recipes = await Recipe.findAll();
+    const recipes = await Recipe.findAll({
+      order: [['createdAt', 'DESC']],
+    });
     const reviews = await RecipeReview.findAll();
     if(recipes && reviews){
       res.json({result: true, message: "레시피 정보 불러오기 성공", data: {recipes, reviews}});

@@ -13,7 +13,7 @@ import MyPage from "./components/pages/MyPage";
 import SignUp from "./components/pages/SignUp";
 import FilterPosts from "./components/pages/FilterPosts";
 import View from "./components/pages/View";
-import { Provider } from "react-redux";
+//import { Provider } from "react-redux";
 import store from "./store";
 import { CookiesProvider } from "react-cookie"; //추가
 import { PageRenderProvider } from "./components/organisms/PageRenderContext"; // 작성한 PageRenderContext 파일
