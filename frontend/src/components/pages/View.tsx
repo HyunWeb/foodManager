@@ -125,51 +125,51 @@ export default function View() {
       },
       {
         commentID: 5,
-        userId: "홍길동",
+        userID: "홍길동",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
         commentID: 6,
-        userId: "홍길동",
+        userID: "홍길동",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
         commentID: 7,
-        userId: "홍길동",
+        userID: "홍길동",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
         commentID: 8,
-        userId: "홍길동",
+        userID: "홍길동",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
         commentID: 9,
-        userId: "홍길동22",
+        userID: "홍길동22",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
         commentID: 10,
-        userId: "홍길동33",
+        userID: "홍길동33",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
       {
         commentID: 11,
-        userId: "홍길동44",
+        userID: "홍길동44",
         date: "2024/12/27",
-        comment:
+        content:
           "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세",
       },
     ]);
