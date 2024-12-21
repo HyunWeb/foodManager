@@ -33,7 +33,7 @@ const Container = styled.div<{ $img: number }>`
     `url('${process.env.PUBLIC_URL}/menu/${$img}.png')`};
   background-repeat: no-repeat;
   background-size: 70px;
-  background-position: 90% center;
+  background-position: 80% center;
 
   @media (min-width: 768px) {
     width: 450px;
