@@ -44,7 +44,7 @@ export default function ViewIngredient({
         필요한 재료
       </HeadingAtom>
       <IngredList>
-        {value.map((item) => (
+        {value !== undefined && value.map((item) => (
           <IngredItem key={item.ingredientID}>
             <MdOutlineArrowRight size={25} color={"#FE8D00"} />
             <Span>{item.ingreName}</Span>_ {item.amount}

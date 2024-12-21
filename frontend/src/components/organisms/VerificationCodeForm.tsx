@@ -39,7 +39,7 @@ const VerificationCodeForm: React.FC<VerificationCodeFormProps> = ({
       />
       <ButtonAtom
         text="확인"
-        buttontype="submit"
+        buttontype="confirm"
         type="submit"
         disabled={isTimeUp}
       />
