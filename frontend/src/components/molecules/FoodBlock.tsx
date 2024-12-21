@@ -4,6 +4,7 @@ import FoodInfo from "./FoodInfo";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import Notification from "../organisms/Notification";
 import axios from "axios";
+import { usePageRender } from "../organisms/PageRenderContext";
 
 interface FoodBlockProps {
   id: number;
@@ -57,6 +58,8 @@ export default function FoodBlock({
   foodName,
   kcal,
 }: FoodBlockProps) {
+  const { pageRender, setPageRender, startDate, setStartDate } =
+    usePageRender();
   const [display, setDisplay] = useState(false);
   const Alert = () => {
     setDisplay((prev) => !prev);
@@ -64,15 +67,19 @@ export default function FoodBlock({
   const route = process.env.REACT_APP_ROUTE;
   const DeleteFood = () => {
     const data = axios({
-      method: "GET",
-      url: `${route}/foodlog`,
-      // params: { startDate },
+      method: "delete",
+      url: `${route}/foodlog/delete/${startDate}/${id}`,
       withCredentials: true,
-    }).then((res) => {
-      const { log, kcalPerDay } = res.data;
-      // setFoodLog(log);
-      // setNeedKcal(kcalPerDay);
-    });
+    })
+      .then((response) => {
+        console.log("삭제 성공:", response.data);
+        // 필요한 후속 작업 추가
+        setDisplay((prev) => !prev);
+        setPageRender((prev) => !prev);
+      })
+      .catch((error) => {
+        console.error("삭제 실패:", error);
+      });
   };
   return (
     <Container $img={$img}>
@@ -88,7 +95,7 @@ export default function FoodBlock({
         title="음식 삭제"
         message="음식을 지우시겠습니까?"
         type="info"
-        onConfirm={() => {}}
+        onConfirm={DeleteFood}
         onCancel={() => {
           setDisplay((prev) => !prev);
         }}
