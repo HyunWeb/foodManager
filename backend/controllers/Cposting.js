@@ -299,7 +299,7 @@ exports.Likeing = async (req, res) => {
   try {
     if (req.session.userInfo) {
       // 게시물
-      const { postingID } = req.params;
+      const { postingID } = req.body;
 
       const postLikes = await PostLike.findOne({
         where: { userID: req.session.userInfo.userid, postingID },

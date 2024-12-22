@@ -93,7 +93,7 @@ export default function View() {
       }).then((res) => {
         console.log(res.data);
         const { recipeID, title, describe, img, time, amount, level } =
-          res.data.recipe;
+          res.data?.recipe;
         setRecipeData({
           recipeID: recipeID,
           title: title,
@@ -102,8 +102,8 @@ export default function View() {
           time: time,
           amount: amount,
           level: level,
-          ingredient: res.data.ingredient,
-          steps: res.data.steps,
+          ingredient: res.data?.ingredient,
+          steps: res.data?.steps,
         });
       });
     }
@@ -114,7 +114,6 @@ export default function View() {
         url: `http://localhost:8000/posting/${id}`,
         withCredentials: true,
       }).then((res) => {
-        alert("dfsfda");
         console.log(res.data.posting);
         setPostingData(res.data.posting);
         setCommentList(res.data.comment);
@@ -123,7 +122,6 @@ export default function View() {
       });
     }
   }, [CommentPageRender]);
-
 
   // if (loading) {
   //   return <div>Loading...</div>;

@@ -7,6 +7,7 @@ import FeedInfo from "./FeedInfo";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { feedContext } from "../pages/FilterPosts";
+import { ColorSwatch } from "@chakra-ui/react";
 
 interface MainCardProps {
   postingID?: number;
@@ -70,32 +71,53 @@ export default function MainCard({
   const [likeState, setLikeState] = useState(false);
   const params = recipeID ? "recipe" : "posting";
   const feedchange = useContext(feedContext);
-  useEffect(() => {
-    if (type == "recipe") {
-      const main = axios({
-        method: "POST",
-        url: `/Recipe/find/Like`,
-        data: {
-          recipeID,
-        },
-      }).then((res) => {
-        if (res.data.result == true) {
-          setLikeState(res.data.result);
-        }
+  async function fetchItems() {
+    try {
+      const checking = await axios({
+        method: "GET",
+        url: `http://localhost:8000/user/check`,
+        withCredentials: true,
       });
-    } else {
-      console.log(postingID);
-      const main = axios({
-        method: "POST",
-        url: `/posting/${postingID}/likepost`,
-      }).then((res) => {
-        if (res.data.result == true) {
-          setLikeState(res.data.result);
-        } else {
-          console.log(res.data.message);
-        }
-      });
+      console.log(checking.data);
+      return checking.data.result;
+    } catch (error) {
+      console.error("Error fetching items: ", error);
     }
+  }
+  useEffect(() => {
+    async function loginlike() {
+      const logincheck = await fetchItems();
+      if (logincheck) {
+        if (type == "recipe") {
+          let recipeLike = axios({
+            method: "POST",
+            url: `/Recipe/Like`,
+            data: {
+              recipeID,
+            },
+          }).then((res) => {
+            if (res.data.result == true) {
+              setLikeState(res.data.result);
+            }
+          });
+        } else {
+          let postingLike = axios({
+            method: "POST",
+            url: `/posting/likepost`,
+            data: {
+              postingID,
+            },
+          }).then((res) => {
+            if (res.data.result == true) {
+              setLikeState(res.data.result);
+            } else {
+              console.log(res.data.message);
+            }
+          });
+        }
+      }
+    }
+    loginlike();
   }, []);
 
   const ChangeLikeState = () => {
@@ -132,23 +154,22 @@ export default function MainCard({
   };
 
   const changefeeds = () => {
-    alert("피드 변경");
     if (likeState == true) {
       if (type == "recipe") {
-        const feedobject = feedchange?.feeds.filter((feed) => {
+        const feedobject = feedchange?.userfeeds.filter((feed) => {
           return feed.postingID != postingID;
         });
         console.log(feedobject);
         if (feedobject != undefined) {
-          feedchange?.setFeeds(feedobject);
+          feedchange?.setuserFeeds(feedobject);
         }
       } else {
-        const feedobject = feedchange?.feeds.filter((feed) => {
+        const feedobject = feedchange?.userfeeds.filter((feed) => {
           return feed.postingID != postingID;
         });
         console.log(feedobject);
         if (feedobject != undefined) {
-          feedchange?.setFeeds(feedobject);
+          feedchange?.setuserFeeds(feedobject);
         }
       }
     }
