@@ -18,6 +18,13 @@ interface CommentListProps {
 const Container = styled.div`
   background-color: #ffffff;
 `;
+
+const Loading = styled.div`
+  width: 100vw;
+  padding: 30px;
+  text-align: center;
+`;
+
 // Create the context with a default value
 export const CommentContext = React.createContext<
   CommentContextType | undefined
@@ -85,10 +92,22 @@ export default function View() {
     date: "",
     content: "",
   });
+  const [isLogin, setIsLogin] = useState(false);
+
   const { CommentPageRender, setCommentPageRender } = usePageRender();
   useEffect(() => {
+    axios({
+      method: "GET",
+      url: `${route}/user/check`,
+      withCredentials: true,
+    }).then((res) => {
+      setIsLogin(res.data.result);
+      console.log(res.data);
+    });
+
+
     if (type == "posting") {
-      const data = axios({
+      axios({
         method: "GET",
         url: `http://localhost:8000/posting/${id}`,
         withCredentials: true,
@@ -98,6 +117,9 @@ export default function View() {
         setCommentList(res.data.comment);
         console.log(PostingData);
         //setLoading(false);
+      }).finally(() => {
+        console.log(RecipeData);
+        setIsLoading(false);
       });
 
     } else if (type == "defaultRecipe") {
@@ -151,13 +173,22 @@ export default function View() {
         .catch((error) => console.error("Error fetching data:", error))
         .finally(() => setIsLoading(false));
     }
+
   }, [CommentPageRender]);
 
-  if(isLoading){
-    return <div>Loading...</div>
+  if (!isLogin) {
+    navigate("/login");
   }
 
-  return (
+  if (isLoading) {
+    return (
+          <Container>
+            <Loading>Loading...</Loading>
+          </Container>
+        )
+  }
+
+  return (isLogin &&
     <Container>
       <CommentContext.Provider value={{ CommentList, setCommentList }}>
         {type === "recipe" || type === "defaultRecipe" ? (

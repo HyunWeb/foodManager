@@ -284,7 +284,7 @@ const RecipeDelete = async (req, res) => {
 const RecipefindOne = async (req, res) => {
   try {
     if (req.session.userInfo) {
-      const { recipeID } = req.body;
+      const { recipeID } = req.params;
       const Recipefind = await Recipe.findOne({
         where: {
           recipeID,

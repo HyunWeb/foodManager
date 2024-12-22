@@ -6,6 +6,7 @@ import WritePostTab from "./WritePostTab";
 import WriteFoodTab from "./WriteFoodTab";
 import WriteAddFood from "./WriteAddFood";
 
+
 interface InputModalProps {
   $isOpen: boolean;
   onClose: () => void;
@@ -52,6 +53,7 @@ export default function InputModal({
 }: InputModalProps) {
   // const [selected, setSelected] = useState(1); // 탭전환
 
+
   const render = () => {
     switch (selected) {
       case 1:
@@ -62,6 +64,8 @@ export default function InputModal({
         return <WriteAddFood onClose={onClose} />;
     }
   };
+
+
   return (
     <ModalPage $isOpen={$isOpen}>
       <ModalContent $isOpen={$isOpen}>
