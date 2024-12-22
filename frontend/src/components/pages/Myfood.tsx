@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../organisms/Header";
 import RecipeCategory from "../organisms/RecipeCategory";
 import NavBar from "../organisms/NavBar";
 import FoodHistory from "../organisms/FoodHistory";
+import axios from "axios";
+import { usePageRender } from "../organisms/PageRenderContext";
+
+interface GroceryItem {
+  amount: number; // 수량
+  category: number; // 카테고리 (id 또는 index로 보임)
+  expiration: string; // 유통기한 (ISO8601 형식의 문자열)
+  groceryID: number; // 식료품 고유 ID
+  groceryname: string; // 식료품 이름
+  unit: string; // 단위 (예: 마리, 개 등)
+  userID: string; // 사용자 ID
+}
 
 const Container = styled.div`
   padding: 20px;
@@ -15,6 +27,27 @@ const Container = styled.div`
 `;
 
 export default function Myfood() {
+  const { groceryPageRender, setGroceryPageRender } = usePageRender();
+  const [groceryData, setGroceryData] = useState<GroceryItem[]>([]);
+  const route = process.env.REACT_APP_ROUTE;
+  useEffect(() => {
+    const data = axios({
+      method: "GET",
+      url: `${route}/grocery`,
+      withCredentials: true,
+    }).then((res) => {
+      const Data = SortData(res.data);
+      setGroceryData(Data);
+    });
+  }, [groceryPageRender]);
+
+  const SortData = (data: GroceryItem[]): GroceryItem[] => {
+    const Data = data.sort(
+      (a, b) =>
+        new Date(a.expiration).getTime() - new Date(b.expiration).getTime()
+    );
+    return Data;
+  };
   return (
     <div>
       <Header />
@@ -23,7 +56,11 @@ export default function Myfood() {
           category="오늘 뭐먹지?"
           introduce="냉장고 속의 재료들로 만들수 있어요!"
         />
-        <FoodHistory category="냉장고 속 재료" type="ingredient" />
+        <FoodHistory
+          category="냉장고 속 재료"
+          type="ingredient"
+          groceryData={groceryData}
+        />
       </Container>
       <NavBar />
     </div>

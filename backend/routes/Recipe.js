@@ -35,13 +35,13 @@ const uploadDetail = multer({
 
 router.get("/", controller.getRecipe);
 
+router.post("/Like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
+
 router.post("/insert", uploadDetail.any(), controller.Recipeinsert); //레시피를 추가를 요청하는 router
 
 router.get("/find/:recipeID", controller.RecipefindOne); // 레시피의 정보를 찾는 라우터
 
 router.post("/update/Like", controller.RecipeLikeDB); // 레시피의 찜 정보를 업데이트
-
-router.post("/find/Like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
 
 router.post("/finds/Like", controller.RecipeLikeFindAll); // 레시피 전체 찜 목록
 
@@ -60,6 +60,8 @@ router.post("/find/reviews", controller.RecipeReviewFindAll);
 
 router.post("/find/myreview", controller.RecipeReviewMYfind);
 //자신이 남긴 리뷰 목록
+
+router.post("/find/user", controller.getRecipeuser);
 
 router.post("/userselect", controller.userselect);
 

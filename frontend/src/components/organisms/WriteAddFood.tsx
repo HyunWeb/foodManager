@@ -7,11 +7,14 @@ import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { usePageRender } from "./PageRenderContext";
+import { Alert } from "../ui/alert";
+import { LuTerminal } from "react-icons/lu";
 
 const Container = styled.form``;
 const InputWrap = styled.form``;
 
-export default function WriteAddFood() {
+export default function WriteAddFood({ onClose }: { onClose: () => void }) {
   const [kindOfFood, setkindOfFood] = useState("");
   const [nameOfFood, setnameOfFood] = useState("");
   const [foodAmount, setfoodAmount] = useState("1");
@@ -22,12 +25,9 @@ export default function WriteAddFood() {
     option3: "",
   });
   const navigate = useNavigate();
-  console.log(
-    `재료 종류 : ${kindOfFood}, 
-    재료 이름: ${nameOfFood}, 
-    재료의 양: ${foodAmount}, ${foodUnit}, 
-    유통 기한 : ${Data.option1}년 ${Data.option2}월 ${Data.option3}일`
-  );
+  // 컨텍스트 사용
+  const { groceryPageRender, setGroceryPageRender } = usePageRender();
+
   const kindOfFoodData = [
     {
       label: `신선식품`,
@@ -56,7 +56,6 @@ export default function WriteAddFood() {
   ];
   // [category, groceryname, amount, unit, expiration ]
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(kindOfFood, nameOfFood, foodAmount, foodUnit, Data);
     e.preventDefault();
     const data = axios({
       method: "POST",
@@ -69,17 +68,25 @@ export default function WriteAddFood() {
         expiration: `${Data.option1}-${Data.option2}-${Data.option3}`,
       },
       withCredentials: true,
-    }).then((res) => {
-      if (res.data.result == true) {
+    })
+      .then((res) => {
         alert(res.data.message);
-      } else {
-        if (res.data.message == "로그인이 되어 있지 않습니다.") {
+        onClose();
+        setGroceryPageRender((prev) => !prev);
+      })
+      .catch((err) => {
+        console.error(
+          "데이터 등록 실패",
+          err.response ? err.response.data : err.message
+        );
+        alert(
+          err.response
+            ? err.response.data.message
+            : "서버와의 연결이 실패했습니다."
+        );
+        err.response.data.message === "로그인이 되어 있지 않습니다." &&
           navigate("/login");
-        } else {
-          alert("데이터 추가 도중 오류가 발생했습니다.");
-        }
-      }
-    });
+      });
   };
   return (
     <Container onSubmit={handleSubmit}>

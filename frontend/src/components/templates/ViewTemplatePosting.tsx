@@ -5,7 +5,7 @@ import ViewPostingInfo from "../organisms/ViewPostingInfo";
 import PostingCommentList from "../organisms/PostingCommentList";
 
 // 포스팅 전체 정보 타입 정의
-interface PostingData {
+interface PostingProps {
   postingID: number; // 포스팅 ID
   img: string; // 이미지 URL
   title: string; // 제목
@@ -39,13 +39,14 @@ const ButtonStyle = styled(BackButton)`
 export default function ViewTemplatePosting({
   PostingData,
 }: {
-  PostingData: PostingData;
+  PostingData: PostingProps;
 }) {
+  console.log(PostingData);
   return (
     <Container>
       <ButtonStyle position="absolute" />
       <ViewPostingInfo value={PostingData} />
-      <PostingCommentList />
+      <PostingCommentList PostingData={PostingData} />
     </Container>
   );
 }

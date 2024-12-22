@@ -34,11 +34,6 @@ interface RecipeData {
   steps: CookingStep[]; // 조리 단계 리스트
 }
 
-interface RecipeType {
-  recipeID: string,
-  type: string,
-}
-
 // interface DefaultData {
 //   recipeSEQ: number;
 //     title: string;
@@ -100,5 +95,5 @@ export default function ViewTemplateRecipe({
         colorPalette="orange"
       />}
     </Container>
-  )
+  );
 }

@@ -34,7 +34,6 @@ export default function IngredientsList({
     const updateInputSet = value.filter((_, i) => i !== index);
     setValue(updateInputSet);
   };
-  console.log(value);
   return (
     <Field label="재료 양" fontWeight="bold" marginTop="20px" required>
       <AddButton

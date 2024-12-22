@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../organisms/Header";
 import NavBar from "../organisms/NavBar";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MainCard from "../molecules/MainCard";
 import BackButton from "../atoms/BackButton";
-
+import axios from "axios";
+import { createContext } from "vm";
+import { string } from "prop-types";
 interface FeedData {
   recipeID?: number;
   postingID?: number;
   title: string;
-  describe: string;
   userId?: string;
   rating?: number;
+  img: string;
 }
 
 const Container = styled.div``;
@@ -22,74 +24,172 @@ const FeedList = styled.ul`
   flex-direction: column;
   align-items: center;
 `;
+type feedContextType = {
+  userfeeds: FeedData[];
+  setuserFeeds: React.Dispatch<React.SetStateAction<FeedData[]>>;
+};
+
+export const feedContext = React.createContext<feedContextType | undefined>(
+  undefined
+);
+
 export default function FilterPosts() {
-  const [feeds, setFeeds] = useState<FeedData[]>([]);
+  const [userfeeds, setuserFeeds] = useState<FeedData[]>([]);
   const [cardType, setCardType] = useState<"feed" | "recipe">("feed");
   const { filter } = useParams<{ filter: string }>();
-
-  useEffect(() => {
+  const changefeed = () => {
     // 페이지가 레시피인지 게시물인지 판단해서 데이터 요청
     if (filter?.includes("recipe")) {
-      setFeeds([
-        // 모의 데이터
-        { recipeID: 1, title: "요리제목1", describe: "부가설명1", rating: 3.5 },
-        { recipeID: 2, title: "요리제목2", describe: "부가설명2", rating: 4 },
-        { recipeID: 3, title: "요리제목3", describe: "부가설명3", rating: 5 },
-        { recipeID: 4, title: "요리제목4", describe: "부가설명4", rating: 1 },
-      ]);
+      if (filter?.includes("like_recipe")) {
+        const data = axios({
+          method: "POST",
+          url: `/Recipe/finds/Like`,
+          withCredentials: true,
+        }).then((res) => {
+          let database = [];
+          if (res.data.result == true) {
+            for (let i = 0; i < res.data.recipe.length; i++) {
+              console.log(res.data.recipe[i]);
+              database.push({
+                recipeID: res.data.recipe[i].recipeID,
+                title: res.data.recipe[i].title,
+                userId: res.data.recipe[i].userID,
+                img: res.data.recipe[i].img,
+              });
+            }
+            setuserFeeds(database);
+            console.log("dddd", database);
+          } else {
+            alert(res.data.message);
+          }
+        });
+      } else if (filter?.includes("my_recipe")) {
+        const data = axios({
+          method: "POST",
+          url: `/Recipe/find/user`,
+          withCredentials: true,
+        }).then((res) => {
+          let database = [];
+          console.log(res.data.recipes.length);
+          if (res.data.result == true) {
+            for (let i = 0; i < res.data.recipes.length; i++) {
+              console.log(res.data.recipes[i]);
+              database.push({
+                recipeID: res.data.recipes[i].recipeID,
+                title: res.data.recipes[i].title,
+                userId: res.data.recipes[i].userID,
+                img: res.data.recipes[i].img,
+              });
+            }
+            setuserFeeds(database);
+          } else {
+            alert(res.data.message);
+          }
+        });
+      }
+
       setCardType("recipe");
     } else if (filter?.includes("posting")) {
-      setFeeds([
-        // 모의 데이터
-        {
-          postingID: 1,
-          title: "요리제목1",
-          describe: "부가설명1",
-          userId: "user1234",
-        },
-        {
-          postingID: 2,
-          title: "요리제목2",
-          describe: "부가설명2",
-          userId: "user5678",
-        },
-        {
-          postingID: 3,
-          title: "요리제목3",
-          describe: "부가설명3",
-          userId: "user9103",
-        },
-        {
-          postingID: 4,
-          title: "요리제목4",
-          describe: "부가설명4",
-          userId: "user1092",
-        },
-      ]);
+      if (filter?.includes("like_posting")) {
+        const data = axios({
+          method: "POST",
+          url: `/Posting/Like`,
+          withCredentials: true,
+        }).then((res) => {
+          let database = [];
+          if (res.data.result == true) {
+            for (let i = 0; i < res.data.posting.length; i++) {
+              console.log(res.data.posting[i]);
+              database.push({
+                postingID: res.data.posting[i].postingID,
+                title: res.data.posting[i].title,
+                img: res.data.posting[i].img,
+                userId: res.data.posting[i].userID,
+              });
+            }
+            setuserFeeds(database);
+            console.log("dddd", database);
+            //   if (i == 0) {
+
+            //   } else {
+
+            //   }
+            //   console.log(feeds);
+            // }
+          } else {
+            alert(res.data.message);
+          }
+        });
+      } else {
+        const data = axios({
+          method: "post",
+          url: `/posting/userselect`,
+          withCredentials: true,
+        }).then((res) => {
+          let database = [];
+          console.log(res.data);
+          if (res.data.result == true) {
+            for (let i = 0; i < res.data.posting.length; i++) {
+              console.log(res.data.posting[i]);
+              database.push({
+                postingID: res.data.posting[i].postingID,
+                title: res.data.posting[i].title,
+                img: res.data.posting[i].img,
+                userId: res.data.posting[i].userId,
+              });
+            }
+            setuserFeeds(database);
+            console.log("dddd", database);
+            //   if (i == 0) {
+
+            //   } else {
+
+            //   }
+            //   console.log(feeds);
+            // }
+          } else {
+            alert(res.data.Message);
+          }
+        });
+      }
       setCardType("feed");
     } else {
       console.error("Page Params Error");
     }
+  };
+
+  useEffect(() => {
+    changefeed();
   }, [filter]);
 
   return (
-    <Container>
-      <Header />
-      <FeedList>
-        <BackButton />
-        {feeds.map((feed) => (
-          <MainCard
-            img="https://picsum.photos/400"
-            key={feed.recipeID || feed.postingID}
-            postingID={feed.postingID}
-            recipeID={feed.recipeID}
-            title={feed.title}
-            userId={feed.userId}
-            type={cardType}
-          />
-        ))}
-      </FeedList>
-      <NavBar />
-    </Container>
+    <feedContext.Provider value={{ userfeeds, setuserFeeds }}>
+      <Container>
+        <Header />
+        {userfeeds ? (
+          userfeeds.length > 0 ? (
+            <FeedList>
+              <BackButton />
+              {userfeeds.map((feed) => (
+                <MainCard
+                  img={"../../" + feed.img}
+                  key={feed.recipeID || feed.postingID}
+                  postingID={feed.postingID}
+                  recipeID={feed.recipeID}
+                  title={feed.title}
+                  userId={feed.userId}
+                  type={cardType}
+                />
+              ))}
+            </FeedList>
+          ) : (
+            <div>찜한 목록이 없습니다.</div>
+          )
+        ) : (
+          <div>Loading</div>
+        )}
+        <NavBar />
+      </Container>
+    </feedContext.Provider>
   );
 }

@@ -27,6 +27,7 @@ const LongButton = styled(Button)`
 
 const UploadButton = styled(LongButton)`
   position: fixed;
+  z-index: 50;
 `;
 
 const ConfirmButton = styled(Button)`

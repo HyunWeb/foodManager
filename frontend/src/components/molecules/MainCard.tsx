@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
 import RecipeInfo from "./RecipeInfo";
@@ -6,6 +6,8 @@ import IconButtonAtom from "../atoms/IconButtonAtom";
 import FeedInfo from "./FeedInfo";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { feedContext } from "../pages/FilterPosts";
+import { ColorSwatch } from "@chakra-ui/react";
 
 interface MainCardProps {
   postingID?: number;
@@ -67,17 +69,118 @@ export default function MainCard({
   userId = "user1234",
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
-  const ChangeLikeState = () => {
-    setLikeState(!likeState);
-  };
   const params = recipeID ? "recipe" : "posting";
+  const feedchange = useContext(feedContext);
+  async function fetchItems() {
+    try {
+      const checking = await axios({
+        method: "GET",
+        url: `http://localhost:8000/user/check`,
+        withCredentials: true,
+      });
+      console.log(checking.data);
+      return checking.data.result;
+    } catch (error) {
+      console.error("Error fetching items: ", error);
+    }
+  }
+  useEffect(() => {
+    async function loginlike() {
+      const logincheck = await fetchItems();
+      if (logincheck) {
+        if (type == "recipe") {
+          let recipeLike = axios({
+            method: "POST",
+            url: `/Recipe/Like`,
+            data: {
+              recipeID,
+            },
+          }).then((res) => {
+            if (res.data.result == true) {
+              setLikeState(res.data.result);
+            }
+          });
+        } else {
+          let postingLike = axios({
+            method: "POST",
+            url: `/posting/likepost`,
+            data: {
+              postingID,
+            },
+          }).then((res) => {
+            if (res.data.result == true) {
+              setLikeState(res.data.result);
+            } else {
+              console.log(res.data.message);
+            }
+          });
+        }
+      }
+    }
+    loginlike();
+  }, []);
+
+  const ChangeLikeState = () => {
+    if (type == "recipe") {
+      const main = axios({
+        method: "POST",
+        url: `/Recipe/update/Like`,
+        data: {
+          recipeID,
+        },
+      }).then((res) => {
+        if (res.data.result == true) {
+          setLikeState(!likeState);
+          alert(res.data.Message);
+          changefeeds();
+        } else {
+          alert(res.data.Message);
+        }
+      });
+    } else {
+      const main = axios({
+        method: "POST",
+        url: `/posting/${postingID}/like`,
+      }).then((res) => {
+        if (res.data.result == true) {
+          setLikeState(!likeState);
+          alert(res.data.message);
+          changefeeds();
+        } else {
+          alert(res.data.message);
+        }
+      });
+    }
+  };
+
+  const changefeeds = () => {
+    if (likeState == true) {
+      if (type == "recipe") {
+        const feedobject = feedchange?.userfeeds.filter((feed) => {
+          return feed.postingID != postingID;
+        });
+        console.log(feedobject);
+        if (feedobject != undefined) {
+          feedchange?.setuserFeeds(feedobject);
+        }
+      } else {
+        const feedobject = feedchange?.userfeeds.filter((feed) => {
+          return feed.postingID != postingID;
+        });
+        console.log(feedobject);
+        if (feedobject != undefined) {
+          feedchange?.setuserFeeds(feedobject);
+        }
+      }
+    }
+  };
 
   return (
     <Container>
       <LikeButton
         label="좋아요 버튼"
         icontype="heart"
-        color={likeState ? "red" : "white"}
+        color={likeState ? "red" : "#e0e0e0"}
         BGcolor="transparent"
         variant="ghost"
         onClick={() => ChangeLikeState()}

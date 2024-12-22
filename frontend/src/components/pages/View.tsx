@@ -7,6 +7,7 @@ import ViewTemplatePosting from "../templates/ViewTemplatePosting";
 import axios from "axios";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePageRender } from "../organisms/PageRenderContext";
 
 interface CommentListProps {
   commentID: number;
@@ -84,19 +85,21 @@ export default function View() {
     date: "",
     content: "",
   });
-
+  const { CommentPageRender, setCommentPageRender } = usePageRender();
   useEffect(() => {
     if (type == "posting") {
       const data = axios({
         method: "GET",
-        url: `/posting/${id}`,
+        url: `http://localhost:8000/posting/${id}`,
         withCredentials: true,
       }).then((res) => {
         console.log(res.data.posting);
         setPostingData(res.data.posting);
         setCommentList(res.data.comment);
-        // setLoading(false);
+        console.log(PostingData);
+        //setLoading(false);
       });
+
     } else if (type == "defaultRecipe") {
       setIsLoading(true);
       axios({
@@ -148,7 +151,7 @@ export default function View() {
         .catch((error) => console.error("Error fetching data:", error))
         .finally(() => setIsLoading(false));
     }
-  }, []);
+  }, [CommentPageRender]);
 
   if(isLoading){
     return <div>Loading...</div>

@@ -9,14 +9,14 @@ import CookingSteps from "../molecules/CookingSteps";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TextInputForm from "../atoms/TextInputForm";
+import { usePageRender } from "./PageRenderContext"; // 작성한 PageRenderContext 파일
 
 const Container = styled.form`
   height: 100%;
   overflow: scroll;
 `;
 const WrapContent = styled.div``;
-
-export default function WriteRecipe() {
+export default function WriteRecipe({ onClose }: { onClose: () => void }) {
   const [titleValue, setTitleValue] = useState("");
   const [recipeData, setrecipeData] = useState({
     option1: "",
@@ -28,6 +28,11 @@ export default function WriteRecipe() {
   const [CookingStep, setCookingStep] = useState([{ stepNo: 1, content: "" }]);
   const [fileName, setFileName] = React.useState<Blob | null>(null);
   const navigate = useNavigate();
+  // 컨텍스트 사용
+  const { mainPageRender, setMainPageRender } = usePageRender();
+  const toggleMainPageRender = () => {
+    setMainPageRender((prev) => !prev);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     console.log(fileName);
@@ -65,6 +70,18 @@ export default function WriteRecipe() {
       console.log(res);
       if (res.data.result == true) {
         alert(res.data.message);
+        setTitleValue("");
+        setrecipeData({
+          option1: "",
+          option2: "",
+          option3: "",
+        });
+        setRecipeValue("");
+        setInputSets([{ ingreName: "", amount: "" }]);
+        setCookingStep([{ stepNo: 1, content: "" }]);
+        setFileName(null);
+        onClose();
+        toggleMainPageRender();
       } else {
         if (res.data.message == "로그인이 되어 있지 않습니다.") {
           navigate("/login");

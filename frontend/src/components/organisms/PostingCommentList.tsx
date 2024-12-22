@@ -23,6 +23,14 @@ interface CommentListProps {
   date: string;
   content: string;
 }
+interface PostingData {
+  postingID: number; // 포스팅 ID
+  img: string; // 이미지 URL
+  title: string; // 제목
+  userID: string; // 작성자 ID
+  date: string; // 작성일
+  content: string; // 본문 내용
+}
 
 interface postingIDProps {
   postingID: number;
@@ -41,7 +49,11 @@ const List = styled.ul`
   }
 `;
 const ListItem = styled.li``;
-export default function PostingCommentList() {
+export default function PostingCommentList({
+  PostingData,
+}: {
+  PostingData: PostingData;
+}) {
   const data = useContext(CommentContext);
   return (
     <Container>
@@ -49,6 +61,8 @@ export default function PostingCommentList() {
         {data?.CommentList.map((item: CommentListProps) => (
           <ListItem key={item.commentID}>
             <CommentBlock
+              PostingData={PostingData}
+              id={item.commentID}
               userId={item.userID}
               date={item.date}
               content={item.content}
