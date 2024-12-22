@@ -6,6 +6,7 @@ import NavBar from "../organisms/NavBar";
 import FoodHistory from "../organisms/FoodHistory";
 import axios from "axios";
 import { usePageRender } from "../organisms/PageRenderContext";
+import { useNavigate } from "react-router-dom";
 
 interface GroceryItem {
   amount: number; // 수량
@@ -26,11 +27,27 @@ const Container = styled.div`
   }
 `;
 
+const Loading = styled.div`
+  width: 100vw;
+  padding: 30px;
+  text-align: center;
+`;
+
 export default function Myfood() {
   const { groceryPageRender, setGroceryPageRender } = usePageRender();
   const [groceryData, setGroceryData] = useState<GroceryItem[]>([]);
+  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
   const route = process.env.REACT_APP_ROUTE;
   useEffect(() => {
+    axios({
+      method: "GET",
+      url: `${route}/user/check`,
+      withCredentials: true,
+    }).then((res) => {
+      setIsLogin(res.data.result);
+    });
+
     const data = axios({
       method: "GET",
       url: `${route}/grocery`,
@@ -48,7 +65,12 @@ export default function Myfood() {
     );
     return Data;
   };
-  return (
+
+  if(!isLogin){
+    navigate("/login");
+  }
+
+  return (isLogin &&
     <div>
       <Header />
       <Container>

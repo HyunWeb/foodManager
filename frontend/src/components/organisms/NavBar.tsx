@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LinkAtom from "../atoms/LinkAtom";
 import { BsPlusCircle } from "react-icons/bs";
 import InputModal from "./InputModal";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.nav`
   display: flex;
@@ -55,7 +57,29 @@ export default function NavBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selected, setSelected] = useState(1); // input 탭전환
 
-  const openModal = () => setIsModalOpen(true);
+  const route = process.env.REACT_APP_ROUTE;
+    const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState(true);
+  
+    useEffect(() => {
+      axios({
+        method: "GET",
+        url: `${route}/user/check`,
+        withCredentials: true,
+      }).then((res) => {
+        setIsLogin(res.data.result);
+        setIsModalOpen(false);
+        console.log(res.data);
+      });
+    }, []);
+
+  const openModal = () => {
+    if(isLogin){
+      setIsModalOpen(true)
+    } else {
+      navigate("/login");
+    }
+  };
   const closeModal = () => {
     setIsModalOpen(false);
     setSelected(2);
@@ -63,6 +87,8 @@ export default function NavBar() {
       setSelected(1);
     }, 50);
   };
+
+
   return (
     <>
       <Container>
