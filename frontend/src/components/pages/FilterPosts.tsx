@@ -25,8 +25,8 @@ const FeedList = styled.ul`
   align-items: center;
 `;
 type feedContextType = {
-  feeds: FeedData[];
-  setFeeds: React.Dispatch<React.SetStateAction<FeedData[]>>;
+  userfeeds: FeedData[];
+  setuserFeeds: React.Dispatch<React.SetStateAction<FeedData[]>>;
 };
 
 export const feedContext = React.createContext<feedContextType | undefined>(
@@ -34,7 +34,7 @@ export const feedContext = React.createContext<feedContextType | undefined>(
 );
 
 export default function FilterPosts() {
-  const [feeds, setFeeds] = useState<FeedData[]>([]);
+  const [userfeeds, setuserFeeds] = useState<FeedData[]>([]);
   const [cardType, setCardType] = useState<"feed" | "recipe">("feed");
   const { filter } = useParams<{ filter: string }>();
   const changefeed = () => {
@@ -57,7 +57,7 @@ export default function FilterPosts() {
                 img: res.data.recipe[i].img,
               });
             }
-            setFeeds(database);
+            setuserFeeds(database);
             console.log("dddd", database);
           } else {
             alert(res.data.message);
@@ -81,8 +81,7 @@ export default function FilterPosts() {
                 img: res.data.recipes[i].img,
               });
             }
-            setFeeds(database);
-            console.log("dddd", database);
+            setuserFeeds(database);
           } else {
             alert(res.data.message);
           }
@@ -108,7 +107,7 @@ export default function FilterPosts() {
                 userId: res.data.posting[i].userID,
               });
             }
-            setFeeds(database);
+            setuserFeeds(database);
             console.log("dddd", database);
             //   if (i == 0) {
 
@@ -139,7 +138,7 @@ export default function FilterPosts() {
                 userId: res.data.posting[i].userId,
               });
             }
-            setFeeds(database);
+            setuserFeeds(database);
             console.log("dddd", database);
             //   if (i == 0) {
 
@@ -164,14 +163,14 @@ export default function FilterPosts() {
   }, [filter]);
 
   return (
-    <feedContext.Provider value={{ feeds, setFeeds }}>
+    <feedContext.Provider value={{ userfeeds, setuserFeeds }}>
       <Container>
         <Header />
-        {feeds ? (
-          feeds.length > 0 ? (
+        {userfeeds ? (
+          userfeeds.length > 0 ? (
             <FeedList>
               <BackButton />
-              {feeds.map((feed) => (
+              {userfeeds.map((feed) => (
                 <MainCard
                   img={"../../" + feed.img}
                   key={feed.recipeID || feed.postingID}
