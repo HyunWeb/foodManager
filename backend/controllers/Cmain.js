@@ -6,6 +6,8 @@ const axios = require("axios");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+const {Grocery} = require("../models/index");
+
 // // s3 설정
 // const {
 //   S3Client,
@@ -136,6 +138,20 @@ async function processIngredient(data) {
   }
 }
 
+async function recommentRecipe(recipes, grocery) {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = `${grocery}를 활용할 수 있는 레시피를 다음 데이터에서 골라줘${recipes}. 그리고 해당 레시피들의 RCP_SEQ를 배열 형태로 반환해줘`;
+    const result = await model.generateContent(prompt);
+    console.log("Recommend: ", result);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function processSteps(recipe) {
   // MANUAL01 필드가 존재하는지 먼저 확인
   if (!recipe.MANUAL01) {
@@ -149,7 +165,7 @@ function processSteps(recipe) {
   for (let i = 1; i <= 20; i++) {
     const key = `MANUAL${String(i).padStart(2, "0")}`;
     if (recipe[key] && recipe[key].trim() !== "") {
-      steps.push({stepNo: i, content: recipe[key]});
+      steps.push({ stepNo: i, content: recipe[key] });
     }
   }
 
@@ -159,12 +175,23 @@ function processSteps(recipe) {
 exports.fetchDataAndSave = async (req, res) => {
   try {
     const response = await axios.get(
-      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
-      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
+      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
+      // "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
     if (!recipes || !Array.isArray(recipes)) {
       throw new Error("유효하지 않은 데이터");
+    }
+
+    console.log(req.session.userInfo);
+
+    if (req.session.userInfo) {
+      const grocery = await Grocery.findAll({
+        where: { userID: req.session.userInfo.userid }
+      });
+
+      const recommend = recommentRecipe(recipes, grocery);
+      console.log("Recommend: ", recommend.data.COOKRCP01.row);
     }
 
     const processedData = recipes
@@ -199,8 +226,8 @@ exports.detailAPI = async (req, res) => {
   try {
     const { id } = req.params;
     const response = await axios.get(
-      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
-      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
+      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
+      // "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
 
