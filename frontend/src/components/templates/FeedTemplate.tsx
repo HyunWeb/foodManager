@@ -4,6 +4,7 @@ import MainCard from "../molecules/MainCard";
 import axios from "axios";
 import { ColorSwatch } from "@chakra-ui/react";
 import { usePageRender } from "../organisms/PageRenderContext";
+import { useParams, useSearchParams } from "react-router-dom";
 
 interface FeedData {
   postingID: number;
@@ -34,11 +35,12 @@ export default function FeedTemplate() {
   const [feeds, setFeeds] = useState<FeedData[]>([]);
   const [Loading, setLoading] = useState(false);
   const { feedPageRender, setFeedPageRender } = usePageRender();
+  const { id } = useParams<{ id: string }>();
   useEffect(() => {
     setLoading(true);
     const data = axios({
       method: "GET",
-      url: "/posting",
+      url: `/posting`,
       withCredentials: true,
     }).then((res) => {
       // console.log(res.data.posting);

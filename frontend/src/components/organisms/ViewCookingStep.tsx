@@ -28,6 +28,7 @@ const Span = styled.span`
 `;
 
 export default function ViewCookingStep({ value }: { value: StepProps[] }) {
+
   return (
     <Container>
       <HeadingAtom level={3} $marginBottom="10px">

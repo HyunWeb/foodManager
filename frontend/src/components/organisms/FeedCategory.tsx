@@ -103,7 +103,6 @@ export default function FeedCategory() {
     const fetchItems = async () => {
       setLoading(true);
       const result = await processRecipeData();
-      // console.log(result);
       if (result !== undefined) {
         setFeeds(result);
       }

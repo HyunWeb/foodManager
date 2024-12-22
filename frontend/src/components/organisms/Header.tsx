@@ -50,8 +50,8 @@ export default function Header({ hide = false }: { hide?: boolean }) {
         url: `http://localhost:8000/user/check`,
         withCredentials: true,
       });
-      // console.log(usering.data);
       setIsLogin(usering.data.result);
+      console.log(usering.data);
     } catch (error) {
       console.error("Error fetching items: ", error);
     }
@@ -69,7 +69,6 @@ export default function Header({ hide = false }: { hide?: boolean }) {
       });
       // domain 옵션을 제거하고 path만 설정
       // removeCookie("connect.sid", { path: "/" });
-      // console.log("ddd", data);
       document.cookie =
         "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
     } catch (error) {

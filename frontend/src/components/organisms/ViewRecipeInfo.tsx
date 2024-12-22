@@ -20,6 +20,11 @@ const RecipeInfo = styled.section`
 
 export default function ViewRecipeInfo({ value }: { value: RecipeDataProps }) {
   console.log(value);
+  const shouldShowIcons =
+    value.time !== "" &&
+    value.amount !== "" &&
+    value.level !== "";
+
   return (
     <div>
       {/* 최상단 메인 이미지 */}
@@ -27,11 +32,13 @@ export default function ViewRecipeInfo({ value }: { value: RecipeDataProps }) {
 
       <RecipeInfo>
         {/* 시계, 인분, 난이도 아이콘 */}
-        <ViewIconWrap
-          time={value.time}
-          mealCount={value.amount}
-          level={value.level}
-        />
+        {shouldShowIcons && (
+          <ViewIconWrap
+            time={value.time}
+            mealCount={value.amount}
+            level={value.level}
+          />
+        )}
         {/* 제목과 상세정보 부분 */}
         <ViewRecipeHead title={value.title} describe={value.describe} />
       </RecipeInfo>

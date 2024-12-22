@@ -40,8 +40,8 @@ export default function View() {
   const [params] = useSearchParams();
   const type = params.get("type");
   console.log(type);
-  const route = process.env.REACT_APP_ROUTE;
 
+  // const [loading, setLoading] = useState(true);
   const [starValue, setStarValue] = useState(0);
   const [RecipeData, setRecipeData] = useState({
     recipeID: 0,
@@ -51,14 +51,14 @@ export default function View() {
     time: "",
     amount: "", //몇인분인지
     level: "",
-    ingred: [
+    ingredient: [
       {
         ingredientID: 0,
         ingreName: "",
         amount: "",
       },
     ],
-    step: [
+    steps: [
       {
         stepNo: "",
         content: "",
@@ -88,7 +88,7 @@ export default function View() {
     if (type == "recipe") {
       const data = axios({
         method: "GET",
-        url: `${route}/Recipe//find/${id}`,
+        url: `/Recipe/find/${id}`,
         withCredentials: true,
       }).then((res) => {
         console.log(res.data);
@@ -102,37 +102,40 @@ export default function View() {
           time: time,
           amount: amount,
           level: level,
-          ingred: res.data.ingredient,
-          step: res.data.steps,
+          ingredient: res.data.ingredient,
+          steps: res.data.steps,
         });
       });
-    } else if (type == "posting") {
+    }
+
+    if (type == "posting") {
       const data = axios({
         method: "GET",
-        url: `/posting/${id}`,
+        url: `http://localhost:8000/posting/${id}`,
         withCredentials: true,
       }).then((res) => {
+        alert("dfsfda");
         console.log(res.data.posting);
         setPostingData(res.data.posting);
         setCommentList(res.data.comment);
+        console.log(PostingData);
+        //setLoading(false);
       });
     }
   }, [CommentPageRender]);
 
+
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
   return (
     <Container>
       <CommentContext.Provider value={{ CommentList, setCommentList }}>
-        {type === "recipe" ? (
+        {type === "recipe" || type === "defaultRecipe" ? (
           <ViewTemplateRecipe
             starValue={starValue}
             setStarValue={setStarValue}
-            RecipeData={RecipeData}
-          />
-        ) : type === "defaultRecipe" ? (
-          <ViewTemplateRecipe
-            starValue={starValue}
-            setStarValue={setStarValue}
-            RecipeData={RecipeData}
+            RecipeType={RecipeData}
           />
         ) : (
           <ViewTemplatePosting PostingData={PostingData} />
