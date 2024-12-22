@@ -114,7 +114,6 @@ export default function View() {
         url: `http://localhost:8000/posting/${id}`,
         withCredentials: true,
       }).then((res) => {
-        alert("dfsfda");
         console.log(res.data.posting);
         setPostingData(res.data.posting);
         setCommentList(res.data.comment);
@@ -123,7 +122,6 @@ export default function View() {
       });
     }
   }, [CommentPageRender]);
-
 
   // if (loading) {
   //   return <div>Loading...</div>;
