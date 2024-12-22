@@ -65,6 +65,7 @@ export default function FoodBlock({
     setDisplay((prev) => !prev);
   };
   const route = process.env.REACT_APP_ROUTE;
+
   const DeleteFood = () => {
     const data = axios({
       method: "delete",
@@ -87,7 +88,7 @@ export default function FoodBlock({
       <CloseButton
         label="닫기 버튼"
         icontype="ex"
-        color="#bababa"
+        color="#dddddd"
         size="25px"
         onClick={Alert}
       />

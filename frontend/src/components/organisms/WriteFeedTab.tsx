@@ -7,15 +7,23 @@ import TextareaForm from "../atoms/TextareaForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { usePageRender } from "./PageRenderContext";
 const Container = styled.form`
   position: relative;
 `;
 
-export default function WriteFeedTab() {
+export default function WriteFeedTab({ onClose }: { onClose: () => void }) {
   const [titleValue, setTitleValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [fileName, setFileName] = React.useState<Blob | null>(null);
   const navigate = useNavigate();
+  // 컨텍스트 사용
+  const { feedPageRender, setFeedPageRender } = usePageRender();
+
+  const togglePageRender = () => {
+    setFeedPageRender((prev) => !prev);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     console.log(titleValue, contentValue, fileName);
     e.preventDefault();
@@ -37,6 +45,8 @@ export default function WriteFeedTab() {
     }).then((res) => {
       if (res.data.result == true) {
         alert(res.data.message);
+        onClose();
+        togglePageRender();
       } else {
         if (res.data.message == "로그인X, 레시피 정보 등록 불가!") {
           navigate("/login");

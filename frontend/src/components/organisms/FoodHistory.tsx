@@ -13,14 +13,23 @@ interface FoodLog {
   userID: string;
   when: string;
 }
+interface GroceryItem {
+  amount: number; // 수량
+  category: number; // 카테고리 (id 또는 index로 보임)
+  expiration: string; // 유통기한 (ISO8601 형식의 문자열)
+  groceryID: number; // 식료품 고유 ID
+  groceryname: string; // 식료품 이름
+  unit: string; // 단위 (예: 마리, 개 등)
+  userID: string; // 사용자 ID
+}
 interface FoodHistoryProps {
   category: string;
   type: "ingredient" | "food";
   foodLog?: FoodLog[];
+  groceryData?: GroceryItem[];
 }
 
 const Container = styled.div`
-  padding: 20px;
   margin-bottom: 50px;
 
   @media (min-width: 768px) {
@@ -38,6 +47,7 @@ export default function FoodHistory({
   category,
   type,
   foodLog,
+  groceryData,
 }: FoodHistoryProps) {
   return (
     <Container>
@@ -49,7 +59,7 @@ export default function FoodHistory({
         {category}
       </HeadingName>
 
-      <FoodBlockList type={type} foodLog={foodLog} />
+      <FoodBlockList type={type} foodLog={foodLog} groceryData={groceryData} />
     </Container>
   );
 }

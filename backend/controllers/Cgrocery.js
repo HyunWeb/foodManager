@@ -6,7 +6,7 @@ const { Grocery } = require("../models/index"); //controller에서 필요한 것
 
 exports.getGrocery = async (req, res) => {
   try {
-    const grocery = await FoodLog.findAll();
+    const grocery = await Grocery.findAll();
     res.json(grocery);
   } catch (error) {
     console.error(error);
@@ -19,20 +19,36 @@ exports.postGrocery = async (req, res) => {
   try {
     if (req.session.userInfo) {
       const { category, groceryname, amount, unit, expiration } = req.body;
-      await Grocery.create({
-        userID: req.session.userInfo.userid,
-        category: category,
-        groceryname: groceryname,
-        amount: amount,
-        unit: unit,
-        expiration: expiration,
-      });
-      res.json({
-        result: true,
-        message: "정상적으로 푸드 로그가 등록되었습니다.",
-      });
+
+      if (!category || !groceryname || !amount || !unit || !expiration) {
+        return res.status(400).json({
+          result: false,
+          message: "필수 정보가 누락되었습니다.",
+        });
+      }
+      const date = new Date(expiration).getTime();
+      const today = new Date().getTime();
+      if (date <= today) {
+        return res.status(400).json({
+          result: false,
+          message: "이미 유통기한이 지난 음식입니다.",
+        });
+      } else {
+        await Grocery.create({
+          userID: req.session.userInfo.userid,
+          category: category,
+          groceryname: groceryname,
+          amount: amount,
+          unit: unit,
+          expiration: expiration,
+        });
+        res.json({
+          result: true,
+          message: "정상적으로 푸드 로그가 등록되었습니다.",
+        });
+      }
     } else {
-      res.json({
+      res.status(400).json({
         result: false,
         message: "로그인이 되어 있지 않습니다.",
       });

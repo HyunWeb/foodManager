@@ -1,5 +1,6 @@
 /* 폰트 설정 */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+@import url("https://cdn.jsdelivr.net/gh/fonts-archive/Recipekorea/Recipekorea.css");
 html,
 body {
   font-family: "Noto Sans KR", sans-serif; /* serif 대신 sans-serif로 교체 (Noto Sans는 산세리프) */

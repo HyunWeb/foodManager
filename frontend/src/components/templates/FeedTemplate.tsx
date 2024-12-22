@@ -3,6 +3,7 @@ import styled from "styled-components";
 import MainCard from "../molecules/MainCard";
 import axios from "axios";
 import { ColorSwatch } from "@chakra-ui/react";
+import { usePageRender } from "../organisms/PageRenderContext";
 
 interface FeedData {
   postingID: number;
@@ -32,6 +33,7 @@ const Container = styled.div`
 export default function FeedTemplate() {
   const [feeds, setFeeds] = useState<FeedData[]>([]);
   const [Loading, setLoading] = useState(false);
+  const { feedPageRender, setFeedPageRender } = usePageRender();
   useEffect(() => {
     setLoading(true);
     const data = axios({
@@ -39,12 +41,12 @@ export default function FeedTemplate() {
       url: "/posting",
       withCredentials: true,
     }).then((res) => {
-      console.log(res.data.posting);
+      // console.log(res.data.posting);
       setFeeds(res.data.posting);
-      console.log(feeds);
+      // console.log(feeds);
     });
     setLoading(false);
-  }, []);
+  }, [feedPageRender]);
   return (
     <Container>
       {Loading ? (

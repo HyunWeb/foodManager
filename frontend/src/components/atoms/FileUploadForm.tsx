@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { CloseButton } from "../ui/close-button";
+import { Button } from "../ui/button";
 import {
   FileUploadList,
   FileUploadRoot,
   FileUploadDropzone,
   FileUploadClearTrigger,
 } from "../ui/file-upload";
+import { FileUploadTrigger } from "@chakra-ui/react";
+import { HiUpload } from "react-icons/hi";
 
 interface FileUploadFormProps {
   value: Blob | null;
@@ -58,10 +61,11 @@ $(function () {
       onChange={handleFileChange}
       accept={["image/*"]}
     >
-      <FileUploadDropzone
-        label="Drag and drop here to upload"
-        description=".png, .jpg up to 5MB"
-      />
+      <FileUploadTrigger width="200px" height="50px" margin="30px auto" asChild>
+        <Button variant="outline" size="sm">
+          <HiUpload /> Upload file
+        </Button>
+      </FileUploadTrigger>
       <FileUploadList />
       <FileUploadClearTrigger asChild backgroundColor="#EBEBEB">
         <CloseButton

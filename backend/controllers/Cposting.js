@@ -20,7 +20,7 @@ exports.getPosting = async (req, res) => {
   try {
     const posting = await Posting.findAll({
       attributes: ["postingID", "title", "userId", "img"],
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
     });
     console.log(posting);
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
@@ -195,10 +195,10 @@ exports.editComment = async (req, res) => {
 // comment 삭제
 exports.deleteComment = async (req, res) => {
   try {
-    const userID = req.session.userInfo.userid;
-    const { commentID } = req.params;
-
+    console.log(req.session.userInfo);
     if (req.session.userInfo) {
+      const userID = req.session.userInfo.userid;
+      const { commentID } = req.params;
       await PostComment.destroy({
         where: { commentID: commentID, userID: userID },
       });
@@ -207,6 +207,7 @@ exports.deleteComment = async (req, res) => {
       res.json({ result: false, message: "사용자가 작성하지 않은 글입니다." });
     }
   } catch (error) {
+    console.log("제대로 안 들어옵니다.");
     console.error(error);
     res.json({ result: false });
   }

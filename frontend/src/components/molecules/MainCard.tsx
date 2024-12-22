@@ -77,7 +77,7 @@ export default function MainCard({
       <LikeButton
         label="좋아요 버튼"
         icontype="heart"
-        color={likeState ? "red" : "white"}
+        color={likeState ? "red" : "#e0e0e0"}
         BGcolor="transparent"
         variant="ghost"
         onClick={() => ChangeLikeState()}

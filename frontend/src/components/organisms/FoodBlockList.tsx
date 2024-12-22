@@ -4,17 +4,6 @@ import FoodBlock from "../molecules/FoodBlock";
 import IngredientBlock from "../molecules/IngredientBlock";
 import axios from "axios";
 
-// interface FoodLog {
-//   amount: number; // 음식의 수량
-//   category: number; // 음식 카테고리 (예: 1 = 특정 카테고리)
-//   foodname: string; // 음식 이름
-//   kcal: number; // 칼로리
-//   logID: number; // 로그 ID
-//   mealtype: string; // 식사 타입 (예: "Breakfast", "Lunch", "Dinner" 등)
-//   unit: string; // 단위 (예: '마리', '개')
-//   userID: string; // 사용자 ID
-//   when: string; // 기록 날짜 (예: "2024-12-20")
-// }
 interface FoodLog {
   amount: number;
   category: number;
@@ -26,13 +15,23 @@ interface FoodLog {
   userID: string;
   when: string;
 }
+
+interface GroceryItem {
+  amount: number; // 수량
+  category: number; // 카테고리 (id 또는 index로 보임)
+  expiration: string; // 유통기한 (ISO8601 형식의 문자열)
+  groceryID: number; // 식료품 고유 ID
+  groceryname: string; // 식료품 이름
+  unit: string; // 단위 (예: 마리, 개 등)
+  userID: string; // 사용자 ID
+}
 interface IngredientData {
   id: number;
   $img: number;
   kindFood: string;
   amountFood: string;
   ExDate: string;
-  remainDate: number;
+  $remainDate: string | number;
 }
 
 const FoodList = styled.ul`
@@ -53,12 +52,12 @@ const FoodList = styled.ul`
 export default function FoodBlockList({
   type,
   foodLog,
+  groceryData,
 }: {
   type: "ingredient" | "food";
   foodLog?: FoodLog[];
+  groceryData?: GroceryItem[];
 }) {
-  // const [foods, setFoods] = useState<FoodLog[]>([]);
-  const [ingredient, setIngredient] = useState<IngredientData[]>([]);
   const [Loading, setLoading] = useState(false);
 
   const kindOfFood = [
@@ -80,70 +79,36 @@ export default function FoodBlockList({
     `기타`,
   ];
 
-  const NutritionData = [
-    // { id: 1, $img: 9, kindFood: "한식", foodName: "김밥", kcal: 200 },
-    // { id: 2, $img: 4, kindFood: "패스트푸드", foodName: "햄버거", kcal: 500 },
-    // { id: 3, $img: 2, kindFood: "중식", foodName: "짜장면", kcal: 600 },
-    // { id: 4, $img: 14, kindFood: "과자", foodName: "스윙칩", kcal: 300 },
-    // { id: 5, $img: 1, kindFood: "치킨", foodName: "양념치킨", kcal: 900 },
-  ];
+  // const IngredientData = [
+  //   {
+  //     id: 1,
+  //     $img: 1,
+  //     kindFood: "신선식품",
+  //     amountFood: "1개",
+  //     ExDate: "2025/03/15",
+  //     $remainDate: 10,
+  //   },
+  // ];
 
-  const IngredientData = [
-    {
-      id: 1,
-      $img: 1,
-      kindFood: "신선식품",
-      amountFood: "1개",
-      ExDate: "2025/03/15",
-      remainDate: 10,
-    },
-    {
-      id: 2,
-      $img: 2,
-      kindFood: "곡물 & 견과류",
-      amountFood: "1개",
-      ExDate: "2025/03/15",
-      remainDate: 7,
-    },
-    {
-      id: 3,
-      $img: 3,
-      kindFood: "가공 & 저장식품",
-      amountFood: "1개",
-      ExDate: "2025/03/15",
-      remainDate: 3,
-    },
-    {
-      id: 4,
-      $img: 4,
-      kindFood: "유제품",
-      amountFood: "1개",
-      ExDate: "2025/03/15",
-      remainDate: 2,
-    },
-    {
-      id: 5,
-      $img: 5,
-      kindFood: "음료",
-      amountFood: "1개",
-      ExDate: "2025/03/15",
-      remainDate: 6,
-    },
-    {
-      id: 6,
-      $img: 6,
-      kindFood: "기타",
-      amountFood: "1개",
-      ExDate: "2025/03/15",
-      remainDate: 6,
-    },
-  ];
+  // 날짜 계산 함수
+  const CalculateDate = (
+    Exdate: string
+  ): [expiration: string, $remainDate: number] => {
+    const todayDate = new Date(); // 오늘 날짜
+    const date = new Date(Exdate); // DB에 저장된 유통기한
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   type === "food" ? setFoods(log) : setIngredient(IngredientData);
-  //   setLoading(false);
-  // }, []);
+    // 유통기한 표기 보기 좋게 정리
+    const year = date.getFullYear(); // 유통기한 연도 추출
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월 추출
+    const day = String(date.getDate()).padStart(2, "0"); // 일 추출
+    const expiration = `${year} / ${month} / ${day}`; // 보기 좋게 정리
+
+    // 오늘 기준 남은 시간 계산
+    const remainSecond = date.getTime() - todayDate.getTime(); // second로 계산
+    let $remainDate = Math.ceil(remainSecond / (1000 * 60 * 60 * 24)); // 날짜로 변환
+    $remainDate = $remainDate > 99 ? 99 : $remainDate; // 100 이상은 99+ 로 처리
+    return [expiration, $remainDate];
+  };
   return (
     <div>
       {Loading ? (
@@ -162,16 +127,25 @@ export default function FoodBlockList({
                   kcal={food.kcal}
                 />
               ))
-            : IngredientData.map((Ingredient) => (
-                <IngredientBlock
-                  key={Ingredient.id}
-                  $img={Ingredient.$img}
-                  kindFood={Ingredient.kindFood}
-                  amountFood={Ingredient.amountFood}
-                  ExDate={Ingredient.ExDate}
-                  remainDate={Ingredient.remainDate}
-                />
-              ))}
+            : groceryData &&
+              groceryData.map((groceryData) => {
+                // 유통기한과 남은 날짜 계산해서 map에 넣어 돌린다.
+                const [expiration, $remainDate] = CalculateDate(
+                  groceryData.expiration
+                );
+                return (
+                  <IngredientBlock
+                    key={groceryData.groceryID}
+                    id={groceryData.groceryID}
+                    $img={groceryData.category}
+                    kindFood={groceryData.groceryname}
+                    unit={groceryData.unit}
+                    amount={groceryData.amount}
+                    expiration={expiration}
+                    $remainDate={$remainDate}
+                  />
+                );
+              })}
         </FoodList>
       )}
     </div>

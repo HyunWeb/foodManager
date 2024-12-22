@@ -3,6 +3,7 @@ import styled from "styled-components";
 import RecipeImgBox from "../molecules/RecipeImgBox";
 import HeadingAtom from "../atoms/HeadingAtom";
 import axios from "axios";
+import { usePageRender } from "./PageRenderContext";
 interface RecipeProps {
   id: number;
   title: string;
@@ -12,9 +13,6 @@ interface RecipeProps {
 
 const Container = styled.div`
   margin-bottom: 20px;
-  @media (min-width: 768px) {
-    padding-left: 170px;
-  }
 `;
 const RecipeList = styled.ul`
   display: flex;
@@ -49,28 +47,30 @@ export default function RecipeCategory({
   category: string;
   introduce?: string;
 }) {
+  const { recipes, setRecipes, loading, setLoading } = usePageRender();
   const api = process.env.REACT_APP_ROUTE;
-  const [recipes, setRecipes] = useState<RecipeProps[]>([]);
-  const [loading, setLoading] = useState(false);
+  // const [recipes, setRecipes] = useState<RecipeProps[]>([]);
+  // const [loading, setLoading] = useState(false);
 
   //api 요청 부분
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(`${api}/api/items`, {
-          withCredentials: true,
-        });
-        setRecipes(res.data.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching items: ", error);
-      }
-    };
+  // useEffect(() => {
+  //   console.log("실행전 = " + recipes);
+  //   const fetchItems = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const res = await axios.get(`${api}/api/items`, {
+  //         withCredentials: true,
+  //       });
+  //       setRecipes(res.data.data);
+  //       setLoading(false);
+  //       console.log("실행 후 = " + recipes);
+  //     } catch (error) {
+  //       console.error("Error fetching items: ", error);
+  //     }
+  //   };
 
-    fetchItems();
-  }, []);
-
+  //   fetchItems();
+  // }, []);
   return (
     <Container>
       <HeadingAtom
