@@ -55,11 +55,11 @@ export default function InputModal({
   const render = () => {
     switch (selected) {
       case 1:
-        return <WritePostTab />;
+        return <WritePostTab onClose={onClose} />;
       case 2:
         return <WriteFoodTab onClose={onClose} setSelected={setSelected} />;
       case 3:
-        return <WriteAddFood />;
+        return <WriteAddFood onClose={onClose} />;
     }
   };
   return (

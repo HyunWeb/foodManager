@@ -46,7 +46,7 @@ export default function ViewTemplatePosting({
     <Container>
       <ButtonStyle position="absolute" />
       <ViewPostingInfo value={PostingData} />
-      <PostingCommentList />
+      <PostingCommentList PostingData={PostingData} />
     </Container>
   );
 }

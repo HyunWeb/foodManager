@@ -58,7 +58,10 @@ export default function NavBar() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelected(1);
+    setSelected(2);
+    setTimeout(() => {
+      setSelected(1);
+    }, 50);
   };
   return (
     <>

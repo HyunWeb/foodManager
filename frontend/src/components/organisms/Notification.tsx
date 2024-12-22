@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import NotificationHeader from "../molecules/NotificationHeader";
 import NotificationBody from "../molecules/NotificationBody";
@@ -40,7 +40,7 @@ interface NotificationProps {
   type: "info" | "success" | "warning" | "error";
   onConfirm: () => void;
   onCancel?: () => void;
-  alertDisplay: boolean;
+  alertDisplay?: boolean;
 }
 
 const Notification: React.FC<NotificationProps> = ({
@@ -49,12 +49,32 @@ const Notification: React.FC<NotificationProps> = ({
   type,
   onConfirm,
   onCancel,
-  alertDisplay,
+  alertDisplay = false,
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      console.log("press!!!", alertDisplay, event.key === "Eenter");
+      if (alertDisplay && event.key === "Enter") {
+        onConfirm();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [alertDisplay, onConfirm]);
+
   return (
     <NotificationContainer $display={alertDisplay}>
       {/* Header */}
-      <NotificationHeader title={title} type={type} onConfirm={onConfirm} />
+      <NotificationHeader
+        title={title}
+        type={type}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      />
 
       {/* Body */}
       <Container>{message}</Container>

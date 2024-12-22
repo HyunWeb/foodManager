@@ -95,13 +95,6 @@ export default function Header({ hide = false }: { hide?: boolean }) {
         <LogoImg large={false} />
         {!hide && (
           <>
-            <IconButtonAtom
-              label="알림버튼"
-              BGcolor="transparent"
-              variant="ghost"
-              icontype="bell"
-              size="30px"
-            />
             {isLogin ? (
               <IconButtonAtom
                 label="로그아웃 버튼"

@@ -153,13 +153,6 @@ export default function WriteFoodTab({
     }).then((res) => {
       if (res.data.result == true) {
         alert("성공적으로 정보가 저장되었습니다.");
-        setTimeState(null);
-        setKindOfFood(null);
-        setFoodName("");
-        setfoodAmount("1");
-        setFoodUnit("");
-        setKcal("");
-        setSelected(1); //
         onClose(); // 자동으로 입력창 닫기
         togglePageRender(); // 컨텍스트를 활용한 영양소 페이지 강제 재 렌더링
         //setTimeState setKindOfFood setFoodName setfoodAmount setFoodUnit setKcal

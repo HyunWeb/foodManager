@@ -6,6 +6,7 @@ import ViewTemplateRecipe from "../templates/ViewTemplateRecipe";
 import ViewTemplatePosting from "../templates/ViewTemplatePosting";
 import axios from "axios";
 import { createContext } from "react";
+import { usePageRender } from "../organisms/PageRenderContext";
 interface CommentListProps {
   commentID: number;
   userID: string;
@@ -81,10 +82,8 @@ export default function View() {
     date: "",
     content: "",
   });
-
+  const { CommentPageRender, setCommentPageRender } = usePageRender();
   useEffect(() => {
-    //댓글 데이터 업데이트
-
     // 레시피 데이터 업데이트
     if (type == "recipe") {
       const data = axios({
@@ -123,14 +122,8 @@ export default function View() {
         //setLoading(false);
       });
     }
+  }, [CommentPageRender]);
 
-    // else if (id && type) {
-    //   setRecipeData({
-    //     recipeID: id,
-    //     type: type,
-    //   });
-    // }
-  }, []);
 
   // if (loading) {
   //   return <div>Loading...</div>;
