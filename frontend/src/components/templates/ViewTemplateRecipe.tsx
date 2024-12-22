@@ -22,6 +22,7 @@ interface CookingStep {
 
 // 레시피 전체 정보 타입 정의
 interface RecipeData {
+  type: string;
   recipeID: number; // 레시피 ID
   title: string; // 레시피 이름
   describe: string; // 상세 설명
@@ -76,100 +77,14 @@ const StarStyle = styled(Rating)`
 `;
 
 export default function ViewTemplateRecipe({
-  RecipeType,
+  RecipeData,
   starValue,
   setStarValue,
 }: {
-  RecipeType: RecipeType;
+  RecipeData: RecipeData;
   starValue: number;
   setStarValue: (e: number) => void;
 }) {
-
-  const [isLoading, setIsLoading] = useState(true);
-  const route = process.env.REACT_APP_ROUTE;
-  const [RecipeData, setRecipeData] = useState({
-    recipeID: 0,
-    title: "",
-    describe: "",
-    img: "",
-    time: "",
-    amount: "", //몇인분인지
-    level: "",
-    ingredients: [
-      {
-        ingredientID: 0,
-        ingreName: "",
-        amount: "",
-      },
-    ],
-    steps: [
-      {
-        stepNo: "",
-        content: "",
-      },
-    ],
-  });
-
-  useEffect(() => {
-    if (RecipeType.type == "defaultRecipe") {
-      setIsLoading(true);
-      axios({
-        method: "GET",
-        url: `${route}/api/${RecipeType.recipeID}`,
-        withCredentials: true,
-      }).then((res) => {
-        const { id, title, img, describe, ingredients, steps } = res.data.data;
-        console.log(id, title, img, describe, ingredients, steps);
-        console.log(res.data);
-        setRecipeData({
-          recipeID: id,
-          title: title,
-          img: img,
-          time: "",
-          amount: "",
-          level: "",
-          describe: describe,
-          ingredients: ingredients,
-          steps: steps,
-        });
-      })
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => {
-        console.log(RecipeData);
-        setIsLoading(false)
-      });
-    }
-
-    // 레시피 데이터 업데이트
-    if (RecipeType.type == "recipe") {
-      setIsLoading(true);
-      axios({
-        method: "GET",
-        url: `${route}/Recipe//find/${RecipeType.recipeID}`,
-        withCredentials: true
-      }).then((res) => {
-        console.log(res.data);
-        const { recipeID, title, describe, img, time, amount, level } = res.data.recipe;
-        setRecipeData({
-          recipeID: recipeID,
-          title: title,
-          describe: describe,
-          img: img,
-          time: time,
-          amount: amount,
-          level: level,
-          ingredients: res.data.ingredient,
-          steps: res.data.steps,
-        });
-      })
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => setIsLoading(false));
-    }
-  }, [RecipeType])
-
-  if (isLoading) {
-    return <div>Loading...</div>; // 또는 스켈레톤 UI를 표시
-  } 
 
   return (
     <Container>
@@ -177,7 +92,7 @@ export default function ViewTemplateRecipe({
       <ViewRecipeInfo value={RecipeData} />
       <ViewIngredient value={RecipeData.ingredients || []} />
       <ViewCookingStep value={RecipeData.steps || []} />
-      {RecipeType.type === "recipe" && <StarStyle
+      {RecipeData.type === "recipe" && <StarStyle
         size="lg"
         value={starValue}
         onValueChange={(e) => setStarValue(e.value)}
