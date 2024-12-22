@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
 import RecipeInfo from "./RecipeInfo";
@@ -6,6 +6,7 @@ import IconButtonAtom from "../atoms/IconButtonAtom";
 import FeedInfo from "./FeedInfo";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { feedContext } from "../pages/FilterPosts";
 
 interface MainCardProps {
   postingID?: number;
@@ -68,6 +69,7 @@ export default function MainCard({
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
   const params = recipeID ? "recipe" : "posting";
+  const feedchange = useContext(feedContext);
   useEffect(() => {
     if (type == "recipe") {
       const main = axios({
@@ -89,13 +91,13 @@ export default function MainCard({
       }).then((res) => {
         if (res.data.result == true) {
           setLikeState(res.data.result);
-          console.log(res.data.message);
         } else {
           console.log(res.data.message);
         }
       });
     }
   }, []);
+
   const ChangeLikeState = () => {
     if (type == "recipe") {
       const main = axios({
@@ -108,12 +110,12 @@ export default function MainCard({
         if (res.data.result == true) {
           setLikeState(!likeState);
           alert(res.data.Message);
+          changefeeds();
         } else {
           alert(res.data.Message);
         }
       });
     } else {
-      alert("posting 찜 추가");
       const main = axios({
         method: "POST",
         url: `/posting/${postingID}/like`,
@@ -121,10 +123,34 @@ export default function MainCard({
         if (res.data.result == true) {
           setLikeState(!likeState);
           alert(res.data.message);
+          changefeeds();
         } else {
           alert(res.data.message);
         }
       });
+    }
+  };
+
+  const changefeeds = () => {
+    alert("피드 변경");
+    if (likeState == true) {
+      if (type == "recipe") {
+        const feedobject = feedchange?.feeds.filter((feed) => {
+          return feed.postingID != postingID;
+        });
+        console.log(feedobject);
+        if (feedobject != undefined) {
+          feedchange?.setFeeds(feedobject);
+        }
+      } else {
+        const feedobject = feedchange?.feeds.filter((feed) => {
+          return feed.postingID != postingID;
+        });
+        console.log(feedobject);
+        if (feedobject != undefined) {
+          feedchange?.setFeeds(feedobject);
+        }
+      }
     }
   };
 
