@@ -69,7 +69,6 @@ export default function NavBar() {
     }).then((res) => {
       setIsLogin(res.data.result);
       setIsModalOpen(false);
-      console.log(res.data);
     });
   }, []);
 

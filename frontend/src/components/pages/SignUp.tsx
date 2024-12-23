@@ -55,8 +55,6 @@ export default function SignUp() {
       return;
     }
 
-    console.log({ name, email, password, birthDate, genderState });
-
     const data = axios({
       method: "POST",
       url: `http://localhost:8000/user/signup`,

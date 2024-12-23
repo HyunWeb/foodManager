@@ -24,7 +24,7 @@ exports.getUserPosting = async (req, res) => {
         order: [["createdAt", "DESC"]],
         where: { userID: req.session.userInfo.userid },
       });
-      // console.log(posting);
+
       res.json({
         result: true,
         message: "개인의 posting 정보 불러오기 성공",
@@ -51,7 +51,7 @@ exports.getPosting = async (req, res) => {
       attributes: ["postingID", "title", "userId", "img"],
       order: [["createdAt", "DESC"]],
     });
-    // console.log(posting);
+
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
     res.end();
   } catch (error) {
@@ -65,7 +65,7 @@ exports.postPosting = async (req, res) => {
   try {
     if (req.session.userInfo) {
       const { title, content } = req.body;
-      // console.log(req.files);
+
       await Posting.create({
         title: title,
         userID: req.session.userInfo.userid,
@@ -95,7 +95,6 @@ exports.postPosting = async (req, res) => {
 
 exports.editPosting = async (req, res) => {
   try {
-    // console.log(req.params);
     const { postingID } = req.params;
     const posting = await Posting.findOne({
       where: { postingID: postingID },
@@ -129,7 +128,6 @@ exports.editPosting = async (req, res) => {
 
 exports.deletePosting = async (req, res) => {
   try {
-    // console.log(req.params);
     const { postingID } = req.params;
     const posting = await Posting.findOne({
       where: { postingID: postingID },
@@ -157,7 +155,6 @@ exports.deletePosting = async (req, res) => {
 
 exports.detailPosting = async (req, res) => {
   try {
-    // console.log(r//eq.params);
     const { postingID } = req.params;
 
     const posting = await Posting.findOne({
@@ -187,7 +184,7 @@ exports.postComment = async (req, res) => {
 
     if (req.session.userInfo) {
       const userID = req.session.userInfo.userid;
-      // console.log(req.session.userInfo.userid, req.params);
+
       await PostComment.create({
         userID: userID,
         postingID: postingID,
@@ -242,7 +239,6 @@ exports.editComment = async (req, res) => {
 // comment 삭제
 exports.deleteComment = async (req, res) => {
   try {
-    // console.log(req.session.userInfo);
     if (req.session.userInfo) {
       const userID = req.session.userInfo.userid;
       const { commentID } = req.params;
@@ -256,7 +252,6 @@ exports.deleteComment = async (req, res) => {
       res.end();
     }
   } catch (error) {
-    // console.log("제대로 안 들어옵니다.");
     console.error(error);
     res.json({ result: false });
     res.end();
@@ -309,7 +304,6 @@ exports.userPostLike = async (req, res) => {
     const postingID = postLikes.map(
       (postLike) => postLike.dataValues.postingID
     );
-    // console.log(postingID);
 
     const posting = await Posting.findAll({
       where: { postingID: postingID },

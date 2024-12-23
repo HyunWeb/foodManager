@@ -24,13 +24,11 @@ const {
 
 // 하루 섭취 칼로리 계산
 async function kcalCalculate(birthday, gender) {
-  console.log(birthday);
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = `성별은 ${gender}이고, 생일이 ${birthday}일 때, 나이와 성별을 기준으로 하루 권장 칼로리를 계산해줘. 숫자만 반환해줘`;
 
     const result = await model.generateContent(prompt);
-    console.log(result.response.text());
     const cleanedData = result.response
       .text()
       .replace(/[\n\r]/g, "") // 줄바꿈 제거
@@ -54,13 +52,10 @@ async function kcalCalculate(birthday, gender) {
 // 회원가입
 exports.postUser = async (req, res) => {
   try {
-    console.log(req.body);
-    console.log("저장할 user 정보", req.session.userInfo);
     const { userid, name, pw, birthday, gender } = req.body;
     const isExist = await User.findAll({
       where: { userID: userid },
     });
-    console.log(birthday);
     if (isExist.length === 0) {
       const kcalPerDay = await kcalCalculate(birthday, gender);
       const hash = bcryptPassword(pw);
@@ -98,7 +93,6 @@ exports.postUser = async (req, res) => {
 exports.userLogin = async (req, res) => {
   try {
     const { userid, pw } = req.body;
-    console.log(req.session.userInfo);
     const isExist = await User.findOne({
       where: { userID: userid },
     });
@@ -112,8 +106,6 @@ exports.userLogin = async (req, res) => {
           userid: isExist.dataValues.userID,
           name: isExist.dataValues.name,
         };
-
-        console.log(req.session.userInfo.userid);
 
         res.json({
           result: true,
@@ -140,14 +132,12 @@ exports.userLogin = async (req, res) => {
 exports.userLogout = async (req, res) => {
   try {
     // 'domain'을 제거하고 'path'만 설정
-    console.log("현재 상태", req.session.userInfo);
     if (req.session.userInfo) {
       req.session.destroy((err) => {
         if (err) {
-          console.log(err);
+          console.error(err);
         }
         res.clearCookie("connect.sid", { secure: false });
-        console.log(req.session);
         res.json({
           result: true,
           message: "세션 삭제에 성공",
@@ -160,7 +150,7 @@ exports.userLogout = async (req, res) => {
       res.end();
     }
   } catch (error) {
-    console.log("현재 에러가 발생함 :", error);
+    console.error("현재 에러가 발생함 :", error);
     res.json({ result: false, message: error });
     res.end();
   }
@@ -238,7 +228,6 @@ exports.userSearch = async (req, res) => {
 // 로그인 상태 확인
 exports.userCheck = async (req, res) => {
   try {
-    console.log("지금 로그인 상태", req.session.userInfo);
     if (req.session.userInfo) {
       res.json({ result: true, message: "현재 세션이 살아있습니다." });
       res.end();
@@ -295,8 +284,6 @@ function getCookie(name) {
 //인증번호 보내는 라우터
 exports.userselect = async (req, res) => {
   const { userID, birthday } = req.body;
-  console.log(userID);
-  console.log(birthday);
 
   const Userfind = await User.findOne({ where: { userID, birthday } });
   if (Userfind != null) {
@@ -352,7 +339,7 @@ exports.Certifications = async (req, res) => {
 
     res.end();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.json({
       result: false,
       Message: "인증번호가 만료 or 생성X, 아니면 기능 오류",
@@ -382,7 +369,7 @@ exports.PWchange = async (req, res) => {
       res.end();
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.json({
       result: false,
       Message: "인증번호가 만료 or 생성X, 아니면 기능 오류",

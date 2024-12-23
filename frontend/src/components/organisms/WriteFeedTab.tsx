@@ -25,7 +25,6 @@ export default function WriteFeedTab({ onClose }: { onClose: () => void }) {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(titleValue, contentValue, fileName);
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", titleValue);

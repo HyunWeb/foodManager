@@ -53,7 +53,6 @@ const Notification: React.FC<NotificationProps> = ({
 }) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log("press!!!", alertDisplay, event.key === "Eenter");
       if (alertDisplay && event.key === "Enter") {
         onConfirm();
       }

@@ -132,9 +132,6 @@ export default function WriteFoodTab({
   // 날짜 결과
   const formattedDate = `${year}-${month}-${day}`;
 
-  //category, foodname, amount, unit, kcal, mealtype, when
-  console.log(TimeState, KindOfFood, foodName, foodAmount, foodUnit, kcal);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const data = axios({

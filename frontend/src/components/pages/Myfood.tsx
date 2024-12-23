@@ -66,25 +66,27 @@ export default function Myfood() {
     return Data;
   };
 
-  if(!isLogin){
+  if (!isLogin) {
     navigate("/login");
   }
 
-  return (isLogin &&
-    <div>
-      <Header />
-      <Container>
-        <RecipeCategory
-          category="오늘 뭐먹지?"
-          introduce="냉장고 속의 재료들로 만들수 있어요!"
-        />
-        <FoodHistory
-          category="냉장고 속 재료"
-          type="ingredient"
-          groceryData={groceryData}
-        />
-      </Container>
-      <NavBar />
-    </div>
+  return (
+    isLogin && (
+      <div>
+        <Header />
+        <Container>
+          <RecipeCategory
+            category="오늘 뭐먹지?"
+            introduce="냉장고 속의 재료들로 만들수 있어요!"
+          />
+          <FoodHistory
+            category="냉장고 속 재료"
+            type="ingredient"
+            groceryData={groceryData}
+          />
+        </Container>
+        <NavBar />
+      </div>
+    )
   );
 }

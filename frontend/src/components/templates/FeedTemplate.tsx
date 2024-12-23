@@ -45,7 +45,6 @@ export default function FeedTemplate() {
       url: `${route}/posting`,
       withCredentials: true,
     });
-    console.log("ddffdf", feedupdate.data.posting, Date.now());
     setPostings(feedupdate.data.posting);
   }
 
@@ -55,22 +54,22 @@ export default function FeedTemplate() {
       method: "GET",
       url: `${route}/posting`,
       withCredentials: true,
-    }).then((res) => {
-      console.log(res.data);
-      setPostings(res.data.posting);
-    }).finally(() => {
-      setLoading(false);
-    });
+    })
+      .then((res) => {
+        setPostings(res.data.posting);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [feedPageRender]);
 
-  console.log(Postings);
   return (
     <Container>
       {Loading ? (
         <p>Loading...</p>
       ) : (
         <FeedList>
-          {(Postings && Postings.length > 0 )? (
+          {Postings && Postings.length > 0 ? (
             Postings.map((feed) => (
               <MainCard
                 key={feed.postingID}

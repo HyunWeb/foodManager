@@ -51,7 +51,7 @@ export default function MyProfile() {
             : " - "
         }
       />
-      {userInfo.userID && <IconButtonAtom
+      {/* {userInfo.userID && <IconButtonAtom
         label="프로필 수정 버튼"
         icontype="Notepen"
         variant="ghost"
@@ -61,7 +61,7 @@ export default function MyProfile() {
         position="absolute"
         top="10px"
         right="20px"
-      />}
+      />} */}
     </Container>
   );
 }

@@ -57,7 +57,6 @@ export default function Nutrition() {
       withCredentials: true,
     }).then((res) => {
       setIsLogin(res.data.result);
-      console.log(res.data);
     });
 
     // foodlog 불러오기
@@ -66,13 +65,15 @@ export default function Nutrition() {
       url: `${route}/foodlog`,
       params: { startDate },
       withCredentials: true,
-    }).then((res) => {
-      const { log, kcalPerDay } = res.data;
-      setFoodLog(log);
-      setNeedKcal(kcalPerDay);
-    }).finally(() => {
-      setIsLoading(false);
     })
+      .then((res) => {
+        const { log, kcalPerDay } = res.data;
+        setFoodLog(log);
+        setNeedKcal(kcalPerDay);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [pageRender, startDate]);
 
   useEffect(() => {
@@ -88,19 +89,21 @@ export default function Nutrition() {
         <Loading>Loading...</Loading>
         <NavBar />
       </div>
-    )
+    );
   }
 
   if (!isLogin) {
     navigate("/login");
   }
 
-  return (isLogin &&
-    <div>
-      <Header />
-      <Wrapgraph NeedKcal={NeedKcal} Totalkcal={Totalkcal} />
-      <FoodHistory category="먹은 음식" type="food" foodLog={foodLog} />
-      <NavBar />
-    </div>
+  return (
+    isLogin && (
+      <div>
+        <Header />
+        <Wrapgraph NeedKcal={NeedKcal} Totalkcal={Totalkcal} />
+        <FoodHistory category="먹은 음식" type="food" foodLog={foodLog} />
+        <NavBar />
+      </div>
+    )
   );
 }

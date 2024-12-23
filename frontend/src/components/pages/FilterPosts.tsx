@@ -47,10 +47,8 @@ export default function FilterPosts() {
           withCredentials: true,
         }).then((res) => {
           let database = [];
-          console.log(res.data);
           if (res.data.result == true) {
             for (let i = 0; i < res.data.recipe.length; i++) {
-              console.log(res.data.recipe[i]);
               database.push({
                 recipeID: res.data.recipe[i].recipeID,
                 title: res.data.recipe[i].title,
@@ -59,7 +57,6 @@ export default function FilterPosts() {
               });
             }
             setuserFeeds(database);
-            console.log("dddd", database);
           } else {
             alert(res.data.message);
           }
@@ -71,10 +68,8 @@ export default function FilterPosts() {
           withCredentials: true,
         }).then((res) => {
           let database = [];
-          console.log(res.data.recipes.length);
           if (res.data.result == true) {
             for (let i = 0; i < res.data.recipes.length; i++) {
-              console.log(res.data.recipes[i]);
               database.push({
                 recipeID: res.data.recipes[i].recipeID,
                 title: res.data.recipes[i].title,
@@ -100,7 +95,6 @@ export default function FilterPosts() {
           let database = [];
           if (res.data.result == true) {
             for (let i = 0; i < res.data.posting.length; i++) {
-              console.log(res.data.posting[i]);
               database.push({
                 postingID: res.data.posting[i].postingID,
                 title: res.data.posting[i].title,
@@ -109,14 +103,6 @@ export default function FilterPosts() {
               });
             }
             setuserFeeds(database);
-            console.log("dddd", database);
-            //   if (i == 0) {
-
-            //   } else {
-
-            //   }
-            //   console.log(feeds);
-            // }
           } else {
             alert(res.data.message);
           }
@@ -128,10 +114,8 @@ export default function FilterPosts() {
           withCredentials: true,
         }).then((res) => {
           let database = [];
-          console.log(res.data);
           if (res.data.result == true) {
             for (let i = 0; i < res.data.posting.length; i++) {
-              console.log(res.data.posting[i]);
               database.push({
                 postingID: res.data.posting[i].postingID,
                 title: res.data.posting[i].title,
@@ -140,14 +124,6 @@ export default function FilterPosts() {
               });
             }
             setuserFeeds(database);
-            console.log("dddd", database);
-            //   if (i == 0) {
-
-            //   } else {
-
-            //   }
-            //   console.log(feeds);
-            // }
           } else {
             alert(res.data.Message);
           }

@@ -102,7 +102,6 @@ export default function View() {
       withCredentials: true,
     }).then((res) => {
       setIsLogin(res.data.result);
-      // console.log(res.data);
     });
 
     if (type == "posting") {
@@ -112,14 +111,10 @@ export default function View() {
         withCredentials: true,
       })
         .then((res) => {
-          // console.log(res.data.posting);
           setPostingData(res.data.posting);
           setCommentList(res.data.comment);
-          // console.log(PostingData);
-          //setLoading(false);
         })
         .finally(() => {
-          // console.log(RecipeData);
           setIsLoading(false);
         });
     } else if (type == "defaultRecipe") {
@@ -147,7 +142,6 @@ export default function View() {
         })
         .catch((error) => console.error("Error fetching data:", error))
         .finally(() => {
-          // console.log(RecipeData);
           setIsLoading(false);
         });
     } else if (type == "recipe") {
@@ -158,7 +152,6 @@ export default function View() {
         withCredentials: true,
       })
         .then((res) => {
-          // console.log(res.data);
           const { recipeID, title, describe, img, time, amount, level } =
             res.data.recipe;
           setRecipeData({

@@ -67,7 +67,6 @@ exports.postGrocery = async (req, res) => {
 // 푸드로그 수정
 exports.editGrocery = async (req, res) => {
   try {
-    console.log(req.params);
     const { groceryID } = req.params;
     const grocery = await Grocery.findOne({
       where: { groceryID: groceryID },
@@ -106,7 +105,6 @@ exports.editGrocery = async (req, res) => {
 // 푸드로그 삭제
 exports.deleteGrocery = async (req, res) => {
   try {
-    console.log(req.params);
     const { groceryID } = req.params;
     const grocery = await Grocery.findOne({
       where: { groceryID: groceryID },

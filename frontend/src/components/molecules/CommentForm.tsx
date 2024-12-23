@@ -57,7 +57,6 @@ export default function CommentForm() {
   const contented = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      console.log(content);
 
       if (content !== "") {
         axios({
@@ -74,7 +73,6 @@ export default function CommentForm() {
               url: `http://localhost:8000/posting/${id}`,
               withCredentials: true,
             }).then((res) => {
-              console.log(res.data);
               text?.setCommentList(res.data.comment);
               setcontent("");
             });
@@ -100,7 +98,6 @@ export default function CommentForm() {
         value={content}
         onChange={(e) => {
           setcontent(e.target.value);
-          console.log(e.target.value);
         }}
       />
       <Button type="submit">
