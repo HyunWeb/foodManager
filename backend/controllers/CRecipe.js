@@ -67,7 +67,6 @@ const getRecipeuser = async (req, res) => {
 async function stepinsert(recipeID, step) {
   //step이라는 stepNo, content를 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
   try {
-    console.log(step);
     for (let i = 0; i < step.length; i++) {
       const stepinsert = await Step.create({
         recipeID,
@@ -75,7 +74,6 @@ async function stepinsert(recipeID, step) {
         content: step[i].content,
       });
       if (stepinsert != null) {
-        console.log("레시피 등록 성공");
       } else {
         return false;
       }
@@ -90,24 +88,21 @@ async function ingredientinsert(recipeID, Ingredients) {
   //Ingredients이라는 ingreName, amount을 변수로 가지는 객체 배열을 넘겨 받아, 추가 성공 시 true, 실패 시 false를 반환
 
   try {
-    console.log("현재 길이 :", Ingredients.length);
     for (let i = 0; i < Ingredients.length; i++) {
-      console.log("ddddd");
       const insert = await Ingredient.create({
         recipeID,
         ingreName: Ingredients[i].ingreName,
         amount: Ingredients[i].amount,
       });
-      console.log("현재 추가할 항목 :", insert);
+
       if (insert != null) {
-        console.log("재료 등록 성공");
         return true;
       } else {
         return false;
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return false;
   }
 }
@@ -118,8 +113,6 @@ const Recipeinsert = async (req, res) => {
     if (req.session.userInfo) {
       const { title, describe, level, time, amount, steps, Ingredients } =
         req.body;
-
-      console.log(steps[0], Ingredients[0]);
 
       //steps은 레시피의 단계 정보가 담겨 있는 객체 배열
       //Ingredients는 레시피의 재료가 들어있는 객체 배열
@@ -134,12 +127,8 @@ const Recipeinsert = async (req, res) => {
         img: req.files[0].path,
       });
       let stepon = await stepinsert(RecipeCreate.dataValues.recipeID, steps);
-      console.log("단계 등록 성공 여부 : ", stepon);
 
       if (stepon != true) {
-        console.log(
-          "레시피 단계 설정에서 오류가 발생하여, 레시피를 삭제합니다."
-        );
         const recipedelete = await Recipe.destroy({
           where: { recipeID: RecipeCreate.dataValues.recipeID },
         });
@@ -153,11 +142,7 @@ const Recipeinsert = async (req, res) => {
           RecipeCreate.dataValues.recipeID,
           Ingredients
         );
-        console.log(ingredienton);
         if (ingredienton != true) {
-          console.log(
-            "재료 단계 설정에서 오류가 발생하여, 레시피를 삭제합니다."
-          );
           const recipedelete = await Recipe.destroy({
             where: { recipeID: RecipeCreate.dataValues.recipeID },
           });
@@ -187,7 +172,7 @@ const Recipeinsert = async (req, res) => {
       message: "시스템에 에러가 발생했습니다.",
     });
     res.end();
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -258,7 +243,7 @@ const Recipeupdate = async (req, res) => {
       res.end();
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.end();
   }
 };
@@ -271,7 +256,6 @@ const RecipeDelete = async (req, res) => {
           recipeID,
         },
       });
-      console.log(Recipefind);
       if (Recipefind != null) {
         await Recipe.destroy({
           where: { userID: req.session.userInfo.userid, recipeID },
@@ -296,7 +280,7 @@ const RecipeDelete = async (req, res) => {
       res.end();
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.end();
   }
 };
@@ -362,7 +346,7 @@ const RecipefindOne = async (req, res) => {
       res.end();
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.end();
   }
 };
@@ -377,11 +361,10 @@ const RecipeLikeFindAll = async (req, res) => {
         const recipeID = await LikeFindAll.map(
           (recipeLike) => recipeLike.dataValues.recipeID
         );
-        console.log("좋아요 누른 DB :", recipeID);
+
         const recipe = await Recipe.findAll({
           where: { recipeID: recipeID },
         });
-        console.log("현재 데이터 : ", recipe);
 
         const Review = await RecipeReview.findAll({
           where: { recipeID: recipeID },
@@ -419,7 +402,7 @@ const RecipeLikeFindAll = async (req, res) => {
       res.end();
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.end();
   }
 };
@@ -443,7 +426,7 @@ const RecipeLikeFindOne = async (req, res) => {
       res.end();
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.end();
   }
 };
@@ -484,7 +467,7 @@ const RecipeLikeDB = async (req, res) => {
       res.end();
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.end();
   }
 };

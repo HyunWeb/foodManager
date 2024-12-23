@@ -59,6 +59,7 @@ interface ButtonAtomProps {
   label?: string;
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
 export default function ButtonAtom({
@@ -67,6 +68,7 @@ export default function ButtonAtom({
   onClick,
   type = "button",
   disabled = false,
+  className,
 }: ButtonAtomProps) {
   const renderButton = () => {
     switch (buttontype) {
@@ -90,7 +92,7 @@ export default function ButtonAtom({
         );
       case "confirm":
         return (
-          <ConfirmButton type={type} onClick={onClick}>
+          <ConfirmButton type={type} onClick={onClick} className={className}>
             {text}
           </ConfirmButton>
         );

@@ -20,12 +20,8 @@ const uploadDetail = multer({
         "utf-8"
       ); //인코딩
       const ext = path.extname(file.originalname); // 파일 "확장자"를 추출
-      // console.log("ext", ext);
-      // console.log(path.basename(file.originalname, ext));
-      //done(null, path.basename(file.originalname, ext) + Date.now() + ext);
 
       // 실습
-      console.log("file name > req.body", req.body);
       done(null, path.basename(file.originalname, ext) + ext);
     },
     // limits : 파일 제한 정보

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import styled from "styled-components";
 import InputField from "../molecules/InputField";
 import ButtonAtom from "../atoms/ButtonAtom";
 import { PasswordResetContext } from "../pages/PasswordResetPage";
@@ -49,6 +50,10 @@ const EmailInputForm = () => {
   };
   const passwordcontext = useContext(PasswordResetContext);
 
+  const StyleButton = styled(ButtonAtom)`
+    position: relative;
+    bottom: 0;
+  `;
   return (
     <Container>
       {passwordcontext ? (
@@ -65,7 +70,7 @@ const EmailInputForm = () => {
             value={passwordcontext?.birthday}
             setValue={passwordcontext?.setbirthday}
           />
-          <ButtonAtom text="확인" buttontype="confirm" type="submit" />
+          <StyleButton text="확인" buttontype="confirm" type="submit" />
         </form>
       ) : (
         <div>변경하기 위한 setstate를 불러오지 못함</div>

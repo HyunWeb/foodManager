@@ -65,10 +65,23 @@ const ButtonStyle = styled(BackButton)`
   }
 `;
 const StarStyle = styled(Rating)`
-  position: absolute;
+  /* position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -70px;
+  bottom: -70px; */
+
+  position: fixed;
+  height: 50px;
+  bottom: 70px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+
+  @media (min-width: 768px) {
+    bottom: 0;
+  }
 `;
 const route = process.env.REACT_APP_ROUTE;
 export default function ViewTemplateRecipe({
@@ -97,7 +110,6 @@ export default function ViewTemplateRecipe({
 
       if (isNewData) {
         // 이미 별점을 준 적이 있음
-        console.log(value);
         axios({
           method: "patch",
           url: `${route}/recipe/update/review`,
@@ -108,7 +120,6 @@ export default function ViewTemplateRecipe({
           },
         }).then((res) => {
           alert(res.data.Message);
-          // console.log(res.data);
         });
       } else {
         // 별점을 처음 등록하는 경우
@@ -122,7 +133,6 @@ export default function ViewTemplateRecipe({
           },
         }).then((res) => {
           alert(res.data.Message);
-          // console.log(res.data);
         });
       }
     });

@@ -19,11 +19,8 @@ const RecipeInfo = styled.section`
 `;
 
 export default function ViewRecipeInfo({ value }: { value: RecipeDataProps }) {
-  console.log(value);
   const shouldShowIcons =
-    value.time !== "" &&
-    value.amount !== "" &&
-    value.level !== "";
+    value.time !== "" && value.amount !== "" && value.level !== "";
 
   return (
     <div>

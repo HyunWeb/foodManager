@@ -41,7 +41,6 @@ export default function ViewTemplatePosting({
 }: {
   PostingData: PostingProps;
 }) {
-  console.log(PostingData);
   return (
     <Container>
       <ButtonStyle position="absolute" />

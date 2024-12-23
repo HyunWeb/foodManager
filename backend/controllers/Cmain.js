@@ -121,8 +121,6 @@ async function processIngredient(data) {
     // JSON으로 파싱
     const jsonArray = JSON.parse(cleanedString);
 
-    console.log(jsonArray);
-
     return jsonArray;
   } catch (error) {
     if (error.status === 429) {
@@ -159,8 +157,8 @@ function processSteps(recipe) {
 exports.fetchDataAndSave = async (req, res) => {
   try {
     const response = await axios.get(
-      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
-      // "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
+      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
+      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
     if (!recipes || !Array.isArray(recipes)) {
@@ -182,8 +180,6 @@ exports.fetchDataAndSave = async (req, res) => {
       })
       .filter((recipe) => recipe !== null);
 
-    console.log(processedData);
-
     res.json({
       result: true,
       message: "기본 레시피 불러오기 성공",
@@ -199,8 +195,8 @@ exports.detailAPI = async (req, res) => {
   try {
     const { id } = req.params;
     const response = await axios.get(
-      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
-      // "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
+      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
+      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
 
@@ -220,8 +216,6 @@ exports.detailAPI = async (req, res) => {
       ingredients: ingredients,
       steps: steps,
     };
-
-    console.log(result);
 
     res.json({ result: true, message: "레시피 불러오기 성공", data: result });
     res.end();

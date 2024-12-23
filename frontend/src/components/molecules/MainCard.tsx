@@ -79,7 +79,6 @@ export default function MainCard({
         url: `http://localhost:8000/user/check`,
         withCredentials: true,
       });
-      // console.log(checking.data);
       return checking.data.result;
     } catch (error) {
       console.error("Error fetching items: ", error);
@@ -97,11 +96,9 @@ export default function MainCard({
               recipeID,
             },
           });
-          // console.log(recipeLike.data);
           if (recipeLike.data.result == true) {
             setLikeState(recipeLike.data.result);
           } else {
-            // console.log(recipeLike.data.Message);
           }
         } else {
           let postingLike = axios({
@@ -114,7 +111,6 @@ export default function MainCard({
             if (res.data.result == true) {
               setLikeState(res.data.result);
             } else {
-              console.log(res.data.message);
             }
           });
         }
@@ -162,7 +158,6 @@ export default function MainCard({
         const feedobject = feedchange?.userfeeds.filter((feed) => {
           return feed.recipeID != recipeID;
         });
-        console.log(feedobject);
         if (feedobject != undefined) {
           feedchange?.setuserFeeds(feedobject);
         }
@@ -170,7 +165,6 @@ export default function MainCard({
         const feedobject = feedchange?.userfeeds.filter((feed) => {
           return feed.postingID != postingID;
         });
-        console.log(feedobject);
         if (feedobject != undefined) {
           feedchange?.setuserFeeds(feedobject);
         }

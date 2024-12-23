@@ -38,8 +38,6 @@ async function processKcal(kcal, foodname, amount, unit) {
 
     const result = await model.generateContent(prompt);
 
-    console.log(result.response.text());
-
     const cleanedString = result.response
       .text()
       .replace(/[\n\r]/g, "") // 줄바꿈 제거
@@ -91,7 +89,6 @@ exports.postLog = async (req, res) => {
 // 푸드로그 수정
 exports.editLog = async (req, res) => {
   try {
-    console.log(req.params);
     const { when, logID } = req.params;
     const log = await FoodLog.findOne({
       where: { logID: logID },
@@ -131,7 +128,6 @@ exports.editLog = async (req, res) => {
 // 푸드로그 삭제
 exports.deleteLog = async (req, res) => {
   try {
-    console.log(req.params);
     const { when, logID } = req.params;
     const log = await FoodLog.findOne({
       where: { logID: logID },

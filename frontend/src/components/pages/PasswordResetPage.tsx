@@ -4,6 +4,7 @@ import EmailInputForm from "../organisms/EmailInputForm";
 import VerificationCodeForm from "../organisms/VerificationCodeForm";
 import PasswordResetForm from "../organisms/PasswordResetForm";
 import { createContext } from "node:vm";
+import LinkAtom from "../atoms/LinkAtom";
 
 const Container = styled.div`
   padding: 20px;
@@ -100,6 +101,17 @@ const StyledPasswordResetForm = styled(PasswordResetForm)`
     cursor: pointer;
   }
 `;
+
+const HomeButton = styled(LinkAtom)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  @media (min-width: 768px) {
+    display: inline-block;
+    max-width: 70px;
+  }
+`;
 type PasswordResetType = {
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -129,6 +141,7 @@ const PasswordResetPage: React.FC = () => {
           {step === 2 && <StyledVerificationCodeForm initialTime={180} />}
           {step === 3 && <StyledPasswordResetForm />}
         </StepWrapper>
+        <HomeButton url="/main" label="홈" status="House" />
       </Container>
     </PasswordResetContext.Provider>
   );

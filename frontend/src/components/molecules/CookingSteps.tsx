@@ -32,7 +32,6 @@ export default function CookingSteps({
     const updateInputSet = value.filter((_, i) => i !== index);
     setValue(updateInputSet);
   };
-  // console.log(value);
   return (
     <Field
       label="조리 순서"

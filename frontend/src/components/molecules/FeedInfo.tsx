@@ -10,11 +10,14 @@ interface RecipeInfoProps {
 }
 
 const Container = styled.div`
-  height: 40%;
   padding: 10px;
   display: flex;
   align-items: center;
   gap: 15px;
+
+  @media (min-width: 768px) {
+    height: 30%;
+  }
 `;
 const ContentWrap = styled.div`
   width: 100%;

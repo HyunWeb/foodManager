@@ -35,7 +35,6 @@ export default function WriteRecipe({ onClose }: { onClose: () => void }) {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(fileName);
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", titleValue);
@@ -67,7 +66,6 @@ export default function WriteRecipe({ onClose }: { onClose: () => void }) {
       },
       withCredentials: true,
     }).then((res) => {
-      console.log(res);
       if (res.data.result == true) {
         alert(res.data.message);
         setTitleValue("");

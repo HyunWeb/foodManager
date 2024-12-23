@@ -41,7 +41,6 @@ $(function () {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0].name;
-      console.log(file);
       var fileReg = /(.*?)\.(gif|png|jpg|jpeg)$/;
       if (!file.toLowerCase().match(fileReg)) {
         alert("지원하는 파일 확장자가 아닙니다.");

@@ -113,7 +113,6 @@ export default function IngredientBlock({
       withCredentials: true,
     })
       .then((response) => {
-        console.log("삭제 성공:", response.data);
         // 필요한 후속 작업 추가
         setDisplay((prev) => !prev);
         setGroceryPageRender((prev) => !prev);
