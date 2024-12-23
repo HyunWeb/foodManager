@@ -25,6 +25,7 @@ const getRecipe = async (req, res) => {
         message: "레시피 정보 불러오기 성공",
         data: { recipes, reviews },
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
@@ -45,18 +46,22 @@ const getRecipeuser = async (req, res) => {
           message: "레시피 정보 불러오기 성공",
           recipes,
         });
+        res.end();
       } else {
         res.json({ result: true, messsage: "레시피 데이터가 없습니다." });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인X, 레시피 정보 확인 불가!",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false, message: "레시피 정보를 불러올 수 없습니다." });
+    res.end();
   }
 };
 
@@ -143,6 +148,7 @@ const Recipeinsert = async (req, res) => {
           result: false,
           message: "해당 레시피 정보를 등록할 수 없습니다.",
         });
+        res.end();
       } else {
         let ingredienton = await ingredientinsert(
           RecipeCreate.dataValues.recipeID,
@@ -160,11 +166,13 @@ const Recipeinsert = async (req, res) => {
             result: false,
             message: "해당 레시피 정보를 등록할 수 없습니다.",
           });
+          res.end();
         } else {
           res.json({
             result: true,
             message: "해당 레시피 정보를 등록하였습니다.",
           });
+          res.end();
         }
       }
     } else {
@@ -172,12 +180,14 @@ const Recipeinsert = async (req, res) => {
         result: false,
         message: "로그인X, 레시피 정보 등록 불가!",
       });
+      res.end();
     }
   } catch (error) {
     res.json({
       result: false,
       message: "시스템에 에러가 발생했습니다.",
     });
+    res.end();
     console.log(error);
   }
 };
@@ -211,6 +221,7 @@ const Recipeupdate = async (req, res) => {
             result: false,
             Message: "레시피 업데이트 완료! 단, 요리 순서 업데이트 실패",
           });
+          res.end();
         } else {
           const step = await Step.destroy({
             where: { recipeID },
@@ -224,11 +235,13 @@ const Recipeupdate = async (req, res) => {
               result: false,
               Message: "레시피, 요리 순서 업데이트 완료! 단, 재료 등록에 실패",
             });
+            res.end();
           } else {
             res.json({
               result: true,
               Message: "레시피 정보를 정상적으로 수정하였습니다.",
             });
+            res.end();
           }
         }
       } else {
@@ -236,15 +249,18 @@ const Recipeupdate = async (req, res) => {
           result: false,
           Message: "레시피 정보를 수정하는데 실패했습니다.",
         });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인X, 레시피 정보 수정 불가!",
       });
+      res.end();
     }
   } catch (error) {
     console.log(error);
+    res.end();
   }
 };
 const RecipeDelete = async (req, res) => {
@@ -265,20 +281,24 @@ const RecipeDelete = async (req, res) => {
           result: true,
           Message: "정상적으로 해당 레시피를 삭제하였습니다.",
         });
+        res.end();
       } else {
         res.json({
           result: false,
           Message: "삭제할 수 있는 레시피가 존재하지 않습니다.",
         });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인X, 레시피 정보 삭제 불가!",
       });
+      res.end();
     }
   } catch (error) {
     console.log(error);
+    res.end();
   }
 };
 const RecipefindOne = async (req, res) => {
@@ -310,12 +330,14 @@ const RecipefindOne = async (req, res) => {
               steps: stepfind,
               ingredient: ingredientfind,
             });
+            res.end();
           } else {
             res.json({
               result: false,
               Message:
                 "데이터베이스에서 레시피에 필요한 재료를 찾을 수 없습니다. 죄송합니다.",
             });
+            res.end();
           }
         } else {
           res.json({
@@ -323,6 +345,7 @@ const RecipefindOne = async (req, res) => {
             Message:
               "데이터베이스에서 레시피 단계 데이터를 찾을 수 없습니다. 죄송합니다.",
           });
+          res.end();
         }
       } else {
         req.json({
@@ -330,15 +353,18 @@ const RecipefindOne = async (req, res) => {
           Message:
             "데이터베이스에서 레시피 데이터를 찾을 수 없습니다. 죄송합니다.",
         });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인X, 레시피 정보 찾기 불가!",
       });
+      res.end();
     }
   } catch (error) {
     console.log(error);
+    res.end();
   }
 };
 
@@ -370,53 +396,56 @@ const RecipeLikeFindAll = async (req, res) => {
             recipe: recipe,
             Review: Review,
           });
+          res.end();
         } else {
           res.json({
             result: false,
             Message: "스크랩 레시피 목록 불러오기 실패",
             RecipeLike: LikeFindAll,
           });
+          res.end();
         }
       } else {
         res.json({
           result: false,
           Message: "불러올 레시피 목록이 없습니다.",
         });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인X, 레시피 찜목록 찾기 불가!",
       });
+      res.end();
     }
   } catch (err) {
     console.log(err);
+    res.end();
   }
 };
 
 //Recipe 찜 상태 확인
 const RecipeLikeFindOne = async (req, res) => {
   try {
-    if (req.session.userInfo) {
-      const { recipeID } = req.body;
-      const Likefindone = await RecipeLike.findOne({
-        where: { userID: req.session.userInfo.userid, recipeID },
-      });
-      if (Likefindone != null) {
-        res.json({
-          result: true,
-          Message: "레시피 목록 불러오기 완료",
-          RecipeLike: Likefindone,
-        });
-      }
-    } else {
+    const { recipeID } = req.body;
+    const Likefindone = await RecipeLike.findOne({
+      where: { userID: req.session.userInfo.userid, recipeID },
+    });
+    if (Likefindone != null) {
       res.json({
-        result: false,
-        Message: "로그인X, 찜 정보 찾기 불가!",
+        result: true,
+        Message: "레시피 목록 불러오기 완료",
+        RecipeLike: Likefindone,
       });
+      res.end();
+    } else {
+      res.json({ Message: "보낼만한 목록이 없습니다." });
+      res.end();
     }
   } catch (err) {
     console.log(err);
+    res.end();
   }
 };
 
@@ -436,6 +465,7 @@ const RecipeLikeDB = async (req, res) => {
           result: true,
           Message: "좋아하는 레시피에서 삭제하였습니다.",
         });
+        res.end();
       } else {
         const Likeinsert = await RecipeLike.create({
           userID: req.session.userInfo.userid,
@@ -445,15 +475,18 @@ const RecipeLikeDB = async (req, res) => {
           result: true,
           Message: "좋아하는 레시피에 추가하였습니다.",
         });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         Message: "로그인X, 좋아하는 레시피 삭제 불가!",
       });
+      res.end();
     }
   } catch (err) {
     console.log(err);
+    res.end();
   }
 };
 
@@ -470,15 +503,24 @@ const RecipeReviewMYfind = async (req, res) => {
           Message: "레시피의 본인 리뷰 불러오기 완료",
           RecipeReview: { Reviewfindone },
         });
+        res.end();
+      } else {
+        res.json({
+          result: true,
+          Message: "불러올 레시피 없음",
+        });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인이 되어있지 않습니다.",
       });
+      res.end();
     }
   } catch (err) {
     console.error(err);
+    res.end();
   }
 };
 //레시피에 달려있는 모든 리뷰 내용
@@ -493,15 +535,24 @@ const RecipeReviewFindAll = async (req, res) => {
           Message: "레시피의 리뷰 내용 불러오기 완료",
           RecipeReview: { ReviewfindAll },
         });
+        res.end();
+      } else {
+        res.json({
+          result: true,
+          Message: "불러올 레시피 내용이 없습니다.",
+        });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인이 되어있지 않습니다.",
       });
+      res.end();
     }
   } catch (err) {
     console.error(err);
+    res.end();
   }
 };
 
@@ -516,12 +567,14 @@ const RecipeReviewinsert = async (req, res) => {
       });
       if (Reviewinsert != null) {
         res.json({ result: true, Message: "리뷰 추가 완료!" });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인이 되어있지 않습니다.",
       });
+      res.end();
     }
   } catch (err) {
     console.error(err);
@@ -539,17 +592,21 @@ const RecipeReviewupdate = async (req, res) => {
 
       if (Reviewupdate != null) {
         res.json({ result: true, Message: "리뷰 업데이트 완료!" });
+        res.end();
       } else {
         res.json({ result: false, Message: "리뷰가 없거나 에러 발생!!" });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인이 되어있지 않습니다.",
       });
+      res.end();
     }
   } catch (err) {
     console.error(err);
+    res.end();
   }
 };
 
@@ -563,17 +620,21 @@ const RecipeReviewDelete = async (req, res) => {
 
       if (ReviewDelete != null) {
         res.json({ result: true, Message: "리뷰 삭제 완료!" });
+        res.end();
       } else {
         res.json({ result: false, Message: "삭제할 리뷰 없음" });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인이 되어있지 않습니다.",
       });
+      res.end();
     }
   } catch (err) {
     console.error(err);
+    res.end();
   }
 };
 
@@ -599,6 +660,8 @@ function setCookie(name, value) {
   now.setTime(now.getTime() + 3 * 60 * 1000); // 3분을 밀리초로 변환
   // 쿠키 설정 (만료 시간 포함)
   cookie = `${name}=${value}; expires=${now.toUTCString()}; path=/`;
+
+  return;
 }
 function getCookie(name) {
   const nameEQ = name + "=";
@@ -636,11 +699,13 @@ const userselect = async (req, res) => {
     await transporter.sendMail(mailOptions);
     setCookie("count", count);
     res.json({ result: true, Message: "인증번호 보내기 완료", count });
+    res.end();
   } else {
     res.json({
       result: false,
       message: "로그인 정보를 찾을 수 없습니다.",
     });
+    res.end();
   }
 };
 function deleteCookie(name) {
@@ -648,6 +713,7 @@ function deleteCookie(name) {
   now.setTime(now.getTime() - 1); // 과거 시간을 설정하여 쿠키 삭제
   // 쿠키 삭제 (만료 시간을 과거로 설정)
   cookie = `${name}=; expires=${now.toUTCString()}; path=/`;
+  return;
 }
 
 const PWchange = async (req, res) => {
@@ -664,6 +730,14 @@ const PWchange = async (req, res) => {
           result: true,
           Message: "비밀번호가 정상적으로 변경되었습니다.",
         });
+        res.end();
+      } else {
+        deleteCookie("count");
+        res.json({
+          result: false,
+          Message: "비밀번호 변경에 실패하였습니다.",
+        });
+        res.end();
       }
     } else if (Certification != count) {
       res.json({
@@ -671,12 +745,15 @@ const PWchange = async (req, res) => {
         Message: "인증번호에 오류가 있어서 비밀번호 변경 불가",
       });
     }
+
+    res.end();
   } catch (err) {
     console.log(err);
     res.json({
       result: false,
       Message: "인증번호가 만료 or 생성X, 아니면 기능 오류",
     });
+    res.end();
   }
 };
 //인증번호의 존재 유무를 확인하는 코드를 클라이언트 단에서 작성해야 함.

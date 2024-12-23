@@ -149,7 +149,7 @@ function processSteps(recipe) {
   for (let i = 1; i <= 20; i++) {
     const key = `MANUAL${String(i).padStart(2, "0")}`;
     if (recipe[key] && recipe[key].trim() !== "") {
-      steps.push({stepNo: i, content: recipe[key]});
+      steps.push({ stepNo: i, content: recipe[key] });
     }
   }
 
@@ -224,8 +224,10 @@ exports.detailAPI = async (req, res) => {
     console.log(result);
 
     res.json({ result: true, message: "레시피 불러오기 성공", data: result });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false, message: "레시피 불러오기 실패" });
+    res.end();
   }
 };

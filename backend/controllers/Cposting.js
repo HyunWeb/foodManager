@@ -30,15 +30,18 @@ exports.getUserPosting = async (req, res) => {
         message: "개인의 posting 정보 불러오기 성공",
         posting,
       });
+      res.end();
     } else {
       res.json({
         result: false,
         message: "로그인X, 포스트 정보 확인 불가!",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -50,9 +53,11 @@ exports.getPosting = async (req, res) => {
     });
     console.log(posting);
     res.json({ result: true, message: "데이터가 존재합니다.", posting });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -68,12 +73,14 @@ exports.postPosting = async (req, res) => {
         img: req.files[0].path,
       });
       res.json({ result: true, message: "정상적으로 post가 성공했습니다." });
+      res.end();
     } else {
       res.json({
         result: false,
         error: "1",
         message: "로그인X, 포스트 정보 등록 불가!",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
@@ -82,6 +89,7 @@ exports.postPosting = async (req, res) => {
       error: "2",
       message: "시스템에 에러가 발생했습니다.",
     });
+    res.end();
   }
 };
 
@@ -106,14 +114,16 @@ exports.editPosting = async (req, res) => {
           where: { postingID: postingID },
         }
       );
-
       res.json({ result: true });
+      res.end();
     } else {
       res.json({ result: false });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -133,12 +143,15 @@ exports.deletePosting = async (req, res) => {
       });
 
       res.json({ result: true });
+      res.end();
     } else {
       res.json({ result: false });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -159,9 +172,11 @@ exports.detailPosting = async (req, res) => {
       where: { postingID: postingID },
     });
     res.json({ result: true, posting, comment, like });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -179,15 +194,18 @@ exports.postComment = async (req, res) => {
         content: content,
       });
       res.json({ result: true });
+      res.end();
     } else {
       res.json({
         result: false,
         message: "로그인 후에 댓글을 달 수 있습니다.",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -209,12 +227,15 @@ exports.editComment = async (req, res) => {
         }
       );
       res.json({ result: true, message: "댓글 수정 성공" });
+      res.end();
     } else {
       res.json({ result: false, message: "사용자가 작성하지 않은 글입니다." });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -229,13 +250,16 @@ exports.deleteComment = async (req, res) => {
         where: { commentID: commentID, userID: userID },
       });
       res.json({ result: true, message: "댓글 삭제 성공" });
+      res.end();
     } else {
       res.json({ result: false, message: "사용자가 작성하지 않은 글입니다." });
+      res.end();
     }
   } catch (error) {
     console.log("제대로 안 들어옵니다.");
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -253,20 +277,24 @@ exports.postLike = async (req, res) => {
           postingID: postingID,
         });
         res.json({ result: true, message: "좋아요" });
+        res.end();
       } else {
         await PostLike.destroy({
           where: { userID: userID, postingID: postingID },
         });
         res.json({ result: true, message: "좋아요 취소" });
+        res.end();
       }
     } else {
       res.json({
         result: false,
         message: "로그인 후에 좋아요를 누를 수 있습니다.",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
+    res.end();
   }
 };
 
@@ -288,9 +316,11 @@ exports.userPostLike = async (req, res) => {
     });
 
     res.json({ result: true, posting });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -307,15 +337,18 @@ exports.Likeing = async (req, res) => {
 
       if (postLikes !== null) {
         res.json({ result: true, message: "좋아요를 누른 항목입니다." });
+        res.end();
       } else {
         res.json({
           result: false,
           message: "좋아요를 누르지 않은 항목입니다.",
         });
+        res.end();
       }
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
