@@ -8,9 +8,11 @@ exports.getGrocery = async (req, res) => {
   try {
     const grocery = await Grocery.findAll();
     res.json(grocery);
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -33,6 +35,7 @@ exports.postGrocery = async (req, res) => {
           result: false,
           message: "이미 유통기한이 지난 음식입니다.",
         });
+        res.end();
       } else {
         await Grocery.create({
           userID: req.session.userInfo.userid,
@@ -46,15 +49,18 @@ exports.postGrocery = async (req, res) => {
           result: true,
           message: "정상적으로 푸드 로그가 등록되었습니다.",
         });
+        res.end();
       }
     } else {
       res.status(400).json({
         result: false,
         message: "로그인이 되어 있지 않습니다.",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
+    res.end();
   }
 };
 
@@ -85,12 +91,15 @@ exports.editGrocery = async (req, res) => {
         }
       );
       res.json({ result: true });
+      res.end();
     } else {
       res.json({ result: false });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -111,11 +120,14 @@ exports.deleteGrocery = async (req, res) => {
         where: { groceryID: groceryID },
       });
       res.json({ result: true });
+      res.end();
     } else {
       res.json({ result: false });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };

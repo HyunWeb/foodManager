@@ -90,17 +90,19 @@ export default function MainCard({
       const logincheck = await fetchItems();
       if (logincheck) {
         if (type == "recipe") {
-          let recipeLike = axios({
+          let recipeLike = await axios({
             method: "POST",
-            url: `/Recipe/Like`,
+            url: `/Recipe/like`,
             data: {
               recipeID,
             },
-          }).then((res) => {
-            if (res.data.result == true) {
-              setLikeState(res.data.result);
-            }
           });
+          console.log(recipeLike.data);
+          if (recipeLike.data.result == true) {
+            setLikeState(recipeLike.data.result);
+          } else {
+            console.log(recipeLike.data.Message);
+          }
         } else {
           let postingLike = axios({
             method: "POST",

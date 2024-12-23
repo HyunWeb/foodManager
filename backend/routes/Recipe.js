@@ -35,8 +35,6 @@ const uploadDetail = multer({
 
 router.get("/", controller.getRecipe);
 
-router.post("/Like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
-
 router.post("/insert", uploadDetail.any(), controller.Recipeinsert); //레시피를 추가를 요청하는 router
 
 router.get("/find/:recipeID", controller.RecipefindOne); // 레시피의 정보를 찾는 라우터
@@ -66,5 +64,7 @@ router.post("/find/user", controller.getRecipeuser);
 router.post("/userselect", controller.userselect);
 
 router.post("/pwchange", controller.PWchange);
+
+router.post("/like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
 
 module.exports = router;

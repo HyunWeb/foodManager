@@ -76,11 +76,13 @@ exports.postUser = async (req, res) => {
         result: true,
         message: ["회원가입 성공", "계정이 성공적으로 생성되었습니다."],
       });
+      res.end();
     } else {
       res.json({
         result: false,
         message: ["중복된 계정", "이미 존재하는 아이디입니다."],
       });
+      res.end();
     }
   } catch (error) {
     res.json({
@@ -88,6 +90,7 @@ exports.postUser = async (req, res) => {
       message: ["회원가입 실패", "계정 생성에 실패하였습니다."],
     });
     console.error(error);
+    res.end();
   }
 };
 
@@ -125,6 +128,11 @@ exports.userLogin = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    res.json({
+      result: false,
+      message: "로그인 실패",
+    });
+    res.end();
   }
 };
 
@@ -145,13 +153,16 @@ exports.userLogout = async (req, res) => {
           message: "세션 삭제에 성공",
           session: req.session,
         }); // 이미 세션이 없을 경우
+        res.end();
       });
     } else {
       res.json({ result: true, message: "이미 세션이 삭제되어 있음" }); // 이미 세션이 없을 경우
+      res.end();
     }
   } catch (error) {
     console.log("현재 에러가 발생함 :", error);
     res.json({ result: false, message: error });
+    res.end();
   }
 };
 
@@ -173,15 +184,18 @@ exports.editUser = async (req, res) => {
         { where: { userID: req.session.userInfo.userid } }
       );
       res.json({ result: true, message: "수정이 완료되었습니다." });
+      res.end();
     } else {
       res.json({
         result: false,
         message: "입력되지 않은 정보가 있습니다. 필수 항목을 입력해주세요.",
       });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -197,9 +211,11 @@ exports.userDelete = async (req, res) => {
       where: { userID: req.session.userInfo.userid },
     });
     res.json({ result: true });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -211,9 +227,11 @@ exports.userSearch = async (req, res) => {
     });
 
     res.json({ result: user });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -223,11 +241,14 @@ exports.userCheck = async (req, res) => {
     console.log("지금 로그인 상태", req.session.userInfo);
     if (req.session.userInfo) {
       res.json({ result: true, message: "현재 세션이 살아있습니다." });
+      res.end();
     } else {
       res.json({ result: false, message: "현재 세션이 죽었습니다." });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false, message: "세션이 죽었는지 살았는지 확인 불가!" });
+    res.end();
   }
 };

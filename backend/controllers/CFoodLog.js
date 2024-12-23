@@ -8,6 +8,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const { FoodLog, User } = require("../models/index"); //controller에서 필요한 것만 가져온다.
+const { RecipefindOne } = require("./CRecipe");
 
 exports.getLog = async (req, res) => {
   try {
@@ -22,9 +23,11 @@ exports.getLog = async (req, res) => {
       },
     });
     res.json({ log, kcalPerDay });
+    res.end();
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -73,12 +76,15 @@ exports.postLog = async (req, res) => {
         result: true,
         message: "정상적으로 데이터가 업로드되었습니다.",
       });
+      res.end();
     } else {
       res.json({ result: false, message: "로그인이 되어 있지 않습니다." });
+      res.end();
     }
   } catch (error) {
     res.json({ result: false });
     console.error(error);
+    res.end();
   }
 };
 
@@ -110,12 +116,15 @@ exports.editLog = async (req, res) => {
         }
       );
       res.json({ result: true });
+      res.end();
     } else {
       res.json({ result: false });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
 
@@ -136,11 +145,14 @@ exports.deleteLog = async (req, res) => {
         where: { logID: logID },
       });
       res.json({ result: true });
+      res.end();
     } else {
       res.json({ result: false });
+      res.end();
     }
   } catch (error) {
     console.error(error);
     res.json({ result: false });
+    res.end();
   }
 };
