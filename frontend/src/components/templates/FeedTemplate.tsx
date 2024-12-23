@@ -32,31 +32,46 @@ const Container = styled.div`
   margin-bottom: 100px;
 `;
 export default function FeedTemplate() {
-  const [feeds, setFeeds] = useState<FeedData[]>([]);
+  const [Postings, setPostings] = useState<FeedData[]>([]);
+  const [Postings1, setPostings1] = useState<FeedData[]>([]);
+
   const [Loading, setLoading] = useState(false);
   const { feedPageRender, setFeedPageRender } = usePageRender();
   const { id } = useParams<{ id: string }>();
+  const route = process.env.REACT_APP_ROUTE;
+  async function loading() {
+    const feedupdate = await axios({
+      method: "GET",
+      url: `${route}/posting`,
+      withCredentials: true,
+    });
+    console.log("ddffdf", feedupdate.data.posting, Date.now());
+    setPostings(feedupdate.data.posting);
+  }
+
   useEffect(() => {
     setLoading(true);
-    const data = axios({
+    axios({
       method: "GET",
-      url: `/posting`,
+      url: `${route}/posting`,
       withCredentials: true,
     }).then((res) => {
-      // console.log(res.data.posting);
-      setFeeds(res.data.posting);
-      // console.log(feeds);
+      console.log(res.data);
+      setPostings(res.data.posting);
+    }).finally(() => {
+      setLoading(false);
     });
-    setLoading(false);
   }, [feedPageRender]);
+
+  console.log(Postings);
   return (
     <Container>
       {Loading ? (
         <p>Loading...</p>
       ) : (
         <FeedList>
-          {feeds && feeds.length > 0 ? (
-            feeds.map((feed) => (
+          {(Postings && Postings.length > 0 )? (
+            Postings.map((feed) => (
               <MainCard
                 key={feed.postingID}
                 postingID={feed.postingID}

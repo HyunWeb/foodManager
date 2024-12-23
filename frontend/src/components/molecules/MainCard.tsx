@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageCard from "../atoms/ImageCard";
 import RecipeInfo from "./RecipeInfo";
@@ -6,6 +6,8 @@ import IconButtonAtom from "../atoms/IconButtonAtom";
 import FeedInfo from "./FeedInfo";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { feedContext } from "../pages/FilterPosts";
+import { ColorSwatch } from "@chakra-ui/react";
 
 interface MainCardProps {
   postingID?: number;
@@ -68,34 +70,57 @@ export default function MainCard({
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
   const params = recipeID ? "recipe" : "posting";
-  // useEffect(() => {
-  //   if (type == "recipe") {
-  //     const main = axios({
-  //       method: "POST",
-  //       url: `/Recipe/find/Like`,
-  //       data: {
-  //         recipeID,
-  //       },
-  //     }).then((res) => {
-  //       if (res.data.result == true) {
-  //         setLikeState(res.data.result);
-  //       }
-  //     });
-  //   } else {
-  //     console.log(postingID);
-  //     const main = axios({
-  //       method: "POST",
-  //       url: `/posting/${postingID}/likepost`,
-  //     }).then((res) => {
-  //       if (res.data.result == true) {
-  //         setLikeState(res.data.result);
-  //         console.log(res.data.message);
-  //       } else {
-  //         console.log(res.data.message);
-  //       }
-  //     });
-  //   }
-  // }, []);
+
+  const feedchange = useContext(feedContext);
+  async function fetchItems() {
+    try {
+      const checking = await axios({
+        method: "GET",
+        url: `http://localhost:8000/user/check`,
+        withCredentials: true,
+      });
+      console.log(checking.data);
+      return checking.data.result;
+    } catch (error) {
+      console.error("Error fetching items: ", error);
+    }
+  }
+  useEffect(() => {
+    async function loginlike() {
+      const logincheck = await fetchItems();
+      if (logincheck) {
+        if (type == "recipe") {
+          let recipeLike = axios({
+            method: "POST",
+            url: `/Recipe/Like`,
+            data: {
+              recipeID,
+            },
+          }).then((res) => {
+            if (res.data.result == true) {
+              setLikeState(res.data.result);
+            }
+          });
+        } else {
+          let postingLike = axios({
+            method: "POST",
+            url: `/posting/likepost`,
+            data: {
+              postingID,
+            },
+          }).then((res) => {
+            if (res.data.result == true) {
+              setLikeState(res.data.result);
+            } else {
+              console.log(res.data.message);
+            }
+          });
+        }
+      }
+    }
+    loginlike();
+  }, []);
+
   const ChangeLikeState = () => {
     if (type == "recipe") {
       const main = axios({
@@ -108,12 +133,12 @@ export default function MainCard({
         if (res.data.result == true) {
           setLikeState(!likeState);
           alert(res.data.Message);
+          changefeeds();
         } else {
           alert(res.data.Message);
         }
       });
     } else {
-      alert("posting 찜 추가");
       const main = axios({
         method: "POST",
         url: `/posting/${postingID}/like`,
@@ -121,10 +146,33 @@ export default function MainCard({
         if (res.data.result == true) {
           setLikeState(!likeState);
           alert(res.data.message);
+          changefeeds();
         } else {
           alert(res.data.message);
         }
       });
+    }
+  };
+
+  const changefeeds = () => {
+    if (likeState == true) {
+      if (type == "recipe") {
+        const feedobject = feedchange?.userfeeds.filter((feed) => {
+          return feed.postingID != postingID;
+        });
+        console.log(feedobject);
+        if (feedobject != undefined) {
+          feedchange?.setuserFeeds(feedobject);
+        }
+      } else {
+        const feedobject = feedchange?.userfeeds.filter((feed) => {
+          return feed.postingID != postingID;
+        });
+        console.log(feedobject);
+        if (feedobject != undefined) {
+          feedchange?.setuserFeeds(feedobject);
+        }
+      }
     }
   };
 

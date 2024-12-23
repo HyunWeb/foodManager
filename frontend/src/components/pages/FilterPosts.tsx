@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../organisms/Header";
 import NavBar from "../organisms/NavBar";
@@ -6,6 +6,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import MainCard from "../molecules/MainCard";
 import BackButton from "../atoms/BackButton";
 import axios from "axios";
+import { createContext } from "vm";
+import { string } from "prop-types";
 interface FeedData {
   recipeID?: number;
   postingID?: number;
@@ -22,12 +24,20 @@ const FeedList = styled.ul`
   flex-direction: column;
   align-items: center;
 `;
+type feedContextType = {
+  userfeeds: FeedData[];
+  setuserFeeds: React.Dispatch<React.SetStateAction<FeedData[]>>;
+};
+
+export const feedContext = React.createContext<feedContextType | undefined>(
+  undefined
+);
+
 export default function FilterPosts() {
-  const [feeds, setFeeds] = useState<FeedData[]>([]);
+  const [userfeeds, setuserFeeds] = useState<FeedData[]>([]);
   const [cardType, setCardType] = useState<"feed" | "recipe">("feed");
   const { filter } = useParams<{ filter: string }>();
-
-  useEffect(() => {
+  const changefeed = () => {
     // 페이지가 레시피인지 게시물인지 판단해서 데이터 요청
     if (filter?.includes("recipe")) {
       if (filter?.includes("like_recipe")) {
@@ -47,13 +57,13 @@ export default function FilterPosts() {
                 img: res.data.recipe[i].img,
               });
             }
-            setFeeds(database);
+            setuserFeeds(database);
             console.log("dddd", database);
           } else {
             alert(res.data.message);
           }
         });
-      } else {
+      } else if (filter?.includes("my_recipe")) {
         const data = axios({
           method: "POST",
           url: `/Recipe/find/user`,
@@ -71,8 +81,7 @@ export default function FilterPosts() {
                 img: res.data.recipes[i].img,
               });
             }
-            setFeeds(database);
-            console.log("dddd", database);
+            setuserFeeds(database);
           } else {
             alert(res.data.message);
           }
@@ -98,7 +107,7 @@ export default function FilterPosts() {
                 userId: res.data.posting[i].userID,
               });
             }
-            setFeeds(database);
+            setuserFeeds(database);
             console.log("dddd", database);
             //   if (i == 0) {
 
@@ -129,7 +138,7 @@ export default function FilterPosts() {
                 userId: res.data.posting[i].userId,
               });
             }
-            setFeeds(database);
+            setuserFeeds(database);
             console.log("dddd", database);
             //   if (i == 0) {
 
@@ -143,36 +152,44 @@ export default function FilterPosts() {
           }
         });
       }
-
       setCardType("feed");
     } else {
       console.error("Page Params Error");
     }
+  };
+
+  useEffect(() => {
+    changefeed();
   }, [filter]);
 
   return (
-    <Container>
-      <Header />
-      {feeds.length > 0 ? (
-        <FeedList>
-          <BackButton />
-          {feeds.map((feed) => (
-            <MainCard
-              img={"../../" + feed.img}
-              key={feed.recipeID || feed.postingID}
-              postingID={feed.postingID}
-              recipeID={feed.recipeID}
-              title={feed.title}
-              userId={feed.userId}
-              type={cardType}
-            />
-          ))}
-        </FeedList>
-      ) : (
-        <div>아직 작성한 적이 없는 정보입니다.</div>
-      )}
-
-      <NavBar />
-    </Container>
+    <feedContext.Provider value={{ userfeeds, setuserFeeds }}>
+      <Container>
+        <Header />
+        {userfeeds ? (
+          userfeeds.length > 0 ? (
+            <FeedList>
+              <BackButton />
+              {userfeeds.map((feed) => (
+                <MainCard
+                  img={"../../" + feed.img}
+                  key={feed.recipeID || feed.postingID}
+                  postingID={feed.postingID}
+                  recipeID={feed.recipeID}
+                  title={feed.title}
+                  userId={feed.userId}
+                  type={cardType}
+                />
+              ))}
+            </FeedList>
+          ) : (
+            <div>찜한 목록이 없습니다.</div>
+          )
+        ) : (
+          <div>Loading</div>
+        )}
+        <NavBar />
+      </Container>
+    </feedContext.Provider>
   );
 }

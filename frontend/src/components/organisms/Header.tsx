@@ -42,12 +42,12 @@ export default function Header({ hide = false }: { hide?: boolean }) {
   // const [cookies, setCookie, removeCookie] = useCookies(["connect.sid"]);
   const [isDisplay, setIsDisplay] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const api = process.env.REACT_APP_ROUTE;
+  const route = process.env.REACT_APP_ROUTE;
   const fetchItems = async () => {
     try {
       const usering = await axios({
         method: "GET",
-        url: `http://localhost:8000/user/check`,
+        url: `${route}/user/check`,
         withCredentials: true,
       });
       setIsLogin(usering.data.result);

@@ -22,6 +22,7 @@ interface CookingStep {
 
 // 레시피 전체 정보 타입 정의
 interface RecipeData {
+  type: string;
   recipeID: number; // 레시피 ID
   title: string; // 레시피 이름
   describe: string; // 상세 설명
@@ -29,13 +30,8 @@ interface RecipeData {
   time: string; // 조리 시간
   amount: string; // 몇 인분인지
   level: string; // 난이도
-  ingredient: Ingredient[]; // 재료 리스트
+  ingredients: Ingredient[]; // 재료 리스트
   steps: CookingStep[]; // 조리 단계 리스트
-}
-
-interface RecipeType {
-  recipeID: string;
-  type: string;
 }
 
 // interface DefaultData {
@@ -76,11 +72,11 @@ const StarStyle = styled(Rating)`
 `;
 
 export default function ViewTemplateRecipe({
-  RecipeType,
+  RecipeData,
   starValue,
   setStarValue,
 }: {
-  RecipeType: RecipeType;
+  RecipeData: RecipeData;
   starValue: number;
   setStarValue: (e: number) => void;
 }) {
@@ -175,15 +171,15 @@ export default function ViewTemplateRecipe({
     <Container>
       <ButtonStyle position="absolute" />
       <ViewRecipeInfo value={RecipeData} />
-      <ViewIngredient value={RecipeData.ingredients} />
-      <ViewCookingStep value={RecipeData.steps} />
-      <StarStyle
+      <ViewIngredient value={RecipeData.ingredients || []} />
+      <ViewCookingStep value={RecipeData.steps || []} />
+      {RecipeData.type === "recipe" && <StarStyle
         size="lg"
         value={starValue}
         onValueChange={(e) => setStarValue(e.value)}
         allowHalf
         colorPalette="orange"
-      />
+      />}
     </Container>
   );
 }

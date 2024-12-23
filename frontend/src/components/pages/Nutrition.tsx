@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import Header from "../organisms/Header";
 import NavBar from "../organisms/NavBar";
 import Wrapgraph from "../molecules/Wrapgraph";
 import FoodHistory from "../organisms/FoodHistory";
 import axios from "axios";
 import { usePageRender } from "../organisms/PageRenderContext";
+import { useNavigate } from "react-router-dom";
 
 interface FoodLog {
   amount: number;
@@ -17,6 +19,12 @@ interface FoodLog {
   userID: string;
   when: string;
 }
+
+const Loading = styled.div`
+  width: 100vw;
+  padding: 30px;
+  text-align: center;
+`;
 
 export default function Nutrition() {
   // const initialState = {
@@ -35,10 +43,25 @@ export default function Nutrition() {
   const [Totalkcal, setTotalkcal] = useState(0);
   const { pageRender, setPageRender, startDate, setStartDate } =
     usePageRender();
+  const [isLogin, setIsLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const route = process.env.REACT_APP_ROUTE;
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const data = axios({
+    // 로그인여부 확인
+    axios({
+      method: "GET",
+      url: `${route}/user/check`,
+      withCredentials: true,
+    }).then((res) => {
+      setIsLogin(res.data.result);
+      console.log(res.data);
+    });
+
+    // foodlog 불러오기
+    axios({
       method: "GET",
       url: `${route}/foodlog`,
       params: { startDate },
@@ -47,7 +70,9 @@ export default function Nutrition() {
       const { log, kcalPerDay } = res.data;
       setFoodLog(log);
       setNeedKcal(kcalPerDay);
-    });
+    }).finally(() => {
+      setIsLoading(false);
+    })
   }, [pageRender, startDate]);
 
   useEffect(() => {
@@ -55,7 +80,22 @@ export default function Nutrition() {
     foodLog &&
       foodLog.forEach((item) => setTotalkcal((prev) => prev + item.kcal));
   }, [foodLog]);
-  return (
+
+  if (isLoading) {
+    return (
+      <div>
+        <Header />
+        <Loading>Loading...</Loading>
+        <NavBar />
+      </div>
+    )
+  }
+
+  if (!isLogin) {
+    navigate("/login");
+  }
+
+  return (isLogin &&
     <div>
       <Header />
       <Wrapgraph NeedKcal={NeedKcal} Totalkcal={Totalkcal} />
