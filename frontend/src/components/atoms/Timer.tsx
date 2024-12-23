@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { useContext } from "react";
+import { PasswordResetContext } from "../pages/PasswordResetPage";
 interface TimerProps {
   initialTime: number;
   onTimeUp: () => void;
@@ -7,10 +8,12 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ initialTime, onTimeUp }) => {
   const [timeLeft, setTimeLeft] = useState<number>(initialTime);
+  const passwordcontext = useContext(PasswordResetContext);
 
   useEffect(() => {
     if (timeLeft <= 0) {
       onTimeUp();
+      passwordcontext?.setStep(1);
       return;
     }
     const timerId = setInterval(() => {
@@ -29,4 +32,3 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeUp }) => {
 };
 
 export default Timer;
-
