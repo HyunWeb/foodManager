@@ -29,8 +29,10 @@ router.get("/check", userController.userCheck);
 
 router.post("/userselect", userController.userselect);
 
+router.post("/Certifications", userController.Certifications);
+
 router.post("/pwchange", userController.PWchange);
 
-router.post("/Certifications", userController.Certifications);
+router.post("/verficationnot", userController.verficationnot);
 
 module.exports = router;
