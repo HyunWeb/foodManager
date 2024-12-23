@@ -3,6 +3,7 @@ import styled from "styled-components";
 import EmailInputForm from "../organisms/EmailInputForm";
 import VerificationCodeForm from "../organisms/VerificationCodeForm";
 import PasswordResetForm from "../organisms/PasswordResetForm";
+import { createContext } from "node:vm";
 
 const Container = styled.div`
   padding: 20px;
@@ -99,16 +100,24 @@ const StyledPasswordResetForm = styled(PasswordResetForm)`
     cursor: pointer;
   }
 `;
+type PasswordResetType = {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  birthday: string;
+  setbirthday: React.Dispatch<React.SetStateAction<string>>;
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const PasswordResetContext = React.createContext<
+  PasswordResetType | undefined
+>(undefined);
 
 const PasswordResetPage: React.FC = () => {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-
-  const handleEmailSubmit = (submittedEmail: string) => {
-    setEmail(submittedEmail);
-    setStep(2);
-  };
+  const [email, setEmail] = useState<string>("");
+  const [birthday, setbirthday] = useState<string>("");
+  const [verificationCode, setVerificationCode] = useState<string>("");
 
   const handleCodeSubmit = (submittedCode: string) => {
     setVerificationCode(submittedCode);
@@ -120,23 +129,26 @@ const PasswordResetPage: React.FC = () => {
   };
 
   return (
-    <Container>
-      <StepWrapper>
-        <Title>비밀번호 재설정</Title>
-        {step === 1 && <StyledEmailInputForm onEmailSubmit={handleEmailSubmit} />}
-        {step === 2 && (
-          <StyledVerificationCodeForm
-            onCodeSubmit={handleCodeSubmit}
-            initialTime={180}
-          />
-        )}
-        {step === 3 && (
-          <StyledPasswordResetForm onPasswordReset={handlePasswordReset} />
-        )}
-      </StepWrapper>
-    </Container>
+    <PasswordResetContext.Provider
+      value={{ email, setEmail, birthday, setbirthday, step, setStep }}
+    >
+      <Container>
+        <StepWrapper>
+          <Title>비밀번호 재설정</Title>
+          {step === 1 && <StyledEmailInputForm />}
+          {step === 2 && (
+            <StyledVerificationCodeForm
+              onCodeSubmit={handleCodeSubmit}
+              initialTime={180}
+            />
+          )}
+          {step === 3 && (
+            <StyledPasswordResetForm onPasswordReset={handlePasswordReset} />
+          )}
+        </StepWrapper>
+      </Container>
+    </PasswordResetContext.Provider>
   );
 };
 
 export default PasswordResetPage;
-

@@ -2,23 +2,44 @@ import React, { useState } from "react";
 import InputField from "../molecules/InputField";
 import ButtonAtom from "../atoms/ButtonAtom";
 import Timer from "../atoms/Timer";
-
+import { useContext } from "react";
+import { PasswordResetContext } from "../pages/PasswordResetPage";
+import TextInputForm from "../atoms/TextInputForm";
+import { Navigate } from "react-router-dom";
+import axios from "axios";
 interface VerificationCodeFormProps {
-  onCodeSubmit: (code: string) => void;
   initialTime: number;
 }
 
 const VerificationCodeForm: React.FC<VerificationCodeFormProps> = ({
-  onCodeSubmit,
   initialTime,
 }) => {
-  const [code, setCode] = useState("");
   const [isTimeUp, setIsTimeUp] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const passwordcontext = useContext(PasswordResetContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isTimeUp) {
-      onCodeSubmit(code);
+    if (verificationCode && isNaN(Number(verificationCode)) == false) {
+      const verification = await axios({
+        method: "POST",
+        url: "/user/Certifications",
+        withCredentials: true,
+        data: {
+          userID: passwordcontext?.email,
+          count: verificationCode,
+        },
+      });
+      if (verification.data.result == true) {
+        alert("올바른 인증번호입니다.");
+        passwordcontext?.setStep(3);
+      } else {
+        alert("올바른 인증번호를 입력해주세요");
+        setVerificationCode("");
+      }
+    } else {
+      alert("숫자만 입력 가능합니다.");
+      setVerificationCode("");
     }
   };
 
@@ -27,15 +48,12 @@ const VerificationCodeForm: React.FC<VerificationCodeFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <InputField
-        label="인증번호"
-        id="verificationCode"
-        name="verificationCode"
-        type="text"
-        value={code}
+    <form onSubmit={handleCodeSubmit}>
+      <TextInputForm
         placeholder="인증번호를 입력하세요"
-        onChange={(e) => setCode(e.target.value)}
+        label="인증번호"
+        value={verificationCode}
+        setValue={setVerificationCode}
       />
       <ButtonAtom
         text="확인"

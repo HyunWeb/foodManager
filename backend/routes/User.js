@@ -27,4 +27,10 @@ router.get("/getUser", userController.userSearch);
 // 로그인 상태인지 세션 확인
 router.get("/check", userController.userCheck);
 
+router.post("/userselect", userController.userselect);
+
+router.post("/pwchange", userController.PWchange);
+
+router.post("/Certifications", userController.Certifications);
+
 module.exports = router;
