@@ -30,6 +30,7 @@ interface FoodHistoryProps {
 }
 
 const Container = styled.div`
+  padding: 20px;
   margin-bottom: 50px;
 
   @media (min-width: 768px) {

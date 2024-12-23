@@ -51,7 +51,6 @@ export default function Header({ hide = false }: { hide?: boolean }) {
         withCredentials: true,
       });
       setIsLogin(usering.data.result);
-      console.log(usering.data);
     } catch (error) {
       console.error("Error fetching items: ", error);
     }
