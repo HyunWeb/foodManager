@@ -12,6 +12,7 @@ interface LinkAtomProps {
   url: string;
   label: string;
   status: "House" | "Data" | "Box" | "Profile";
+  className?: string;
 }
 
 const LinkStyle = styled(Link)`
@@ -33,9 +34,14 @@ const Span = styled.span`
     font-size: 18px;
   }
 `;
-export default function LinkAtom({ url, label, status }: LinkAtomProps) {
+export default function LinkAtom({
+  url,
+  label,
+  status,
+  className,
+}: LinkAtomProps) {
   return (
-    <LinkStyle to={url}>
+    <LinkStyle to={url} className={className}>
       <ButtonStyle
         aria-label={label}
         variant="ghost"

@@ -566,7 +566,9 @@ const RecipeReviewinsert = async (req, res) => {
         rating,
       });
       if (Reviewinsert != null) {
-        res.json({ result: true, Message: "리뷰 추가 완료!" });
+        res.json({ result: true, Message: "별점 추가 완료!" });
+        res.end();
+      } else {
         res.end();
       }
     } else {
@@ -591,10 +593,38 @@ const RecipeReviewupdate = async (req, res) => {
       );
 
       if (Reviewupdate != null) {
-        res.json({ result: true, Message: "리뷰 업데이트 완료!" });
+        res.json({ result: true, Message: "별점이 수정되었습니다!" });
         res.end();
       } else {
-        res.json({ result: false, Message: "리뷰가 없거나 에러 발생!!" });
+        res.json({ result: false, Message: "별점이 없거나 에러 발생!!" });
+        res.end();
+      }
+    } else {
+      res.json({
+        result: false,
+        message: "로그인이 되어있지 않습니다.",
+      });
+      res.end();
+    }
+  } catch (err) {
+    console.error(err);
+    res.end();
+  }
+};
+
+const RecipeReviewGet = async (req, res) => {
+  try {
+    if (req.session.userInfo) {
+      const { recipeID } = req.query;
+      const Reviewupdate = await RecipeReview.findOne({
+        where: { userID: req.session.userInfo.userid, recipeID },
+      });
+
+      if (Reviewupdate != null) {
+        res.json({ result: true, rating: Reviewupdate.rating }); // 조회 완료 수정기능을 실행
+        res.end();
+      } else {
+        res.json({ result: false }); // 조회 실패 데이터를 생성
         res.end();
       }
     } else {
@@ -775,6 +805,7 @@ module.exports = {
   userselect,
   PWchange,
   getRecipeuser,
+  RecipeReviewGet,
 };
 //레시피 관련 코드 작성 완료(단, 이미지 업로드 관련 기능은 react 레시피 페이지 완성 후 추가 예정)
 //레시피 동작 상황에 대하여 모든 라우터가 작성되었는지 확인

@@ -22,6 +22,17 @@ const StyleImage = styled(ImageCard)`
   transform: translateX(-20%);
   align-self: center;
 `;
+
+const HomeButton = styled(LinkAtom)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  @media (min-width: 768px) {
+    display: inline-block;
+    max-width: 70px;
+  }
+`;
 const InputWrap = styled.form`
   display: flex;
   justify-content: center;
@@ -70,7 +81,7 @@ export default function Login() {
         />
         <SigninUpBlock />
       </InputWrap>
-      <LinkAtom url="/main" label="홈" status="House" />
+      <HomeButton url="/main" label="홈" status="House" />
     </Container>
   );
 }

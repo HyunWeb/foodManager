@@ -70,16 +70,64 @@ const StarStyle = styled(Rating)`
   transform: translateX(-50%);
   bottom: -70px;
 `;
-
+const route = process.env.REACT_APP_ROUTE;
 export default function ViewTemplateRecipe({
   RecipeData,
   starValue,
   setStarValue,
+  id,
 }: {
   RecipeData: RecipeData;
   starValue: number;
   setStarValue: (e: number) => void;
+  id: string | undefined;
 }) {
+  const [isNewData, setisNewData] = useState(false); // 별점을 수정해야하나 추가해야하나 판단하는 state
+
+  const ChangeStar = (value: number) => {
+    axios({
+      method: "get",
+      url: `${route}/recipe/get/review`,
+      withCredentials: true,
+      params: {
+        recipeID: id,
+      },
+    }).then((res) => {
+      const isNewData = res.data.result; // 응답 결과를 바로 사용
+
+      if (isNewData) {
+        // 이미 별점을 준 적이 있음
+        console.log(value);
+        axios({
+          method: "patch",
+          url: `${route}/recipe/update/review`,
+          withCredentials: true,
+          data: {
+            recipeID: id,
+            rating: value,
+          },
+        }).then((res) => {
+          alert(res.data.Message);
+          // console.log(res.data);
+        });
+      } else {
+        // 별점을 처음 등록하는 경우
+        axios({
+          method: "post",
+          url: `${route}/recipe/insert/review`,
+          withCredentials: true,
+          data: {
+            recipeID: RecipeData.recipeID,
+            rating: value,
+          },
+        }).then((res) => {
+          alert(res.data.Message);
+          // console.log(res.data);
+        });
+      }
+    });
+  };
+
   return (
     <Container>
       <ButtonStyle position="absolute" />
@@ -90,9 +138,12 @@ export default function ViewTemplateRecipe({
         <StarStyle
           size="lg"
           value={starValue}
-          onValueChange={(e) => setStarValue(e.value)}
-          allowHalf
+          onValueChange={(e) => {
+            setStarValue(e.value);
+            ChangeStar(e.value);
+          }}
           colorPalette="orange"
+          // onClick={() => ChangeStar()}
         />
       )}
     </Container>
