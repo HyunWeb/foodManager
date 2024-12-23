@@ -58,24 +58,24 @@ export default function NavBar() {
   const [selected, setSelected] = useState(1); // input 탭전환
 
   const route = process.env.REACT_APP_ROUTE;
-    const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(true);
-  
-    useEffect(() => {
-      axios({
-        method: "GET",
-        url: `${route}/user/check`,
-        withCredentials: true,
-      }).then((res) => {
-        setIsLogin(res.data.result);
-        setIsModalOpen(false);
-        console.log(res.data);
-      });
-    }, []);
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `${route}/user/check`,
+      withCredentials: true,
+    }).then((res) => {
+      setIsLogin(res.data.result);
+      setIsModalOpen(false);
+      console.log(res.data);
+    });
+  }, []);
 
   const openModal = () => {
-    if(isLogin){
-      setIsModalOpen(true)
+    if (isLogin) {
+      setIsModalOpen(true);
     } else {
       navigate("/login");
     }
@@ -87,7 +87,6 @@ export default function NavBar() {
       setSelected(1);
     }, 50);
   };
-
 
   return (
     <>

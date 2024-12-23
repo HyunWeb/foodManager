@@ -6,6 +6,8 @@ import TextInputForm from "../atoms/TextInputForm";
 import SigninUpBlock from "../molecules/SigninUpBlock";
 import PasswordInputForm from "../atoms/PasswordInputForm";
 import { useNavigate } from "react-router-dom";
+import IconButtonAtom from "../atoms/IconButtonAtom";
+import LinkAtom from "../atoms/LinkAtom";
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -68,6 +70,7 @@ export default function Login() {
         />
         <SigninUpBlock />
       </InputWrap>
+      <LinkAtom url="/main" label="홈" status="House" />
     </Container>
   );
 }
