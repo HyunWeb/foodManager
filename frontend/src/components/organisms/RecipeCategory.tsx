@@ -48,7 +48,7 @@ export default function RecipeCategory({
   introduce?: string;
 }) {
   const { recipes, setRecipes, loading, setLoading } = usePageRender();
-  
+
   return (
     <Container>
       <HeadingAtom

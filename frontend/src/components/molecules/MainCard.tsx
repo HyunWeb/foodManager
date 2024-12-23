@@ -79,7 +79,7 @@ export default function MainCard({
         url: `http://localhost:8000/user/check`,
         withCredentials: true,
       });
-      console.log(checking.data);
+      // console.log(checking.data);
       return checking.data.result;
     } catch (error) {
       console.error("Error fetching items: ", error);
@@ -97,11 +97,11 @@ export default function MainCard({
               recipeID,
             },
           });
-          console.log(recipeLike.data);
+          // console.log(recipeLike.data);
           if (recipeLike.data.result == true) {
             setLikeState(recipeLike.data.result);
           } else {
-            console.log(recipeLike.data.Message);
+            // console.log(recipeLike.data.Message);
           }
         } else {
           let postingLike = axios({

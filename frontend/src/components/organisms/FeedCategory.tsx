@@ -82,7 +82,7 @@ const processRecipeData = async () => {
 
     // 서버에서 받은 데이터 구조 분해
     const { recipes, reviews } = res.data.data;
-
+    console.log(recipes, reviews);
     // 데이터를 가공
     const processedData = calculateReview(recipes, reviews);
 

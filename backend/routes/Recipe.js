@@ -43,9 +43,11 @@ router.post("/update/Like", controller.RecipeLikeDB); // 레시피의 찜 정보
 
 router.post("/finds/Like", controller.RecipeLikeFindAll); // 레시피 전체 찜 목록
 
-router.post("/insert/review", controller.RecipeReviewinsert); //레시피 리뷰 추가
+router.post("/insert/review", controller.RecipeReviewinsert); //레시피 별점 추가
 
-router.patch("/update/review", controller.RecipeReviewupdate); //레시피 리뷰 수정
+router.patch("/update/review", controller.RecipeReviewupdate); //레시피 별점 수정
+
+router.get("/get/review", controller.RecipeReviewGet); //레시피 별점 조회
 
 router.patch("/update/:recipeID", controller.Recipeupdate); //레시피의 update를 담당
 

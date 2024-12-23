@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import LogoImg from "../atoms/LogoImg";
 import ImageCard from "../atoms/ImageCard";
 
@@ -29,12 +29,33 @@ const ImageStyle = styled(ImageCard)`
   margin: 0 auto;
 `;
 
+const doAnimation = keyframes`
+0% {content: ".";}
+25% {content: "..";}
+50% {content: "...";}
+75% {content: "..";}
+100% {content: ".";}
+`;
+const Span = styled.span`
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  display: block;
+
+  &:after {
+    display: inline-block;
+    animation: ${doAnimation} 1.5s infinite;
+    content: ".";
+  }
+`;
+
 export default function Logo() {
   return (
     <Container>
       <LogoWrap>
         <ImageStyle src="/LogoImg.png" alt="로고 이미지" />
         <LogoImg large={true} />
+        <Span>로딩중</Span>
       </LogoWrap>
     </Container>
   );

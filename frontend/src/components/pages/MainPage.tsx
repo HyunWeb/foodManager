@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import SearchBlock from "../molecules/SearchBlock";
 import SwitchTab from "../molecules/SwitchTab";
 import RecipeTemplate from "../templates/RecipeTemplate";
 import Header from "../organisms/Header";
@@ -19,7 +18,6 @@ export default function MainPage() {
   return (
     <Container>
       <Header />
-      <SearchBlock />
       <SwitchTab
         menu1="레시피"
         menu2="게시글"

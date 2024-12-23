@@ -8,6 +8,8 @@ import axios from "axios";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePageRender } from "../organisms/PageRenderContext";
+import Loading from "./Loading";
+import Logo from "../molecules/Logo";
 
 interface CommentListProps {
   commentID: number;
@@ -17,12 +19,6 @@ interface CommentListProps {
 }
 const Container = styled.div`
   background-color: #ffffff;
-`;
-
-const Loading = styled.div`
-  width: 100vw;
-  padding: 30px;
-  text-align: center;
 `;
 
 // Create the context with a default value
@@ -51,9 +47,11 @@ export default function View() {
   const route = process.env.REACT_APP_ROUTE;
   const navigate = useNavigate();
 
-  const [starValue, setStarValue] = useState(0);
+  // const [starValue, setStarValue] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isNewData, setisNewData] = useState(false); // 별점을 수정해야하나 추가해야하나 판단하는 state
+  const [starValue, setStarValue] = useState(0);
   const [RecipeData, setRecipeData] = useState({
     type: "",
     recipeID: 0,
@@ -96,6 +94,7 @@ export default function View() {
   const [isLogin, setIsLogin] = useState(false);
 
   const { CommentPageRender, setCommentPageRender } = usePageRender();
+
   useEffect(() => {
     axios({
       method: "GET",
@@ -103,50 +102,52 @@ export default function View() {
       withCredentials: true,
     }).then((res) => {
       setIsLogin(res.data.result);
-      console.log(res.data);
+      // console.log(res.data);
     });
-
 
     if (type == "posting") {
       axios({
         method: "GET",
         url: `http://localhost:8000/posting/${id}`,
         withCredentials: true,
-      }).then((res) => {
-        console.log(res.data.posting);
-        setPostingData(res.data.posting);
-        setCommentList(res.data.comment);
-        console.log(PostingData);
-        //setLoading(false);
-      }).finally(() => {
-        console.log(RecipeData);
-        setIsLoading(false);
-      });
-
+      })
+        .then((res) => {
+          // console.log(res.data.posting);
+          setPostingData(res.data.posting);
+          setCommentList(res.data.comment);
+          // console.log(PostingData);
+          //setLoading(false);
+        })
+        .finally(() => {
+          // console.log(RecipeData);
+          setIsLoading(false);
+        });
     } else if (type == "defaultRecipe") {
       setIsLoading(true);
       axios({
         method: "GET",
         url: `${route}/api/${id}`,
         withCredentials: true,
-      }).then((res) => {
-        const { id, title, img, describe, ingredients, steps } = res.data.data;
-        setRecipeData({
-          type: type,
-          recipeID: id,
-          title: title,
-          img: img,
-          time: "",
-          amount: "",
-          level: "",
-          describe: describe,
-          ingredients: ingredients,
-          steps: steps,
-        });
       })
+        .then((res) => {
+          const { id, title, img, describe, ingredients, steps } =
+            res.data.data;
+          setRecipeData({
+            type: type,
+            recipeID: id,
+            title: title,
+            img: img,
+            time: "",
+            amount: "",
+            level: "",
+            describe: describe,
+            ingredients: ingredients,
+            steps: steps,
+          });
+        })
         .catch((error) => console.error("Error fetching data:", error))
         .finally(() => {
-          console.log(RecipeData);
+          // console.log(RecipeData);
           setIsLoading(false);
         });
     } else if (type == "recipe") {
@@ -154,56 +155,67 @@ export default function View() {
       axios({
         method: "GET",
         url: `${route}/Recipe//find/${id}`,
-        withCredentials: true
-      }).then((res) => {
-        console.log(res.data);
-        const { recipeID, title, describe, img, time, amount, level } = res.data.recipe;
-        setRecipeData({
-          type: type,
-          recipeID: recipeID,
-          title: title,
-          describe: describe,
-          img: img,
-          time: time,
-          amount: amount,
-          level: level,
-          ingredients: res.data.ingredient,
-          steps: res.data.steps,
-        });
+        withCredentials: true,
       })
+        .then((res) => {
+          // console.log(res.data);
+          const { recipeID, title, describe, img, time, amount, level } =
+            res.data.recipe;
+          setRecipeData({
+            type: type,
+            recipeID: recipeID,
+            title: title,
+            describe: describe,
+            img: img,
+            time: time,
+            amount: amount,
+            level: level,
+            ingredients: res.data.ingredient,
+            steps: res.data.steps,
+          });
+        })
         .catch((error) => console.error("Error fetching data:", error))
         .finally(() => setIsLoading(false));
     }
-
   }, [CommentPageRender]);
 
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${route}/recipe/get/review`,
+      withCredentials: true,
+      params: {
+        recipeID: id,
+      },
+    }).then((res) => {
+      setStarValue(res.data.rating);
+    });
+  }, []);
 
   if (!isLogin) {
     navigate("/login");
   }
 
   if (isLoading) {
-    return (
-          <Container>
-            <Loading>Loading...</Loading>
-          </Container>
-        )
+    return <Logo />;
   }
-
-  return (isLogin &&
-    <Container>
-      <CommentContext.Provider value={{ CommentList, setCommentList }}>
-        {type === "recipe" || type === "defaultRecipe" ? (
-          <ViewTemplateRecipe
-            starValue={starValue}
-            setStarValue={setStarValue}
-            RecipeData={RecipeData}
-          />
-        ) : (
-          <ViewTemplatePosting PostingData={PostingData} />
-        )}
-        <NavBar />
-      </CommentContext.Provider>
-    </Container>
-  )
+  return (
+    isLogin && (
+      <Container>
+        <CommentContext.Provider value={{ CommentList, setCommentList }}>
+          {type === "recipe" || type === "defaultRecipe" ? (
+            <ViewTemplateRecipe
+              starValue={starValue}
+              setStarValue={setStarValue}
+              RecipeData={RecipeData}
+              id={id}
+            />
+          ) : (
+            <ViewTemplatePosting PostingData={PostingData} />
+          )}
+          <NavBar />
+        </CommentContext.Provider>
+      </Container>
+    )
+  );
 }

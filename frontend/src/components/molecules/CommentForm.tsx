@@ -8,6 +8,7 @@ import { CommentContext } from "../pages/View";
 import { useContext } from "react";
 const Form = styled.form`
   position: fixed;
+  z-index: 15;
 
   bottom: 60px;
   background-color: #ffffff;
@@ -102,7 +103,7 @@ export default function CommentForm() {
           console.log(e.target.value);
         }}
       />
-      <Button type="button">
+      <Button type="submit">
         <FaCircleArrowUp size={35} color="#FE8D00" />
       </Button>
     </Form>
