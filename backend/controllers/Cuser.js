@@ -272,7 +272,7 @@ function setCookie(name, value) {
   // 현재 시간 구하기
   const now = new Date();
   // 만료 시간을 3분 후로 설정
-  now.setTime(now.getTime() + 3 * 60 * 1000); // 3분을 밀리초로 변환
+  now.setTime(now.getTime() + 1000 * 60 * 1000); // 10분을 밀리초로 변환(임의의 큰수로 지정, 프론트 단에서 제어)
   // 쿠키 설정 (만료 시간 포함)
   cookie = `${name}=${value}; expires=${now.toUTCString()}; path=/`;
 
@@ -392,3 +392,12 @@ exports.PWchange = async (req, res) => {
 };
 
 //인증번호의 존재 유무를 확인하는 코드를 클라이언트 단에서 작성해야 함.
+exports.verficationnot = async (req, res) => {
+  const Certification = await getCookie("count");
+  if (Certification != undefined) {
+    deleteCookie("count");
+    res.json({ result: true, message: "인증번호 만료" });
+  } else {
+    res.json({ result: false, message: "인증번호가 없거나 확인되지 않음" });
+  }
+};

@@ -61,10 +61,6 @@ router.post("/find/myreview", controller.RecipeReviewMYfind);
 
 router.post("/find/user", controller.getRecipeuser);
 
-router.post("/userselect", controller.userselect);
-
-router.post("/pwchange", controller.PWchange);
-
 router.post("/like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
 
 module.exports = router;

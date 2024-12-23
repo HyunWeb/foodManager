@@ -117,16 +117,6 @@ const PasswordResetPage: React.FC = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState<string>("");
   const [birthday, setbirthday] = useState<string>("");
-  const [verificationCode, setVerificationCode] = useState<string>("");
-
-  const handleCodeSubmit = (submittedCode: string) => {
-    setVerificationCode(submittedCode);
-    setStep(3);
-  };
-
-  const handlePasswordReset = (newPassword: string) => {
-    alert("비밀번호가 성공적으로 변경되었습니다.");
-  };
 
   return (
     <PasswordResetContext.Provider
@@ -136,15 +126,8 @@ const PasswordResetPage: React.FC = () => {
         <StepWrapper>
           <Title>비밀번호 재설정</Title>
           {step === 1 && <StyledEmailInputForm />}
-          {step === 2 && (
-            <StyledVerificationCodeForm
-              onCodeSubmit={handleCodeSubmit}
-              initialTime={180}
-            />
-          )}
-          {step === 3 && (
-            <StyledPasswordResetForm onPasswordReset={handlePasswordReset} />
-          )}
+          {step === 2 && <StyledVerificationCodeForm initialTime={180} />}
+          {step === 3 && <StyledPasswordResetForm />}
         </StepWrapper>
       </Container>
     </PasswordResetContext.Provider>
