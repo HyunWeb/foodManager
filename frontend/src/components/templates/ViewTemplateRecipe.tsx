@@ -139,10 +139,7 @@ export default function ViewTemplateRecipe({
           console.log(RecipeData);
           setIsLoading(false);
         });
-    }
-
-    // 레시피 데이터 업데이트
-    if (RecipeType.type == "recipe") {
+    } else if (RecipeType.type == "recipe") {
       setIsLoading(true);
       axios({
         method: "GET",

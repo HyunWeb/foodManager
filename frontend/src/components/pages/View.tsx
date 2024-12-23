@@ -43,6 +43,10 @@ export default function View() {
 
   // const [loading, setLoading] = useState(true);
   const [starValue, setStarValue] = useState(0);
+  const [RecipeType, setRecipeType] = useState({
+    id: id,
+    type: type,
+  });
   const [RecipeData, setRecipeData] = useState({
     recipeID: 0,
     title: "",
@@ -85,7 +89,7 @@ export default function View() {
   const { CommentPageRender, setCommentPageRender } = usePageRender();
   useEffect(() => {
     // 레시피 데이터 업데이트
-    if (type == "recipe") {
+    if (type === "recipe") {
       const data = axios({
         method: "GET",
         url: `/Recipe/find/${id}`,
@@ -124,7 +128,6 @@ export default function View() {
     }
   }, [CommentPageRender]);
 
-
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
@@ -135,6 +138,7 @@ export default function View() {
           <ViewTemplateRecipe
             starValue={starValue}
             setStarValue={setStarValue}
+            RecipeData={RecipeData}
             RecipeType={RecipeData}
           />
         ) : (

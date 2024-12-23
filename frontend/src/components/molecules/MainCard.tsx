@@ -68,34 +68,34 @@ export default function MainCard({
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
   const params = recipeID ? "recipe" : "posting";
-  useEffect(() => {
-    if (type == "recipe") {
-      const main = axios({
-        method: "POST",
-        url: `/Recipe/find/Like`,
-        data: {
-          recipeID,
-        },
-      }).then((res) => {
-        if (res.data.result == true) {
-          setLikeState(res.data.result);
-        }
-      });
-    } else {
-      console.log(postingID);
-      const main = axios({
-        method: "POST",
-        url: `/posting/${postingID}/likepost`,
-      }).then((res) => {
-        if (res.data.result == true) {
-          setLikeState(res.data.result);
-          console.log(res.data.message);
-        } else {
-          console.log(res.data.message);
-        }
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (type == "recipe") {
+  //     const main = axios({
+  //       method: "POST",
+  //       url: `/Recipe/find/Like`,
+  //       data: {
+  //         recipeID,
+  //       },
+  //     }).then((res) => {
+  //       if (res.data.result == true) {
+  //         setLikeState(res.data.result);
+  //       }
+  //     });
+  //   } else {
+  //     console.log(postingID);
+  //     const main = axios({
+  //       method: "POST",
+  //       url: `/posting/${postingID}/likepost`,
+  //     }).then((res) => {
+  //       if (res.data.result == true) {
+  //         setLikeState(res.data.result);
+  //         console.log(res.data.message);
+  //       } else {
+  //         console.log(res.data.message);
+  //       }
+  //     });
+  //   }
+  // }, []);
   const ChangeLikeState = () => {
     if (type == "recipe") {
       const main = axios({
