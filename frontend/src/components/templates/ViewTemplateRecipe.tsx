@@ -80,20 +80,21 @@ export default function ViewTemplateRecipe({
   starValue: number;
   setStarValue: (e: number) => void;
 }) {
-
   return (
     <Container>
       <ButtonStyle position="absolute" />
       <ViewRecipeInfo value={RecipeData} />
       <ViewIngredient value={RecipeData.ingredients || []} />
       <ViewCookingStep value={RecipeData.steps || []} />
-      {RecipeData.type === "recipe" && <StarStyle
-        size="lg"
-        value={starValue}
-        onValueChange={(e) => setStarValue(e.value)}
-        allowHalf
-        colorPalette="orange"
-      />}
+      {RecipeData.type === "recipe" && (
+        <StarStyle
+          size="lg"
+          value={starValue}
+          onValueChange={(e) => setStarValue(e.value)}
+          allowHalf
+          colorPalette="orange"
+        />
+      )}
     </Container>
   );
 }

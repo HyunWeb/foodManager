@@ -70,6 +70,7 @@ export default function MainCard({
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
   const params = recipeID ? "recipe" : "posting";
+
   const feedchange = useContext(feedContext);
   async function fetchItems() {
     try {
@@ -89,17 +90,19 @@ export default function MainCard({
       const logincheck = await fetchItems();
       if (logincheck) {
         if (type == "recipe") {
-          let recipeLike = axios({
+          let recipeLike = await axios({
             method: "POST",
-            url: `/Recipe/Like`,
+            url: `/Recipe/like`,
             data: {
               recipeID,
             },
-          }).then((res) => {
-            if (res.data.result == true) {
-              setLikeState(res.data.result);
-            }
           });
+          console.log(recipeLike.data);
+          if (recipeLike.data.result == true) {
+            setLikeState(recipeLike.data.result);
+          } else {
+            console.log(recipeLike.data.Message);
+          }
         } else {
           let postingLike = axios({
             method: "POST",
@@ -157,7 +160,7 @@ export default function MainCard({
     if (likeState == true) {
       if (type == "recipe") {
         const feedobject = feedchange?.userfeeds.filter((feed) => {
-          return feed.postingID != postingID;
+          return feed.recipeID != recipeID;
         });
         console.log(feedobject);
         if (feedobject != undefined) {

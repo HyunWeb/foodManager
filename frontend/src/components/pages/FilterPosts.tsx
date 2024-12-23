@@ -47,6 +47,7 @@ export default function FilterPosts() {
           withCredentials: true,
         }).then((res) => {
           let database = [];
+          console.log(res.data);
           if (res.data.result == true) {
             for (let i = 0; i < res.data.recipe.length; i++) {
               console.log(res.data.recipe[i]);
