@@ -160,7 +160,7 @@ export default function MainCard({
     if (likeState == true) {
       if (type == "recipe") {
         const feedobject = feedchange?.userfeeds.filter((feed) => {
-          return feed.postingID != postingID;
+          return feed.recipeID != recipeID;
         });
         console.log(feedobject);
         if (feedobject != undefined) {
