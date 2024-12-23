@@ -48,29 +48,7 @@ export default function RecipeCategory({
   introduce?: string;
 }) {
   const { recipes, setRecipes, loading, setLoading } = usePageRender();
-  const api = process.env.REACT_APP_ROUTE;
-  // const [recipes, setRecipes] = useState<RecipeProps[]>([]);
-  // const [loading, setLoading] = useState(false);
-
-  //api 요청 부분
-  // useEffect(() => {
-  //   console.log("실행전 = " + recipes);
-  //   const fetchItems = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const res = await axios.get(`${api}/api/items`, {
-  //         withCredentials: true,
-  //       });
-  //       setRecipes(res.data.data);
-  //       setLoading(false);
-  //       console.log("실행 후 = " + recipes);
-  //     } catch (error) {
-  //       console.error("Error fetching items: ", error);
-  //     }
-  //   };
-
-  //   fetchItems();
-  // }, []);
+  
   return (
     <Container>
       <HeadingAtom

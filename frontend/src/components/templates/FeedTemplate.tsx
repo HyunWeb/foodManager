@@ -38,10 +38,11 @@ export default function FeedTemplate() {
   const [Loading, setLoading] = useState(false);
   const { feedPageRender, setFeedPageRender } = usePageRender();
   const { id } = useParams<{ id: string }>();
+  const route = process.env.REACT_APP_ROUTE;
   async function loading() {
     const feedupdate = await axios({
       method: "GET",
-      url: `/posting/`,
+      url: `${route}/posting`,
       withCredentials: true,
     });
     console.log("ddffdf", feedupdate.data.posting, Date.now());
@@ -50,8 +51,16 @@ export default function FeedTemplate() {
 
   useEffect(() => {
     setLoading(true);
-    loading();
-    setLoading(false);
+    axios({
+      method: "GET",
+      url: `${route}/posting`,
+      withCredentials: true,
+    }).then((res) => {
+      console.log(res.data);
+      setPostings(res.data.posting);
+    }).finally(() => {
+      setLoading(false);
+    });
   }, [feedPageRender]);
 
   console.log(Postings);
@@ -61,7 +70,7 @@ export default function FeedTemplate() {
         <p>Loading...</p>
       ) : (
         <FeedList>
-          {Postings && Postings.length > 0 ? (
+          {(Postings && Postings.length > 0 )? (
             Postings.map((feed) => (
               <MainCard
                 key={feed.postingID}
