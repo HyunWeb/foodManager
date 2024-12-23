@@ -52,6 +52,7 @@ export default function View() {
   const navigate = useNavigate();
 
   const [starValue, setStarValue] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
   const [RecipeData, setRecipeData] = useState({
     type: "",
@@ -175,6 +176,7 @@ export default function View() {
     }
 
   }, [CommentPageRender]);
+
 
   if (!isLogin) {
     navigate("/login");

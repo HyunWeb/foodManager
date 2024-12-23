@@ -70,6 +70,7 @@ export default function MainCard({
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
   const params = recipeID ? "recipe" : "posting";
+
   const feedchange = useContext(feedContext);
   async function fetchItems() {
     try {
