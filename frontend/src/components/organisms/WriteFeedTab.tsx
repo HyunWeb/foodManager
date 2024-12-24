@@ -35,7 +35,7 @@ export default function WriteFeedTab({ onClose }: { onClose: () => void }) {
 
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/posting/post`,
+      url: `${process.env.REACT_APP_ROUTE}/posting/post`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

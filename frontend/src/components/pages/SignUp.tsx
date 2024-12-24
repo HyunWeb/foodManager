@@ -57,7 +57,7 @@ export default function SignUp() {
 
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/user/signup`,
+      url: `${process.env.REACT_APP_ROUTE}/user/signup`,
       data: {
         name: name,
         userid: email,

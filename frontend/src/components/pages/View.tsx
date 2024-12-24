@@ -107,7 +107,7 @@ export default function View() {
     if (type == "posting") {
       axios({
         method: "GET",
-        url: `http://localhost:8000/posting/${id}`,
+        url: `${process.env.REACT_APP_ROUTE}/posting/${id}`,
         withCredentials: true,
       })
         .then((res) => {

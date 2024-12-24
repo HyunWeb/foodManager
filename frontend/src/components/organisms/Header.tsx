@@ -63,7 +63,7 @@ export default function Header({ hide = false }: { hide?: boolean }) {
     try {
       const { data } = await axios({
         method: "post",
-        url: `http://localhost:8000/user/logout`,
+        url: `${process.env.REACT_APP_ROUTE}/user/logout`,
         withCredentials: true,
       });
       // domain 옵션을 제거하고 path만 설정

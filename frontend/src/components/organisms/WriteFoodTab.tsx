@@ -136,7 +136,7 @@ export default function WriteFoodTab({
     e.preventDefault();
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/foodlog/post`,
+      url: `${process.env.REACT_APP_ROUTE}/foodlog/post`,
       data: {
         category: KindOfFood,
         foodname: foodName,

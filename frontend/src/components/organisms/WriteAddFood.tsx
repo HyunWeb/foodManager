@@ -59,7 +59,7 @@ export default function WriteAddFood({ onClose }: { onClose: () => void }) {
     e.preventDefault();
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/grocery/post`,
+      url: `${process.env.REACT_APP_ROUTE}/grocery/post`,
       data: {
         category: kindOfFood,
         groceryname: nameOfFood,
