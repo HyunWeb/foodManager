@@ -4,6 +4,8 @@ const controller = require("../controllers/Cmain");
 
 router.get("/api/items", controller.fetchDataAndSave);
 
+router.get("/api/grocery", controller.getRecipeByGrocery);
+
 router.get("/api/:id", controller.detailAPI);
 
 module.exports = router;

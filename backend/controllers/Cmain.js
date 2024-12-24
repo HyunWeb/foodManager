@@ -6,6 +6,8 @@ const axios = require("axios");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+const {Grocery} = require("../models/index");
+
 // // s3 설정
 // const {
 //   S3Client,
@@ -157,8 +159,7 @@ function processSteps(recipe) {
 exports.fetchDataAndSave = async (req, res) => {
   try {
     const response = await axios.get(
-      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
-      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
+      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
     );
     const recipes = response.data.COOKRCP01.row;
     if (!recipes || !Array.isArray(recipes)) {
@@ -191,12 +192,75 @@ exports.fetchDataAndSave = async (req, res) => {
   }
 };
 
+exports.getRecipeByGrocery = async (req, res) => {
+  try {
+    if(req.session.userInfo){
+      const grocery = await Grocery.findAll({
+        where: {userID: req.session.userInfo.userid}
+      });
+
+      if(!grocery || !Array.isArray(grocery) || grocery.length === 0){
+        return res.json({result: false, message: "냉장고를 채워보세요."})
+      }
+
+      const response = await axios.get(
+        "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
+      );
+      const recipes = response.data.COOKRCP01.row;
+      if (!recipes || !Array.isArray(recipes)) {
+        throw new Error("유효하지 않은 데이터");
+      }
+
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const prompt = `{recipe : ${recipes}, grocery: ${grocery}}일 때 grocery를 이용해 만들 수 있는 recipe를 추출해줘. recipes.RCP_PARTS_DTLS를 참고하고, 배열 형태로 리턴해줘`;
+
+      const rawResults = await model.generateContent(prompt);
+
+      const results = rawResults;
+    if (!results || !Array.isArray(results)) {
+      throw new Error("유효하지 않은 데이터");
+    }
+
+
+      console.log(rawResults);
+
+      const processedData = await results
+      .map((result) => {
+        const steps = processSteps(result);
+
+        if (steps) {
+          return {
+            id: result.RCP_SEQ,
+            title: result.RCP_NM,
+            img: result.ATT_FILE_NO_MK,
+          };
+        }
+        return null;
+      })
+      .filter((result) => result !== null);
+
+    res.json({
+      result: true,
+      message: "기본 레시피 불러오기 성공",
+      data: processedData,
+    });
+    } else {
+      res.json({
+        result: false,
+        message: "로그인 후에 사용가능합니다."
+      })
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 exports.detailAPI = async (req, res) => {
   try {
     const { id } = req.params;
     const response = await axios.get(
-      // "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
-      "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
+      "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/10"
     );
     const recipes = response.data.COOKRCP01.row;
 
