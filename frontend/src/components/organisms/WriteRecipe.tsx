@@ -50,7 +50,7 @@ export default function WriteRecipe({ onClose }: { onClose: () => void }) {
 
     const data = axios({
       method: "POST",
-      url: `http://localhost:8000/Recipe/insert`,
+      url: `${process.env.REACT_APP_ROUTE}/Recipe/insert`,
       data: {
         title: titleValue,
         describe: RecipeValue,

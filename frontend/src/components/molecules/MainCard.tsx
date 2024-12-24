@@ -76,7 +76,7 @@ export default function MainCard({
     try {
       const checking = await axios({
         method: "GET",
-        url: `http://localhost:8000/user/check`,
+        url: `${process.env.REACT_APP_ROUTE}/user/check`,
         withCredentials: true,
       });
       return checking.data.result;

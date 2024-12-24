@@ -61,7 +61,7 @@ export default function CommentForm() {
       if (content !== "") {
         axios({
           method: "POST",
-          url: `http://localhost:8000/posting/${id}/comment`,
+          url: `${process.env.REACT_APP_ROUTE}/posting/${id}/comment`,
           data: {
             content: content,
           },
@@ -70,7 +70,7 @@ export default function CommentForm() {
           if (res.data.result == true) {
             axios({
               method: "GET",
-              url: `http://localhost:8000/posting/${id}`,
+              url: `${process.env.REACT_APP_ROUTE}/posting/${id}`,
               withCredentials: true,
             }).then((res) => {
               text?.setCommentList(res.data.comment);
