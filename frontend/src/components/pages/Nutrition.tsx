@@ -41,13 +41,29 @@ export default function Nutrition() {
   const [foodLog, setFoodLog] = useState<FoodLog[]>([]);
   const [NeedKcal, setNeedKcal] = useState(0);
   const [Totalkcal, setTotalkcal] = useState(0);
-  const { pageRender, setPageRender, startDate, setStartDate } =
-    usePageRender();
-  const [isLogin, setIsLogin] = useState(false);
+  const {
+    pageRender,
+    setPageRender,
+    startDate,
+    setStartDate,
+    isLogin,
+    setIsLogin,
+  } = usePageRender();
+  // const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const route = process.env.REACT_APP_ROUTE;
   const navigate = useNavigate();
+  // useEffect(() => {
+  //   // 로그인여부 확인
+  //   axios({
+  //     method: "GET",
+  //     url: `${route}/user/check`,
+  //     withCredentials: true,
+  //   }).then((res) => {
+  //     setIsLogin(res.data.result);
+  //   });
+  // }, []);
 
   useEffect(() => {
     // 로그인여부 확인

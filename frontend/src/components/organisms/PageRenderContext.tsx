@@ -25,6 +25,8 @@ interface PageRenderContextType {
   setRecipes: React.Dispatch<React.SetStateAction<RecipeProps[]>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isLogin: boolean;
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // 기본값 설정 (초기 상태)
@@ -47,6 +49,7 @@ export const PageRenderProvider = ({ children }: PageRenderProviderProps) => {
 
   const [recipes, setRecipes] = useState<RecipeProps[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <PageRenderContext.Provider
@@ -67,6 +70,8 @@ export const PageRenderProvider = ({ children }: PageRenderProviderProps) => {
         setLoading,
         groceryPageRender,
         setGroceryPageRender,
+        isLogin,
+        setIsLogin,
       }}
     >
       {children}

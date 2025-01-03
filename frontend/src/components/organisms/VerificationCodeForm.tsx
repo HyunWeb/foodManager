@@ -23,7 +23,7 @@ const VerificationCodeForm: React.FC<VerificationCodeFormProps> = ({
     if (verificationCode && isNaN(Number(verificationCode)) == false) {
       const verification = await axios({
         method: "POST",
-        url: "/user/Certifications",
+        url: `${process.env.REACT_APP_ROUTE}/user/Certifications`,
         withCredentials: true,
         data: {
           userID: passwordcontext?.email,

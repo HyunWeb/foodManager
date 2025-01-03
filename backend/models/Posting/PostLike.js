@@ -9,7 +9,7 @@ const PostLike = (Sequelize, DataTypes) => {
     "postLike",
     {
       userID: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false,
         references: {
           model: "user",

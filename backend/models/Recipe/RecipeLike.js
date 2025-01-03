@@ -4,7 +4,6 @@
  * @param {import('sequelize').DataTypes} DataTypes
  */
 
-
 /**
  * recipelike 모델 정의
  * @param {import('sequelize').Sequelize} Sequelize
@@ -12,27 +11,27 @@
  */
 
 const RecipeLike = (Sequelize, DataTypes) => {
-    return Sequelize.define(
-      "recipeLike",
-      {
-        userID: {
-          type: DataTypes.STRING(20),
-          allowNull: false,
-          primaryKey: true,
-        },
-        recipeID: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          primaryKey: true,
-        },
+  return Sequelize.define(
+    "recipeLike",
+    {
+      userID: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        primaryKey: true,
       },
-      {
-        tableName: "recipeLike",
-        freezeTableName: true,
-        timestamps: false,
-        primaryKey: ["userID", "recipeID"],
-      }
-    );
-  };
+      recipeID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+    },
+    {
+      tableName: "recipeLike",
+      freezeTableName: true,
+      timestamps: false,
+      primaryKey: ["userID", "recipeID"],
+    }
+  );
+};
 
 module.exports = RecipeLike;

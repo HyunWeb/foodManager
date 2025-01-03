@@ -91,9 +91,10 @@ export default function View() {
     date: "",
     content: "",
   });
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
 
-  const { CommentPageRender, setCommentPageRender } = usePageRender();
+  const { CommentPageRender, setCommentPageRender, isLogin, setIsLogin } =
+    usePageRender();
 
   useEffect(() => {
     axios({

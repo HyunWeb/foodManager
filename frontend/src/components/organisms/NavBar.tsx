@@ -5,6 +5,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import InputModal from "./InputModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { usePageRender } from "./PageRenderContext";
 
 const Container = styled.nav`
   display: flex;
@@ -59,7 +60,8 @@ export default function NavBar() {
 
   const route = process.env.REACT_APP_ROUTE;
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(true);
+  const { isLogin, setIsLogin } = usePageRender();
 
   useEffect(() => {
     axios({

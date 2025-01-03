@@ -25,7 +25,8 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeUp }) => {
     if (timeLeft <= 0) {
       axios({
         method: "POST",
-        url: "/user/verficationnot",
+        url: `${process.env.REACT_APP_ROUTE}/user/verficationnot`,
+        withCredentials: true,
       }).then((res) => {
         if (res.data.result == true) {
           alert(res.data.message);

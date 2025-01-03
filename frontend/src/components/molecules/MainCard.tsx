@@ -88,31 +88,40 @@ export default function MainCard({
     async function loginlike() {
       const logincheck = await fetchItems();
       if (logincheck) {
-        if (type == "recipe") {
-          let recipeLike = await axios({
-            method: "POST",
-            url: `/Recipe/like`,
-            data: {
-              recipeID,
-            },
-          });
-          if (recipeLike.data.result == true) {
-            setLikeState(recipeLike.data.result);
-          } else {
+        if (type === "recipe") {
+          try {
+            let recipeLike = await axios({
+              method: "POST",
+              url: `${process.env.REACT_APP_ROUTE}/Recipe/like`,
+              withCredentials: true,
+              data: {
+                recipeID,
+              },
+            });
+            if (recipeLike.data.result === true) {
+              setLikeState(recipeLike.data.result);
+            }
+          } catch (error) {
+            console.error("Error in recipeLike request:", error);
           }
         } else {
-          let postingLike = axios({
-            method: "POST",
-            url: `/posting/likepost`,
-            data: {
-              postingID,
-            },
-          }).then((res) => {
-            if (res.data.result == true) {
-              setLikeState(res.data.result);
-            } else {
-            }
-          });
+          try {
+            let postingLike = axios({
+              method: "POST",
+              url: `${process.env.REACT_APP_ROUTE}/posting/likepost`,
+              withCredentials: true,
+              data: {
+                postingID,
+              },
+            }).then((res) => {
+              if (res.data.result == true) {
+                setLikeState(res.data.result);
+              } else {
+              }
+            });
+          } catch (error) {
+            console.error("Error in postingLike request:", error);
+          }
         }
       }
     }
@@ -123,7 +132,8 @@ export default function MainCard({
     if (type == "recipe") {
       const main = axios({
         method: "POST",
-        url: `/Recipe/update/Like`,
+        url: `${process.env.REACT_APP_ROUTE}/Recipe/update/Like`,
+        withCredentials: true,
         data: {
           recipeID,
         },
@@ -139,7 +149,8 @@ export default function MainCard({
     } else {
       const main = axios({
         method: "POST",
-        url: `/posting/${postingID}/like`,
+        url: `${process.env.REACT_APP_ROUTE}/posting/${postingID}/like`,
+        withCredentials: true,
       }).then((res) => {
         if (res.data.result == true) {
           setLikeState(!likeState);

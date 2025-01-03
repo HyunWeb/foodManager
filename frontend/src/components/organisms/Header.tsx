@@ -6,6 +6,7 @@ import IconButtonAtom from "../atoms/IconButtonAtom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Notification from "./Notification";
+import { usePageRender } from "./PageRenderContext";
 // import { withCookies, ReactCookieProps, useCookies } from "react-cookie";
 
 const Container = styled.div`
@@ -41,7 +42,8 @@ const LoginButton = styled(Link)`
 export default function Header({ hide = false }: { hide?: boolean }) {
   // const [cookies, setCookie, removeCookie] = useCookies(["connect.sid"]);
   const [isDisplay, setIsDisplay] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
+  const { isLogin, setIsLogin } = usePageRender();
   const route = process.env.REACT_APP_ROUTE;
   const fetchItems = async () => {
     try {
