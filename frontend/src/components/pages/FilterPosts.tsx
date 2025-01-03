@@ -43,7 +43,7 @@ export default function FilterPosts() {
       if (filter?.includes("like_recipe")) {
         const data = axios({
           method: "POST",
-          url: `/Recipe/finds/Like`,
+          url: `${process.env.REACT_APP_ROUTE}/Recipe/finds/Like`,
           withCredentials: true,
         }).then((res) => {
           let database = [];
@@ -64,7 +64,7 @@ export default function FilterPosts() {
       } else if (filter?.includes("my_recipe")) {
         const data = axios({
           method: "POST",
-          url: `/Recipe/find/user`,
+          url: `${process.env.REACT_APP_ROUTE}/Recipe/find/user`,
           withCredentials: true,
         }).then((res) => {
           let database = [];
@@ -89,7 +89,7 @@ export default function FilterPosts() {
       if (filter?.includes("like_posting")) {
         const data = axios({
           method: "POST",
-          url: `/Posting/Like`,
+          url: `${process.env.REACT_APP_ROUTE}/Posting/Like`,
           withCredentials: true,
         }).then((res) => {
           let database = [];
@@ -110,7 +110,7 @@ export default function FilterPosts() {
       } else {
         const data = axios({
           method: "post",
-          url: `/posting/userselect`,
+          url: `${process.env.REACT_APP_ROUTE}/posting/userselect`,
           withCredentials: true,
         }).then((res) => {
           let database = [];

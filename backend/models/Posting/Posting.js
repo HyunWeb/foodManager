@@ -14,7 +14,7 @@ const Posting = (Sequelize, DataTypes) => {
         primaryKey: true,
       },
       userID: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
       title: {
@@ -28,7 +28,7 @@ const Posting = (Sequelize, DataTypes) => {
       img: {
         type: DataTypes.TEXT,
         allowNull: false,
-      }
+      },
     },
     {
       tableName: "posting",

@@ -34,9 +34,10 @@ const Loading = styled.div`
 `;
 
 export default function Myfood() {
-  const { groceryPageRender, setGroceryPageRender } = usePageRender();
+  const { groceryPageRender, setGroceryPageRender, isLogin, setIsLogin } =
+    usePageRender();
   const [groceryData, setGroceryData] = useState<GroceryItem[]>([]);
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const route = process.env.REACT_APP_ROUTE;
   useEffect(() => {

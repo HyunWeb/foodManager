@@ -9,7 +9,7 @@ const RecipeReview = (Sequelize, DataTypes) => {
     "recipeReview",
     {
       userID: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
       recipeID: {

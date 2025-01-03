@@ -18,11 +18,12 @@ const PasswordResetForm = () => {
     if (newPassword === confirmPassword) {
       const newpw = await axios({
         method: "POST",
-        url: "/user/pwchange",
+        url: `${process.env.REACT_APP_ROUTE}/user/pwchange`,
         data: {
           userID: passwordcontext?.email,
           pw: newPassword,
         },
+        withCredentials: true,
       });
       console.log(newpw.data);
       if (newpw.data.result == true) {

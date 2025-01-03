@@ -9,6 +9,7 @@ const db = require("./models");
 const cookieparser = require("cookie-parser");
 
 app.use(cookieparser());
+const path = require("path");
 
 // // s3에 필요한 모듈
 // const aws = require("aws-sdk");
@@ -42,11 +43,12 @@ app.use(cookieparser());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/uploads", express.static(__dirname + "/uploads"));
+// app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:8080"],
+    origin: true,
     credentials: true,
   })
 );
@@ -78,7 +80,7 @@ app.use("/posting", postRouter);
 app.use("/Recipe", RecipeRouter);
 
 db.sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => {
+  app.listen(PORT, "0.0.0.0", () => {
     try {
       console.log(`http://localhost:${PORT}`);
     } catch (error) {

@@ -31,7 +31,7 @@ const EmailInputForm = () => {
     ) {
       const forming = await axios({
         method: "POST",
-        url: "/user/userselect",
+        url: `${process.env.REACT_APP_ROUTE}/user/userselect`,
         withCredentials: true,
         data: {
           userID: passwordcontext?.email,

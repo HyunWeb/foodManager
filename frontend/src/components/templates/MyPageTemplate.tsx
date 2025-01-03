@@ -4,6 +4,7 @@ import MyProfile from "../organisms/MyProfile";
 import MyLikeTab from "../organisms/MyLikeTab";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { usePageRender } from "../organisms/PageRenderContext";
 
 const Container = styled.div`
   @media (min-width: 768px) {
@@ -13,7 +14,9 @@ const Container = styled.div`
 `;
 
 export default function MyPageTemplate() {
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
+  const { isLogin, setIsLogin } = usePageRender();
+
   const navigate = useNavigate();
   const route = process.env.REACT_APP_ROUTE;
 
