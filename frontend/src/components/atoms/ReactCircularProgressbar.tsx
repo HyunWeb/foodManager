@@ -11,6 +11,13 @@ interface ReactCircularProgressbarProps {
   GraphValue: number;
   GraphMaxValue: number;
 }
+const CircularProgressbarWithChildrens = styled(
+  CircularProgressbarWithChildren
+)`
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+`;
 
 const Container = styled.div`
   width: 250px;
@@ -37,7 +44,7 @@ export default function ReactCircularProgressbar({
   return (
     <Container>
       {GraphValue > GraphMaxValue ? (
-        <CircularProgressbarWithChildren
+        <CircularProgressbarWithChildrens
           value={GraphValue}
           maxValue={GraphMaxValue}
           styles={buildStyles({
@@ -57,9 +64,9 @@ export default function ReactCircularProgressbar({
             <br />
             권장 칼로리를 초과했어요!
           </TextBox>
-        </CircularProgressbarWithChildren>
+        </CircularProgressbarWithChildrens>
       ) : (
-        <CircularProgressbarWithChildren
+        <CircularProgressbarWithChildrens
           value={GraphValue}
           maxValue={GraphMaxValue}
           styles={buildStyles({
@@ -91,7 +98,7 @@ export default function ReactCircularProgressbar({
             <br />
             칼로리를 먹었어요!
           </TextBox>
-        </CircularProgressbarWithChildren>
+        </CircularProgressbarWithChildrens>
       )}
     </Container>
   );

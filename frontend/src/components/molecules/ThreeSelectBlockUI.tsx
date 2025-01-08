@@ -22,7 +22,19 @@ interface ThreeSelectBlockUiProps {
     option3: string;
   }) => void;
 }
+const SelectContents = styled(SelectContent)`
+  background-color: white;
+  scrollbar-width: none;
+`;
 
+const SelectItems = styled(SelectItem)`
+  box-sizing: border-box;
+  padding: 0 10px;
+  &:hover {
+    color: white;
+    background-color: #ffac46;
+  }
+`;
 const WrapSelect = styled.div`
   display: flex;
   justify-content: center;
@@ -148,13 +160,13 @@ export default function ThreeSelectBlockUi({
           <SelectTrigger>
             <SelectValueText placeholder={placeholder1} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContents>
             {OptionList1.items.map((item) => (
-              <SelectItem item={item} key={item.value}>
+              <SelectItems item={item} key={item.value}>
                 {item.label}
-              </SelectItem>
+              </SelectItems>
             ))}
-          </SelectContent>
+          </SelectContents>
         </SelectRoot>
         <SelectRoot
           collection={OptionList2}
@@ -167,13 +179,13 @@ export default function ThreeSelectBlockUi({
           <SelectTrigger>
             <SelectValueText placeholder={placeholder2} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContents>
             {OptionList2.items.map((item) => (
-              <SelectItem item={item} key={item.value}>
+              <SelectItems item={item} key={item.value}>
                 {item.label}
-              </SelectItem>
+              </SelectItems>
             ))}
-          </SelectContent>
+          </SelectContents>
         </SelectRoot>
         <SelectRoot
           collection={OptionList3}
@@ -186,13 +198,13 @@ export default function ThreeSelectBlockUi({
           <SelectTrigger>
             <SelectValueText placeholder={placeholder3} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContents>
             {OptionList3.items.map((item) => (
-              <SelectItem item={item} key={item.value}>
+              <SelectItems item={item} key={item.value}>
                 {item.label}
-              </SelectItem>
+              </SelectItems>
             ))}
-          </SelectContent>
+          </SelectContents>
         </SelectRoot>
       </WrapSelect>
     </Container>

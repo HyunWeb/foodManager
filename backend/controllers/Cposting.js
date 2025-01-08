@@ -301,9 +301,30 @@ exports.userPostLike = async (req, res) => {
       where: { userID: req.session.userInfo.userid },
     });
 
-    const postingID = postLikes.map(
-      (postLike) => postLike.dataValues.postingID
-    );
+    const postingID = postLikes.map((postLike) => postLike.postingID);
+
+    const posting = await Posting.findAll({
+      where: { postingID: postingID },
+    });
+
+    res.json({ result: true, postLikes });
+    res.end();
+  } catch (error) {
+    console.error(error);
+    res.json({ result: false });
+    res.end();
+  }
+};
+
+// 좋아요 누른 항목
+exports.userPostLikeList = async (req, res) => {
+  try {
+    // 게시물
+    const postLikes = await PostLike.findAll({
+      where: { userID: req.session.userInfo.userid },
+    });
+
+    const postingID = postLikes.map((postLike) => postLike.postingID);
 
     const posting = await Posting.findAll({
       where: { postingID: postingID },

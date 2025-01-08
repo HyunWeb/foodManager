@@ -3,7 +3,9 @@ import styled from "styled-components";
 import MainCard from "../molecules/MainCard";
 import HeadingAtom from "../atoms/HeadingAtom";
 import axios from "axios";
-import { usePageRender } from "./PageRenderContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import {} from "../../slices/pageRenderSlice";
 
 interface FeedData {
   recipeID: number;
@@ -72,32 +74,44 @@ const calculateReview = (recipes: Recipe[], reviews: Review[]): FeedData[] => {
   });
 };
 
-const processRecipeData = async () => {
-  try {
-    const res = await axios({
-      method: "GET",
-      url: `${route}/Recipe`,
-      withCredentials: true,
-    });
-
-    // 서버에서 받은 데이터 구조 분해
-    const { recipes, reviews } = res.data.data;
-    // 데이터를 가공
-    const processedData = calculateReview(recipes, reviews);
-
-    return processedData; // 배열 반환
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return []; // 에러 발생 시 빈 배열 반환
-  }
-};
-
 export default function FeedCategory() {
   const [feeds, setFeeds] = useState<FeedData[]>([]);
   const [Loading, setLoading] = useState(false);
+  const [likeArr, setLikeArr] = useState<number[]>();
+
+  const processRecipeData = async () => {
+    try {
+      const res1 = await axios.get(`${route}/Recipe`, {
+        withCredentials: true,
+      });
+      // 서버에서 받은 데이터 구조 분해
+      const { recipes, reviews } = res1.data.data;
+      // 데이터를 가공
+      const processedData = calculateReview(recipes, reviews);
+
+      // 좋아요 눌린 페이지만 불러와야한다.
+      const res2 = await axios.get(`${route}/Recipe/finds/LikeList`, {
+        withCredentials: true,
+      });
+      let likeArrs = res2.data.RecipeLike;
+      if (likeArrs != undefined) {
+        likeArrs = likeArrs.map((item: any) => item.recipeID);
+      } else {
+        likeArrs = [];
+      }
+      setLikeArr(likeArrs);
+
+      return processedData; // 배열 반환
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return []; // 에러 발생 시 빈 배열 반환
+    }
+  };
 
   // 컨텍스트 사용
-  const { mainPageRender, setMainPageRender } = usePageRender();
+  const { mainPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
@@ -126,6 +140,7 @@ export default function FeedCategory() {
               recipeID={feed.recipeID}
               title={feed.title}
               rating={feed.rating}
+              likeList={likeArr}
             />
           ))}
         </FeedList>

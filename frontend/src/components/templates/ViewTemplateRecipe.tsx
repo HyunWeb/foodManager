@@ -34,16 +34,6 @@ interface RecipeData {
   steps: CookingStep[]; // 조리 단계 리스트
 }
 
-// interface DefaultData {
-//   recipeSEQ: number;
-//     title: string;
-//     img: string;
-//     describe: string;
-//     category: string;
-//     ingredients: Ingredient[];
-//     steps: CookingStep[];
-// }
-
 const Container = styled.div`
   margin-bottom: 200px;
   position: relative;
@@ -153,7 +143,6 @@ export default function ViewTemplateRecipe({
             ChangeStar(e.value);
           }}
           colorPalette="orange"
-          // onClick={() => ChangeStar()}
         />
       )}
     </Container>

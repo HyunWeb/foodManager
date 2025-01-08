@@ -15,7 +15,17 @@ import { PiPlaceholder } from "react-icons/pi";
 const Container = styled.div`
   padding-top: 20px;
 `;
-
+const SelectContents = styled(SelectContent)`
+  background-color: white;
+`;
+const SelectItems = styled(SelectItem)`
+  box-sizing: border-box;
+  padding: 0 10px;
+  &:hover {
+    color: white;
+    background-color: #ffac46;
+  }
+`;
 export default function SelectBlockUi({
   OptionState,
   setOptionState,
@@ -45,13 +55,13 @@ export default function SelectBlockUi({
         <SelectTrigger>
           <SelectValueText placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContents>
           {Data.map((item) => (
-            <SelectItem item={item} key={item.value}>
+            <SelectItems item={item} key={item.value}>
               {item.label}
-            </SelectItem>
+            </SelectItems>
           ))}
-        </SelectContent>
+        </SelectContents>
       </SelectRoot>
     </Container>
   );

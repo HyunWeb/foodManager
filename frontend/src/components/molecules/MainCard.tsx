@@ -8,8 +8,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { feedContext } from "../pages/FilterPosts";
 import { ColorSwatch } from "@chakra-ui/react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterPageRender } from "../../slices/pageRenderSlice";
+import { RootState } from "@/store";
 interface MainCardProps {
+  likeList?: number[];
   postingID?: number;
   recipeID?: number;
   img: string;
@@ -22,6 +25,7 @@ interface MainCardProps {
 }
 
 const Container = styled.li`
+  background-color: white;
   position: relative;
   width: 350px;
   height: 240px;
@@ -59,6 +63,7 @@ const LikeButton = styled(IconButtonAtom)`
 `;
 
 export default function MainCard({
+  likeList,
   postingID,
   recipeID,
   img = "https://picsum.photos/400",
@@ -69,130 +74,74 @@ export default function MainCard({
   userId = "user1234",
 }: MainCardProps) {
   const [likeState, setLikeState] = useState(false);
+  const dispatch = useDispatch();
+  const { FilterPageRender, isLogin } = useSelector(
+    (state: RootState) => state.pageRender
+  );
+
+  // 렌더링과 좋아요 배열 변경마다 카드의 좋아요 상태를 전환한다.
+  useEffect(() => {
+    postingID
+      ? setLikeState(
+          likeList?.includes(postingID ? postingID : Infinity) ?? false
+        )
+      : setLikeState(
+          likeList?.includes(recipeID ? recipeID : Infinity) ?? false
+        );
+  }, [likeList]);
+
   const params = recipeID ? "recipe" : "posting";
 
-  const feedchange = useContext(feedContext);
-  async function fetchItems() {
+  const ChangeLikeState = async () => {
     try {
-      const checking = await axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_ROUTE}/user/check`,
-        withCredentials: true,
-      });
-      return checking.data.result;
-    } catch (error) {
-      console.error("Error fetching items: ", error);
-    }
-  }
-  useEffect(() => {
-    async function loginlike() {
-      const logincheck = await fetchItems();
-      if (logincheck) {
-        if (type === "recipe") {
-          try {
-            let recipeLike = await axios({
-              method: "POST",
-              url: `${process.env.REACT_APP_ROUTE}/Recipe/like`,
-              withCredentials: true,
-              data: {
-                recipeID,
-              },
-            });
-            if (recipeLike.data.result === true) {
-              setLikeState(recipeLike.data.result);
-            }
-          } catch (error) {
-            console.error("Error in recipeLike request:", error);
-          }
-        } else {
-          try {
-            let postingLike = axios({
-              method: "POST",
-              url: `${process.env.REACT_APP_ROUTE}/posting/likepost`,
-              withCredentials: true,
-              data: {
-                postingID,
-              },
-            }).then((res) => {
-              if (res.data.result == true) {
-                setLikeState(res.data.result);
-              } else {
-              }
-            });
-          } catch (error) {
-            console.error("Error in postingLike request:", error);
-          }
-        }
-      }
-    }
-    loginlike();
-  }, []);
-
-  const ChangeLikeState = () => {
-    if (type == "recipe") {
-      const main = axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_ROUTE}/Recipe/update/Like`,
-        withCredentials: true,
-        data: {
-          recipeID,
-        },
-      }).then((res) => {
-        if (res.data.result == true) {
+      if (type === "recipe") {
+        const res = await axios.post(
+          `${process.env.REACT_APP_ROUTE}/Recipe/update/Like`,
+          { recipeID },
+          { withCredentials: true }
+        );
+        if (res.data.result === true) {
           setLikeState(!likeState);
+          dispatch(setFilterPageRender(!FilterPageRender));
           alert(res.data.Message);
-          changefeeds();
         } else {
+          setLikeState(false);
+          dispatch(setFilterPageRender(!FilterPageRender));
           alert(res.data.Message);
-        }
-      });
-    } else {
-      const main = axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_ROUTE}/posting/${postingID}/like`,
-        withCredentials: true,
-      }).then((res) => {
-        if (res.data.result == true) {
-          setLikeState(!likeState);
-          alert(res.data.message);
-          changefeeds();
-        } else {
-          alert(res.data.message);
-        }
-      });
-    }
-  };
-
-  const changefeeds = () => {
-    if (likeState == true) {
-      if (type == "recipe") {
-        const feedobject = feedchange?.userfeeds.filter((feed) => {
-          return feed.recipeID != recipeID;
-        });
-        if (feedobject != undefined) {
-          feedchange?.setuserFeeds(feedobject);
         }
       } else {
-        const feedobject = feedchange?.userfeeds.filter((feed) => {
-          return feed.postingID != postingID;
-        });
-        if (feedobject != undefined) {
-          feedchange?.setuserFeeds(feedobject);
+        const res = await axios.post(
+          `${process.env.REACT_APP_ROUTE}/posting/${postingID}/like`,
+          {},
+          { withCredentials: true }
+        );
+        if (res.data.result === true) {
+          setLikeState(!likeState);
+          dispatch(setFilterPageRender(!FilterPageRender));
+          alert(res.data.message);
+        } else {
+          setLikeState(false);
+          dispatch(setFilterPageRender(!FilterPageRender));
+          alert(res.data.message);
         }
       }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
     <Container>
-      <LikeButton
-        label="좋아요 버튼"
-        icontype="heart"
-        color={likeState ? "red" : "#e0e0e0"}
-        BGcolor="transparent"
-        variant="ghost"
-        onClick={() => ChangeLikeState()}
-      />
+      {isLogin && (
+        <LikeButton
+          label="좋아요 버튼"
+          icontype="heart"
+          color={likeState ? "red" : "#e0e0e0"}
+          BGcolor="transparent"
+          variant="ghost"
+          onClick={() => ChangeLikeState()}
+        />
+      )}
       <Link to={"/main/view/" + (recipeID || postingID) + "?type=" + params}>
         <ImageWrap>
           <StyledImageCard src={img} alt={alt} />

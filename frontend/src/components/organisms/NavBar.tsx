@@ -5,7 +5,9 @@ import { BsPlusCircle } from "react-icons/bs";
 import InputModal from "./InputModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { usePageRender } from "./PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setIsLogin } from "../../slices/pageRenderSlice";
 
 const Container = styled.nav`
   display: flex;
@@ -16,7 +18,7 @@ const Container = styled.nav`
   width: 100%;
   height: 60px;
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  background-color: #ffffff;
   z-index: 999;
 
   @media (min-width: 768px) {
@@ -29,7 +31,7 @@ const Container = styled.nav`
     width: 150px;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
     height: 100%;
-    padding-left: 20px;
+
     padding-top: 40px;
 
     gap: 30px;
@@ -60,8 +62,8 @@ export default function NavBar() {
 
   const route = process.env.REACT_APP_ROUTE;
   const navigate = useNavigate();
-  // const [isLogin, setIsLogin] = useState(true);
-  const { isLogin, setIsLogin } = usePageRender();
+  const dispatch = useDispatch();
+  const { isLogin } = useSelector((state: RootState) => state.pageRender);
 
   useEffect(() => {
     axios({
@@ -69,7 +71,7 @@ export default function NavBar() {
       url: `${route}/user/check`,
       withCredentials: true,
     }).then((res) => {
-      setIsLogin(res.data.result);
+      dispatch(setIsLogin(res.data.result));
       setIsModalOpen(false);
     });
   }, []);

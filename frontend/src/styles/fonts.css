@@ -6,9 +6,10 @@ body {
   font-family: "Noto Sans KR", sans-serif; /* serif 대신 sans-serif로 교체 (Noto Sans는 산세리프) */
   font-weight: 400; /* 기본 폰트 가중치 */
   line-height: 1.5; /* 가독성을 위한 줄 간격 */
-  color: #333; /* 기본 텍스트 색상 설정 */
+  color: #333333; /* 기본 텍스트 색상 설정 */
   margin: 0;
   padding: 0;
+  background-color: #f8f4f1;
 }
 * {
   font-family: inherit; /* 자식 요소가 부모의 폰트를 따르도록 설정 */

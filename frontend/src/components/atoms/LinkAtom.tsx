@@ -17,11 +17,16 @@ interface LinkAtomProps {
 
 const LinkStyle = styled(Link)`
   @media (min-width: 768px) {
+    padding-left: 20px;
+    box-sizing: border-box;
     display: block;
     width: 100%;
   }
 `;
 const ButtonStyle = styled(IconButton)`
+  &:hover {
+    background-color: orange;
+  }
   @media (min-width: 768px) {
     justify-content: left;
     width: 100%;

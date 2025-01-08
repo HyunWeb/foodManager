@@ -44,18 +44,10 @@ const KcalImpact = styled.strong`
 export default function FoodInfo({ kindFood, foodName, kcal }: FoodInfo) {
   return (
     <div>
-      <FoodCategory
-        level={3}
-        color="#121212"
-        // $marginBottom={introduce ? "0px" : "20px"}
-      >
+      <FoodCategory level={3} color="#121212">
         {kindFood}
       </FoodCategory>
-      <FoodName
-        level={3}
-        color="#121212"
-        // $marginBottom={introduce ? "0px" : "20px"}
-      >
+      <FoodName level={3} color="#121212">
         {foodName}
       </FoodName>
       <KcalStyled>

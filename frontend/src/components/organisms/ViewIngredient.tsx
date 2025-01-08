@@ -25,13 +25,6 @@ const Span = styled.span`
   font-weight: 600;
   font-size: 17px;
 `;
-// const data = [
-//   { recipeID: 1, ingreName: "감자", amount: "2개" },
-//   { recipeID: 2, ingreName: "양파", amount: "2개" },
-//   { recipeID: 3, ingreName: "애호박", amount: "300g" },
-//   { recipeID: 4, ingreName: "대파", amount: "400g" },
-//   { recipeID: 5, ingreName: "파프리카", amount: "100g" },
-// ];
 
 export default function ViewIngredient({
   value,
@@ -44,12 +37,13 @@ export default function ViewIngredient({
         필요한 재료
       </HeadingAtom>
       <IngredList>
-        {value !== undefined && value.map((item) => (
-          <IngredItem key={item.ingredientID}>
-            <MdOutlineArrowRight size={25} color={"#FE8D00"} />
-            <Span>{item.ingreName}</Span>_ {item.amount}
-          </IngredItem>
-        ))}
+        {value !== undefined &&
+          value.map((item) => (
+            <IngredItem key={item.ingredientID}>
+              <MdOutlineArrowRight size={25} color={"#FE8D00"} />
+              <Span>{item.ingreName}</Span>_ {item.amount}
+            </IngredItem>
+          ))}
       </IngredList>
     </Container>
   );

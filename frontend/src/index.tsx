@@ -1,16 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { PageRenderProvider } from "./components/organisms/PageRenderContext";
+import { Provider } from "react-redux";
+import store from "./store/index";
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <PageRenderProvider>
+      <Provider store={store}>
         <App />
-      </PageRenderProvider>
+      </Provider>
     </React.StrictMode>
   );
 }

@@ -7,7 +7,9 @@ import { BsFillPatchCheckFill } from "react-icons/bs";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import Notification from "../organisms/Notification";
 import axios from "axios";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setGroceryPageRender } from "../../slices/pageRenderSlice";
 
 interface IngredientData {
   id: number;
@@ -89,7 +91,10 @@ export default function IngredientBlock({
   $remainDate,
 }: IngredientData) {
   const [display, setDisplay] = useState(false);
-  const { groceryPageRender, setGroceryPageRender } = usePageRender();
+  const dispatch = useDispatch();
+  const { groceryPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
 
   const renderingIcon = () => {
     if ($remainDate > 7) {
@@ -115,7 +120,7 @@ export default function IngredientBlock({
       .then((response) => {
         // 필요한 후속 작업 추가
         setDisplay((prev) => !prev);
-        setGroceryPageRender((prev) => !prev);
+        dispatch(setGroceryPageRender(!groceryPageRender));
       })
       .catch((error) => {
         console.error("삭제 실패:", error);

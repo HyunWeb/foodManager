@@ -7,7 +7,9 @@ import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import ReactDataPicker from "../atoms/ReactDataPicker";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { usePageRender } from "./PageRenderContext"; // 작성한 PageRenderContext 파일
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setPageRender } from "../../slices/pageRenderSlice";
 
 const Container = styled.form``;
 const CalenderWrap = styled.div`
@@ -33,11 +35,11 @@ export default function WriteFoodTab({
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
 
-  // 컨텍스트 사용
-  const { pageRender, setPageRender } = usePageRender();
+  const dispatch = useDispatch();
+  const { pageRender } = useSelector((state: RootState) => state.pageRender);
 
   const togglePageRender = () => {
-    setPageRender(!pageRender);
+    dispatch(setPageRender(!pageRender));
   };
   const time = [
     {
@@ -152,7 +154,6 @@ export default function WriteFoodTab({
         alert("성공적으로 정보가 저장되었습니다.");
         onClose(); // 자동으로 입력창 닫기
         togglePageRender(); // 컨텍스트를 활용한 영양소 페이지 강제 재 렌더링
-        //setTimeState setKindOfFood setFoodName setfoodAmount setFoodUnit setKcal
       } else {
         if (res.data.message == "로그인이 되어 있지 않습니다.") {
           navigate("/login");
@@ -167,7 +168,7 @@ export default function WriteFoodTab({
   return (
     <Container onSubmit={handleSubmit}>
       <CalenderWrap>
-        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
+        <ReactDataPicker />
       </CalenderWrap>
       <SelectBlockUi
         OptionState={TimeState}

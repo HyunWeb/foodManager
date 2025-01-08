@@ -350,18 +350,52 @@ const RecipefindOne = async (req, res) => {
     res.end();
   }
 };
-
-const RecipeLikeFindAll = async (req, res) => {
+const getRecipeFileAll = async (req, res) => {
   try {
     if (req.session.userInfo) {
       const LikeFindAll = await RecipeLike.findAll({
         where: { userID: req.session.userInfo.userid },
       });
       if (LikeFindAll != null) {
+        res.json({
+          result: true,
+          Message: "레시피 목록 불러오기 완료",
+          RecipeLike: LikeFindAll,
+        });
+      } else {
+        res.json({
+          result: false,
+          Message: "불러올 레시피 목록이 없습니다.",
+        });
+        res.end();
+      }
+    } else {
+      res.json({
+        result: false,
+        message: "로그인X, 레시피 찜목록 찾기 불가!",
+      });
+      res.end();
+    }
+  } catch (err) {
+    console.error(err);
+    res.end();
+  }
+};
+
+const RecipeLikeFindAll = async (req, res) => {
+  try {
+    if (req.session.userInfo) {
+      // 좋아요 목록 불러오기
+      const LikeFindAll = await RecipeLike.findAll({
+        where: { userID: req.session.userInfo.userid },
+      });
+      if (LikeFindAll != null) {
+        // 레시피 아이디 배열 만들기
         const recipeID = await LikeFindAll.map(
           (recipeLike) => recipeLike.dataValues.recipeID
         );
 
+        // 레시피찾기
         const recipe = await Recipe.findAll({
           where: { recipeID: recipeID },
         });
@@ -444,7 +478,7 @@ const RecipeLikeDB = async (req, res) => {
           where: { userID: req.session.userInfo.userid, recipeID },
         });
         res.json({
-          result: true,
+          result: false,
           Message: "좋아하는 레시피에서 삭제하였습니다.",
         });
         res.end();
@@ -666,6 +700,7 @@ module.exports = {
   RecipeReviewMYfind,
   getRecipeuser,
   RecipeReviewGet,
+  getRecipeFileAll,
 };
 //레시피 관련 코드 작성 완료(단, 이미지 업로드 관련 기능은 react 레시피 페이지 완성 후 추가 예정)
 //레시피 동작 상황에 대하여 모든 라우터가 작성되었는지 확인

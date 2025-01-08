@@ -52,11 +52,7 @@ export default function FoodHistory({
 }: FoodHistoryProps) {
   return (
     <Container>
-      <HeadingName
-        level={2}
-        color="#121212"
-        // $marginBottom={introduce ? "0px" : "20px"}
-      >
+      <HeadingName level={2} color="#121212">
         {category}
       </HeadingName>
 

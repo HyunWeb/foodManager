@@ -7,13 +7,6 @@ interface ButtonGroupProps {
   onCancel?: () => void;
 }
 
-// const ButtonContainer = styled.div`
-//   display: flex;
-//   justify-content: flex-end;
-//   gap: 10px;
-//   padding: 10px;
-// `;
-
 const ButtonGroup: React.FC<ButtonGroupProps> = ({ onConfirm, onCancel }) => {
   return (
     <>

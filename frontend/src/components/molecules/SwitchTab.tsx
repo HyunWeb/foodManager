@@ -17,6 +17,7 @@ const Container = styled.div<{
   $ThreeMenu?: boolean;
   $buttonStyle?: "style1" | "style2";
 }>`
+  background-color: white;
   height: 44px;
   border-bottom: ${({ $buttonStyle }) =>
     $buttonStyle === "style1" ? "2px solid #e2e2e2" : "none"};

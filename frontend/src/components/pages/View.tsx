@@ -7,7 +7,9 @@ import ViewTemplatePosting from "../templates/ViewTemplatePosting";
 import axios from "axios";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setIsLogin } from "../../slices/pageRenderSlice";
 import Loading from "./Loading";
 import Logo from "../molecules/Logo";
 
@@ -46,8 +48,6 @@ export default function View() {
   const type = params.get("type");
   const route = process.env.REACT_APP_ROUTE;
   const navigate = useNavigate();
-
-  // const [starValue, setStarValue] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isNewData, setisNewData] = useState(false); // 별점을 수정해야하나 추가해야하나 판단하는 state
@@ -91,18 +91,22 @@ export default function View() {
     date: "",
     content: "",
   });
-  // const [isLogin, setIsLogin] = useState(false);
-
-  const { CommentPageRender, setCommentPageRender, isLogin, setIsLogin } =
-    usePageRender();
+  const dispatch = useDispatch();
+  const { CommentPageRender, isLogin } = useSelector(
+    (state: RootState) => state.pageRender
+  );
 
   useEffect(() => {
+    if (!isLogin) {
+      navigate("/login");
+      return;
+    }
     axios({
       method: "GET",
       url: `${route}/user/check`,
       withCredentials: true,
     }).then((res) => {
-      setIsLogin(res.data.result);
+      dispatch(setIsLogin(res.data.result));
     });
 
     if (type == "posting") {
@@ -186,9 +190,9 @@ export default function View() {
     });
   }, []);
 
-  if (!isLogin) {
-    navigate("/login");
-  }
+  // if (!isLogin) {
+  //   navigate("/login");
+  // }
 
   if (isLoading) {
     return <Logo />;

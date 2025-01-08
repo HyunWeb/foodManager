@@ -35,18 +35,10 @@ export default function IngredientInfo({
 }: IngredientData) {
   return (
     <div>
-      <FoodCategory
-        level={3}
-        $remainDate={$remainDate}
-        // $marginBottom={introduce ? "0px" : "20px"}
-      >
+      <FoodCategory level={3} $remainDate={$remainDate}>
         {kindFood}
       </FoodCategory>
-      <FoodName
-        level={3}
-        $remainDate={$remainDate}
-        // $marginBottom={introduce ? "0px" : "20px"}
-      >
+      <FoodName level={3} $remainDate={$remainDate}>
         {amount + unit}
       </FoodName>
       <KcalStyled $remainDate={$remainDate}>{expiration}</KcalStyled>

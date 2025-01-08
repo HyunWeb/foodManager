@@ -7,7 +7,9 @@ import TextareaForm from "../atoms/TextareaForm";
 import ButtonAtom from "../atoms/ButtonAtom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { usePageRender } from "./PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setFeedPageRender } from "../../slices/pageRenderSlice";
 const Container = styled.form`
   position: relative;
 `;
@@ -17,11 +19,13 @@ export default function WriteFeedTab({ onClose }: { onClose: () => void }) {
   const [contentValue, setContentValue] = useState("");
   const [fileName, setFileName] = React.useState<Blob | null>(null);
   const navigate = useNavigate();
-  // 컨텍스트 사용
-  const { feedPageRender, setFeedPageRender } = usePageRender();
+  const dispatch = useDispatch();
+  const { feedPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
 
   const togglePageRender = () => {
-    setFeedPageRender((prev) => !prev);
+    dispatch(setFeedPageRender(!feedPageRender));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

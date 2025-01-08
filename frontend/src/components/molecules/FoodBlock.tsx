@@ -4,7 +4,9 @@ import FoodInfo from "./FoodInfo";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import Notification from "../organisms/Notification";
 import axios from "axios";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setPageRender } from "../../slices/pageRenderSlice";
 
 interface FoodBlockProps {
   id: number;
@@ -20,6 +22,7 @@ const CloseButton = styled(IconButtonAtom)`
   right: 8px;
 `;
 const Container = styled.div<{ $img: number }>`
+  background-color: white;
   position: relative;
   width: 350px;
   height: 120px;
@@ -58,8 +61,9 @@ export default function FoodBlock({
   foodName,
   kcal,
 }: FoodBlockProps) {
-  const { pageRender, setPageRender, startDate, setStartDate } =
-    usePageRender();
+  const dispatch = useDispatch();
+  const { startDate } = useSelector((state: RootState) => state.pageRender);
+
   const [display, setDisplay] = useState(false);
   const Alert = () => {
     setDisplay((prev) => !prev);
@@ -75,7 +79,7 @@ export default function FoodBlock({
       .then((response) => {
         // 필요한 후속 작업 추가
         setDisplay((prev) => !prev);
-        setPageRender((prev) => !prev);
+        dispatch(setPageRender(!startDate));
       })
       .catch((error) => {
         console.error("삭제 실패:", error);

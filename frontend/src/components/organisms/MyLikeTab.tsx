@@ -9,7 +9,7 @@ const MenuList = styled.ul`
 const MenuListItem = styled.li`
   height: 65px;
   line-height: 65px;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #bdbdbd;
 `;
 
 const LinkA = styled(Link)`

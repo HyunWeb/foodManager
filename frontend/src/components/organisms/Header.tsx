@@ -6,8 +6,9 @@ import IconButtonAtom from "../atoms/IconButtonAtom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Notification from "./Notification";
-import { usePageRender } from "./PageRenderContext";
-// import { withCookies, ReactCookieProps, useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setIsLogin } from "../../slices/pageRenderSlice";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const Container = styled.div`
   align-items: center;
   position: relative;
   height: 55px;
-  background-color: #ffffff;
+  background-color: white;
   gap: 10px;
   padding-right: 20px;
 
@@ -40,10 +41,10 @@ const LoginButton = styled(Link)`
 `;
 
 export default function Header({ hide = false }: { hide?: boolean }) {
-  // const [cookies, setCookie, removeCookie] = useCookies(["connect.sid"]);
   const [isDisplay, setIsDisplay] = useState(false);
-  // const [isLogin, setIsLogin] = useState(false);
-  const { isLogin, setIsLogin } = usePageRender();
+  const dispatch = useDispatch();
+  const { isLogin } = useSelector((state: RootState) => state.pageRender);
+
   const route = process.env.REACT_APP_ROUTE;
   const fetchItems = async () => {
     try {
@@ -52,7 +53,7 @@ export default function Header({ hide = false }: { hide?: boolean }) {
         url: `${route}/user/check`,
         withCredentials: true,
       });
-      setIsLogin(usering.data.result);
+      dispatch(setIsLogin(usering.data.result));
     } catch (error) {
       console.error("Error fetching items: ", error);
     }
@@ -69,7 +70,6 @@ export default function Header({ hide = false }: { hide?: boolean }) {
         withCredentials: true,
       });
       // domain 옵션을 제거하고 path만 설정
-      // removeCookie("connect.sid", { path: "/" });
       document.cookie =
         "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
     } catch (error) {

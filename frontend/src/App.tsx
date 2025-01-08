@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/reset.css";
 import "./styles/global.css";
@@ -13,29 +13,42 @@ import MyPage from "./components/pages/MyPage";
 import SignUp from "./components/pages/SignUp";
 import FilterPosts from "./components/pages/FilterPosts";
 import View from "./components/pages/View";
-import { usePageRender } from "./components/organisms/PageRenderContext"; // 작성한 PageRenderContext 파일
 import PasswordResetPage from "./components/pages/PasswordResetPage";
 import axios from "axios";
+
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./store";
+import { setLoading, setRecipes } from "./slices/pageRenderSlice";
+
 interface RecipeProps {
   id: number;
   title: string;
   img: string;
   alt?: string;
 }
+const themeExtend = {
+  config: {
+    initialColorMode: "light", // 애플리케이션 초기 색상 모드: 라이트 모드
+    useSystemColorMode: false, // 시스템 색상 모드 무시 (애플리케이션 설정 적용)
+  },
+};
 
 function App() {
-  const { recipes, setRecipes, loading, setLoading } = usePageRender();
+  const dispatch = useDispatch();
+  const { recipes, loading } = useSelector(
+    (state: RootState) => state.pageRender
+  );
 
   const api = process.env.REACT_APP_ROUTE;
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        setLoading(true);
+        dispatch(setLoading(true));
         const res = await axios.get(`${api}/api/items`, {
           withCredentials: true,
         });
-        setRecipes(res.data.data);
-        setLoading(false);
+        dispatch(setRecipes(res.data.data));
+        dispatch(setLoading(false));
       } catch (error) {
         console.error("Error fetching items: ", error);
       }
@@ -43,6 +56,7 @@ function App() {
 
     fetchItems();
   }, []);
+
   return (
     <ChakraProvider>
       <BrowserRouter>
