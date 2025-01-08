@@ -4,7 +4,9 @@ import FeedInfo from "./FeedInfo";
 import IconButtonAtom from "../atoms/IconButtonAtom";
 import Notification from "../organisms/Notification";
 import axios from "axios";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setCommentPageRender } from "../../slices/pageRenderSlice";
 interface PostingData {
   postingID: number; // 포스팅 ID
   img: string; // 이미지 URL
@@ -49,7 +51,11 @@ export default function CommentBlock({
   const Alert = () => {
     setDisplay((prev) => !prev);
   };
-  const { CommentPageRender, setCommentPageRender } = usePageRender();
+  const dispatch = useDispatch();
+  const { CommentPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
+
   const route = process.env.REACT_APP_ROUTE;
   const DeleteComment = () => {
     const data = axios({
@@ -60,7 +66,7 @@ export default function CommentBlock({
       .then((response) => {
         // 필요한 후속 작업 추가
         setDisplay((prev) => !prev);
-        setCommentPageRender((prev) => !prev);
+        dispatch(setCommentPageRender(!CommentPageRender));
       })
       .catch((error) => {
         console.error("삭제 실패:", error);

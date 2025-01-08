@@ -39,6 +39,8 @@ router.post("/update/Like", controller.RecipeLikeDB); // 레시피의 찜 정보
 
 router.post("/finds/Like", controller.RecipeLikeFindAll); // 레시피 전체 찜 목록
 
+router.get("/finds/LikeList", controller.getRecipeFileAll); // 좋아요 레시피 목록 불러오기
+
 router.post("/insert/review", controller.RecipeReviewinsert); //레시피 별점 추가
 
 router.patch("/update/review", controller.RecipeReviewupdate); //레시피 별점 수정
@@ -59,6 +61,6 @@ router.post("/find/myreview", controller.RecipeReviewMYfind);
 
 router.post("/find/user", controller.getRecipeuser);
 
-router.post("/like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
+router.post("/post/like", controller.RecipeLikeFindOne); //레시피 클릭 시 찜 정보 확인 목적
 
 module.exports = router;

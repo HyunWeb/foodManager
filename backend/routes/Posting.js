@@ -50,7 +50,10 @@ router.delete("/delete/:postingID", postController.deletePosting);
 router.post("/likepost", postController.Likeing);
 
 // 좋아요 누른 posting 확인 - mypage
-router.post("/like", postController.userPostLike);
+router.get("/like", postController.userPostLike);
+
+// 좋아요 누른 포스팅 리스트 나열(마이페이지 용)
+router.get("/likeList", postController.userPostLikeList);
 
 // posting 상세 화면
 router.get("/:postingID", postController.detailPosting);

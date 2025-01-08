@@ -5,7 +5,9 @@ import NavBar from "../organisms/NavBar";
 import Wrapgraph from "../molecules/Wrapgraph";
 import FoodHistory from "../organisms/FoodHistory";
 import axios from "axios";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setIsLogin } from "../../slices/pageRenderSlice";
 import { useNavigate } from "react-router-dom";
 
 interface FoodLog {
@@ -27,52 +29,28 @@ const Loading = styled.div`
 `;
 
 export default function Nutrition() {
-  // const initialState = {
-  //   amount: 0, // 음식의 수량
-  //   category: 0, // 음식 카테고리 (예: 1 = 특정 카테고리)
-  //   foodname: "", // 음식 이름
-  //   kcal: 0, // 칼로리
-  //   logID: 1, // 로그 ID
-  //   mealtype: "Breakfast", // 식사 타입 (아침, 점심 등)
-  //   unit: "마리", // 단위 (예: '마리', '개')
-  //   userID: "@@@", // 사용자 ID
-  //   when: "2024-12-20", // 기록 날짜
-  // };
   const [foodLog, setFoodLog] = useState<FoodLog[]>([]);
   const [NeedKcal, setNeedKcal] = useState(0);
   const [Totalkcal, setTotalkcal] = useState(0);
-  const {
-    pageRender,
-    setPageRender,
-    startDate,
-    setStartDate,
-    isLogin,
-    setIsLogin,
-  } = usePageRender();
-  // const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useDispatch();
+  const { pageRender, startDate, isLogin } = useSelector(
+    (state: RootState) => state.pageRender
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   const route = process.env.REACT_APP_ROUTE;
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   // 로그인여부 확인
-  //   axios({
-  //     method: "GET",
-  //     url: `${route}/user/check`,
-  //     withCredentials: true,
-  //   }).then((res) => {
-  //     setIsLogin(res.data.result);
-  //   });
-  // }, []);
-
   useEffect(() => {
+    if (!isLogin) {
+      navigate("/login");
+    }
     // 로그인여부 확인
     axios({
       method: "GET",
       url: `${route}/user/check`,
       withCredentials: true,
     }).then((res) => {
-      setIsLogin(res.data.result);
+      dispatch(setIsLogin(res.data.result));
     });
 
     // foodlog 불러오기
@@ -108,9 +86,9 @@ export default function Nutrition() {
     );
   }
 
-  if (!isLogin) {
-    navigate("/login");
-  }
+  // if (!isLogin) {
+  //   navigate("/login");
+  // }
 
   return (
     isLogin && (

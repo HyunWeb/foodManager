@@ -6,7 +6,6 @@ import WritePostTab from "./WritePostTab";
 import WriteFoodTab from "./WriteFoodTab";
 import WriteAddFood from "./WriteAddFood";
 
-
 interface InputModalProps {
   $isOpen: boolean;
   onClose: () => void;
@@ -41,8 +40,7 @@ const ModalContent = styled.div<{ $isOpen: boolean }>`
   top: ${({ $isOpen }) => ($isOpen ? "5%" : "100%")};
   transition-duration: 500ms;
   border-radius: 20px 20px 0 0;
-  padding: 10px;
-  padding-top: 50px;
+  padding: 50px 40px 10px;
 `;
 
 export default function InputModal({
@@ -51,9 +49,6 @@ export default function InputModal({
   selected,
   setSelected,
 }: InputModalProps) {
-  // const [selected, setSelected] = useState(1); // 탭전환
-
-
   const render = () => {
     switch (selected) {
       case 1:
@@ -64,7 +59,6 @@ export default function InputModal({
         return <WriteAddFood onClose={onClose} />;
     }
   };
-
 
   return (
     <ModalPage $isOpen={$isOpen}>

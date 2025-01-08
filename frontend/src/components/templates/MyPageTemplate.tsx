@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import MyProfile from "../organisms/MyProfile";
 import MyLikeTab from "../organisms/MyLikeTab";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setIsLogin } from "../../slices/pageRenderSlice";
 
 const Container = styled.div`
   @media (min-width: 768px) {
@@ -14,10 +15,9 @@ const Container = styled.div`
 `;
 
 export default function MyPageTemplate() {
-  // const [isLogin, setIsLogin] = useState(false);
-  const { isLogin, setIsLogin } = usePageRender();
+  const dispatch = useDispatch();
+  const { isLogin } = useSelector((state: RootState) => state.pageRender);
 
-  const navigate = useNavigate();
   const route = process.env.REACT_APP_ROUTE;
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function MyPageTemplate() {
       url: `${route}/user/check`,
       withCredentials: true,
     }).then((res) => {
-      setIsLogin(res.data.result);
+      dispatch(setIsLogin(res.data.result));
     });
   });
 

@@ -3,7 +3,9 @@ import styled from "styled-components";
 import MainCard from "../molecules/MainCard";
 import axios from "axios";
 import { ColorSwatch } from "@chakra-ui/react";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import {} from "../../slices/pageRenderSlice";
 import { useParams, useSearchParams } from "react-router-dom";
 
 interface FeedData {
@@ -34,9 +36,15 @@ const Container = styled.div`
 export default function FeedTemplate() {
   const [Postings, setPostings] = useState<FeedData[]>([]);
   const [Postings1, setPostings1] = useState<FeedData[]>([]);
+  const [likeState, setLikeState] = useState(false);
 
   const [Loading, setLoading] = useState(false);
-  const { feedPageRender, setFeedPageRender } = usePageRender();
+  const [likeArr, setLikeArr] = useState<number[]>();
+  const { feedPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
+  const PostIDList = new Set();
+
   const { id } = useParams<{ id: string }>();
   const route = process.env.REACT_APP_ROUTE;
   async function loading() {
@@ -48,21 +56,33 @@ export default function FeedTemplate() {
     setPostings(feedupdate.data.posting);
   }
 
-  useEffect(() => {
-    setLoading(true);
-    axios({
-      method: "GET",
-      url: `${route}/posting`,
-      withCredentials: true,
-    })
-      .then((res) => {
-        setPostings(res.data.posting);
-      })
-      .finally(() => {
+  useEffect((): any => {
+    async function callFunc() {
+      try {
+        setLoading(true);
+        const res1 = await axios.get(`${route}/posting`, {
+          withCredentials: true,
+        });
+        setPostings(res1.data.posting);
         setLoading(false);
-      });
-  }, [feedPageRender]);
 
+        // 좋아요 눌린 페이지만 불러와야한다.
+        const res2 = await axios.get(`${route}/posting/like`, {
+          withCredentials: true,
+        });
+        let likeArrs = res2.data.postLikes;
+        if (likeArrs != undefined) {
+          likeArrs = likeArrs.map((item: any) => item.postingID);
+        } else {
+          likeArrs = [];
+        }
+        setLikeArr(likeArrs);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    callFunc();
+  }, [feedPageRender]);
   return (
     <Container>
       {Loading ? (
@@ -78,6 +98,7 @@ export default function FeedTemplate() {
                 userId={feed.userId}
                 img={feed.img}
                 type="feed"
+                likeList={likeArr}
               />
             ))
           ) : (

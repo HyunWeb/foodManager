@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import RecipeImgBox from "../molecules/RecipeImgBox";
 import HeadingAtom from "../atoms/HeadingAtom";
 import axios from "axios";
-import { usePageRender } from "./PageRenderContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 interface RecipeProps {
   id: number;
   title: string;
@@ -47,7 +48,35 @@ export default function RecipeCategory({
   category: string;
   introduce?: string;
 }) {
-  const { recipes, setRecipes, loading, setLoading } = usePageRender();
+  const { recipes, loading } = useSelector(
+    (state: RootState) => state.pageRender
+  );
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const wrapRef = useRef<HTMLUListElement | null>(null);
+
+  // 마우스 클릭 당시 위치 저장
+  const handleMouseDown = (e: React.MouseEvent<HTMLUListElement>) => {
+    if (!wrapRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - wrapRef.current.offsetLeft);
+    setScrollLeft(wrapRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLUListElement>) => {
+    if (!isDragging || !wrapRef.current) return;
+    e.preventDefault();
+
+    // 드래그한 최종 위치 저장
+    const x = e.pageX - wrapRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5; // 최종위치 - 시작위치로 차이 계산(배율조정용 곱하기)
+    wrapRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
 
   return (
     <Container>
@@ -64,7 +93,14 @@ export default function RecipeCategory({
           <LoadingFont>Loading...</LoadingFont>
         </RecipeList>
       ) : (
-        <RecipeList>
+        <RecipeList
+          ref={wrapRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        >
           {recipes && recipes.length > 0 ? (
             recipes.map((recipe) => (
               <RecipeListItem key={recipe.id}>

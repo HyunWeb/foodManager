@@ -7,7 +7,9 @@ import ButtonAtom from "../atoms/ButtonAtom";
 import TwoTextInputForm from "../atoms/TwoTextInputForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { usePageRender } from "./PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setGroceryPageRender } from "../../slices/pageRenderSlice";
 import { Alert } from "../ui/alert";
 import { LuTerminal } from "react-icons/lu";
 
@@ -25,8 +27,10 @@ export default function WriteAddFood({ onClose }: { onClose: () => void }) {
     option3: "",
   });
   const navigate = useNavigate();
-  // 컨텍스트 사용
-  const { groceryPageRender, setGroceryPageRender } = usePageRender();
+  const dispatch = useDispatch();
+  const { groceryPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
 
   const kindOfFoodData = [
     {
@@ -54,7 +58,6 @@ export default function WriteAddFood({ onClose }: { onClose: () => void }) {
       value: `6`,
     },
   ];
-  // [category, groceryname, amount, unit, expiration ]
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const data = axios({
@@ -72,7 +75,7 @@ export default function WriteAddFood({ onClose }: { onClose: () => void }) {
       .then((res) => {
         alert(res.data.message);
         onClose();
-        setGroceryPageRender((prev) => !prev);
+        dispatch(setGroceryPageRender(!groceryPageRender));
       })
       .catch((err) => {
         console.error(

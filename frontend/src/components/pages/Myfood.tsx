@@ -5,7 +5,9 @@ import RecipeCategory from "../organisms/RecipeCategory";
 import NavBar from "../organisms/NavBar";
 import FoodHistory from "../organisms/FoodHistory";
 import axios from "axios";
-import { usePageRender } from "../organisms/PageRenderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setIsLogin, setGroceryPageRender } from "../../slices/pageRenderSlice";
 import { useNavigate } from "react-router-dom";
 
 interface GroceryItem {
@@ -34,19 +36,25 @@ const Loading = styled.div`
 `;
 
 export default function Myfood() {
-  const { groceryPageRender, setGroceryPageRender, isLogin, setIsLogin } =
-    usePageRender();
+  const dispatch = useDispatch();
+  const { groceryPageRender, isLogin } = useSelector(
+    (state: RootState) => state.pageRender
+  );
+
   const [groceryData, setGroceryData] = useState<GroceryItem[]>([]);
-  // const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const route = process.env.REACT_APP_ROUTE;
   useEffect(() => {
+    if (!isLogin) {
+      navigate("/login");
+    }
+
     axios({
       method: "GET",
       url: `${route}/user/check`,
       withCredentials: true,
     }).then((res) => {
-      setIsLogin(res.data.result);
+      dispatch(setIsLogin(res.data.result));
     });
 
     const data = axios({
@@ -67,9 +75,9 @@ export default function Myfood() {
     return Data;
   };
 
-  if (!isLogin) {
-    navigate("/login");
-  }
+  // if (!isLogin) {
+  //   navigate("/login");
+  // }
 
   return (
     isLogin && (

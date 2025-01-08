@@ -78,18 +78,6 @@ export default function FoodBlockList({
     `과자`,
     `기타`,
   ];
-
-  // const IngredientData = [
-  //   {
-  //     id: 1,
-  //     $img: 1,
-  //     kindFood: "신선식품",
-  //     amountFood: "1개",
-  //     ExDate: "2025/03/15",
-  //     $remainDate: 10,
-  //   },
-  // ];
-
   // 날짜 계산 함수
   const CalculateDate = (
     Exdate: string

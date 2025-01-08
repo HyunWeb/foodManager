@@ -8,6 +8,9 @@ import BackButton from "../atoms/BackButton";
 import axios from "axios";
 import { createContext } from "vm";
 import { string } from "prop-types";
+import { setCommentPageRender } from "../../slices/pageRenderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
 interface FeedData {
   recipeID?: number;
   postingID?: number;
@@ -36,7 +39,12 @@ export const feedContext = React.createContext<feedContextType | undefined>(
 export default function FilterPosts() {
   const [userfeeds, setuserFeeds] = useState<FeedData[]>([]);
   const [cardType, setCardType] = useState<"feed" | "recipe">("feed");
+  const [likeArr, setLikeArr] = useState<number[]>();
   const { filter } = useParams<{ filter: string }>();
+  const dispatch = useDispatch();
+  const { FilterPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
   const changefeed = () => {
     // 페이지가 레시피인지 게시물인지 판단해서 데이터 요청
     if (filter?.includes("recipe")) {
@@ -61,6 +69,17 @@ export default function FilterPosts() {
             alert(res.data.message);
           }
         });
+
+        // 좋아요 눌린 페이지만 불러와야한다.
+        const res2 = axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_ROUTE}/Recipe/finds/LikeList`,
+          withCredentials: true,
+        }).then((res2) => {
+          let likeArrs = res2.data.RecipeLike;
+          likeArrs = likeArrs.map((item: any) => item.recipeID);
+          setLikeArr(likeArrs);
+        });
       } else if (filter?.includes("my_recipe")) {
         const data = axios({
           method: "POST",
@@ -82,14 +101,25 @@ export default function FilterPosts() {
             alert(res.data.message);
           }
         });
+
+        // 좋아요 눌린 페이지만 불러와야한다.
+        const res2 = axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_ROUTE}/Recipe/finds/LikeList`,
+          withCredentials: true,
+        }).then((res2) => {
+          let likeArrs = res2.data.RecipeLike;
+          likeArrs = likeArrs.map((item: any) => item.recipeID);
+          setLikeArr(likeArrs);
+        });
       }
 
       setCardType("recipe");
     } else if (filter?.includes("posting")) {
       if (filter?.includes("like_posting")) {
         const data = axios({
-          method: "POST",
-          url: `${process.env.REACT_APP_ROUTE}/Posting/Like`,
+          method: "GET",
+          url: `${process.env.REACT_APP_ROUTE}/Posting/likeList`,
           withCredentials: true,
         }).then((res) => {
           let database = [];
@@ -106,6 +136,17 @@ export default function FilterPosts() {
           } else {
             alert(res.data.message);
           }
+        });
+
+        // 좋아요 눌린 페이지만 불러와야한다.
+        const res2 = axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_ROUTE}/posting/like`,
+          withCredentials: true,
+        }).then((res2) => {
+          let likeArrs = res2.data.postLikes;
+          likeArrs = likeArrs.map((item: any) => item.postingID);
+          setLikeArr(likeArrs);
         });
       } else {
         const data = axios({
@@ -128,6 +169,17 @@ export default function FilterPosts() {
             alert(res.data.Message);
           }
         });
+
+        // 좋아요 눌린 페이지만 불러와야한다.
+        const res2 = axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_ROUTE}/posting/like`,
+          withCredentials: true,
+        }).then((res2) => {
+          let likeArrs = res2.data.postLikes;
+          likeArrs = likeArrs.map((item: any) => item.postingID);
+          setLikeArr(likeArrs);
+        });
       }
       setCardType("feed");
     } else {
@@ -137,16 +189,16 @@ export default function FilterPosts() {
 
   useEffect(() => {
     changefeed();
-  }, [filter]);
+  }, [filter, FilterPageRender]);
 
   return (
     <feedContext.Provider value={{ userfeeds, setuserFeeds }}>
       <Container>
         <Header />
+        <BackButton />
         {userfeeds ? (
           userfeeds.length > 0 ? (
             <FeedList>
-              <BackButton />
               {userfeeds.map((feed) => (
                 <MainCard
                   img={"../../" + feed.img}
@@ -156,6 +208,7 @@ export default function FilterPosts() {
                   title={feed.title}
                   userId={feed.userId}
                   type={cardType}
+                  likeList={likeArr}
                 />
               ))}
             </FeedList>

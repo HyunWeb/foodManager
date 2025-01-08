@@ -29,7 +29,6 @@ export default function MyProfile() {
         const response = await axios.get(`${api}/user/getUser`, {
           withCredentials: true,
         });
-        // setItems(response.data); // {name: "jonghyun"}
         setUserInfo(response.data.result);
       } catch (error) {
         console.error("Error fetching items: ", error);
@@ -41,7 +40,7 @@ export default function MyProfile() {
     <Container>
       <HeadingAtom level={2}>내 프로필</HeadingAtom>
       <UserInfo
-        name={userInfo.userID || "로그인 해주세요"}
+        name={userInfo.name || "로그인 해주세요"}
         birthday={userInfo.birthday || " - "}
         gender={
           userInfo.gender === "male"

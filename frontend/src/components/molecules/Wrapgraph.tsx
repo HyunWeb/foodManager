@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ReactDataPicker from "../atoms/ReactDataPicker";
 import ReactCircularProgressbar from "../atoms/ReactCircularProgressbar";
-import { usePageRender } from "../organisms/PageRenderContext"; // 작성한 PageRenderContext 파일
 
 const Container = styled.div`
+  background-color: white;
   height: 45vh;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 20px 20px;
@@ -31,12 +31,10 @@ export default function Wrapgraph({
   NeedKcal: number;
   Totalkcal: number;
 }) {
-  // const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const { startDate, setStartDate } = usePageRender();
   return (
     <Container>
       <CalenderWrap>
-        <ReactDataPicker startDate={startDate} setStartDate={setStartDate} />
+        <ReactDataPicker />
       </CalenderWrap>
       <ReactCircularProgressbar
         GraphValue={Totalkcal}

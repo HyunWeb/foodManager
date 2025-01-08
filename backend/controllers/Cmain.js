@@ -158,7 +158,6 @@ exports.fetchDataAndSave = async (req, res) => {
   try {
     const response = await axios.get(
       "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
-      // "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
     if (!recipes || !Array.isArray(recipes)) {
@@ -196,7 +195,6 @@ exports.detailAPI = async (req, res) => {
     const { id } = req.params;
     const response = await axios.get(
       "http://openapi.foodsafetykorea.go.kr/api/b03dee38a26f4a3aa492/COOKRCP01/json/1/20"
-      // "http://openapi.foodsafetykorea.go.kr/api/sample/COOKRCP01/json/1/5"
     );
     const recipes = response.data.COOKRCP01.row;
 

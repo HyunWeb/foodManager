@@ -9,11 +9,14 @@ import CookingSteps from "../molecules/CookingSteps";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TextInputForm from "../atoms/TextInputForm";
-import { usePageRender } from "./PageRenderContext"; // 작성한 PageRenderContext 파일
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setMainPageRender } from "../../slices/pageRenderSlice";
 
 const Container = styled.form`
   height: 100%;
   overflow: scroll;
+  scrollbar-width: none;
 `;
 const WrapContent = styled.div``;
 export default function WriteRecipe({ onClose }: { onClose: () => void }) {
@@ -28,10 +31,13 @@ export default function WriteRecipe({ onClose }: { onClose: () => void }) {
   const [CookingStep, setCookingStep] = useState([{ stepNo: 1, content: "" }]);
   const [fileName, setFileName] = React.useState<Blob | null>(null);
   const navigate = useNavigate();
-  // 컨텍스트 사용
-  const { mainPageRender, setMainPageRender } = usePageRender();
+  const dispatch = useDispatch();
+  const { mainPageRender } = useSelector(
+    (state: RootState) => state.pageRender
+  );
+
   const toggleMainPageRender = () => {
-    setMainPageRender((prev) => !prev);
+    dispatch(setMainPageRender(!mainPageRender));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

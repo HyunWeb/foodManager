@@ -70,7 +70,6 @@ export default function SignUp() {
       const title = response.data.message[0];
       const detailMessage = response.data.message[1];
       setMessage([title, detailMessage]);
-      // alert(response.data.message);
       setAlertDisplay(!alertDisplay);
     });
   };
