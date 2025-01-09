@@ -42,6 +42,7 @@ const WrapSelect = styled.div`
 `;
 const Container = styled.div`
   margin-top: 20px;
+  width: 100%;
 `;
 
 export default function ThreeSelectBlockUi({

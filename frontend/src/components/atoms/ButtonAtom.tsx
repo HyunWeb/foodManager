@@ -24,10 +24,13 @@ const LongButton = styled(Button)`
   left: 50%;
   transform: translateX(-50%);
 `;
-
 const UploadButton = styled(LongButton)`
   position: fixed;
   z-index: 50;
+  position: static;
+  transform: none;
+  margin-top: 30px;
+  align-self: center;
 `;
 
 const ConfirmButton = styled(Button)`

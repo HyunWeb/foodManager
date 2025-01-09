@@ -33,24 +33,7 @@ export default function CookingSteps({
     setValue(updateInputSet);
   };
   return (
-    <Field
-      label="조리 순서"
-      fontWeight="bold"
-      marginTop="50px"
-      marginBottom="300px"
-      required
-    >
-      <AddButton
-        icontype="plus"
-        variant="ghost"
-        label="리스트 추가 버튼"
-        BGcolor="transparent"
-        size="30px"
-        onClick={addInputSet}
-        position="absolute"
-        left="50%"
-        bottom="-50px"
-      />
+    <Field label="조리 순서" fontWeight="bold" marginTop="30px" required>
       <Grid templateColumns="1fr 9fr 1fr" gap="10px">
         {value.map((inputSets, index) => (
           <React.Fragment key={index}>
@@ -81,6 +64,17 @@ export default function CookingSteps({
           </React.Fragment>
         ))}
       </Grid>
+      <AddButton
+        icontype="plus"
+        variant="ghost"
+        label="리스트 추가 버튼"
+        BGcolor="transparent"
+        size="30px"
+        onClick={addInputSet}
+        // position="absolute"
+        // left="50%"
+        // bottom="-50px"
+      />
     </Field>
   );
 }

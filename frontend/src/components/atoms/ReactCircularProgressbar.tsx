@@ -23,6 +23,7 @@ const Container = styled.div`
   width: 250px;
   height: 250px;
   margin-top: 20px;
+  margin-bottom: 50px;
 `;
 
 const TextBox = styled.div`

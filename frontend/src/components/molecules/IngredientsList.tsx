@@ -36,17 +36,6 @@ export default function IngredientsList({
   };
   return (
     <Field label="재료 양" fontWeight="bold" marginTop="20px" required>
-      <AddButton
-        icontype="plus"
-        variant="ghost"
-        label="리스트 추가 버튼"
-        BGcolor="transparent"
-        size="30px"
-        onClick={addInputSet}
-        position="absolute"
-        left="50%"
-        bottom="-50px"
-      />
       <Grid templateColumns="2fr 1fr 1fr" gap="10px">
         {value.map((inputSets, index) => (
           <React.Fragment key={index}>
@@ -85,6 +74,17 @@ export default function IngredientsList({
           </React.Fragment>
         ))}
       </Grid>
+      <AddButton
+        icontype="plus"
+        variant="ghost"
+        label="리스트 추가 버튼"
+        BGcolor="transparent"
+        size="30px"
+        onClick={addInputSet}
+        // position="absolute"
+        // left="50%"
+        // bottom="-50px"
+      />
     </Field>
   );
 }
