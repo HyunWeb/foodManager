@@ -5,7 +5,6 @@ import ReactCircularProgressbar from "../atoms/ReactCircularProgressbar";
 
 const Container = styled.div`
   background-color: white;
-  height: 45vh;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 20px 20px;
   display: flex;

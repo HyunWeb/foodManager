@@ -13,7 +13,15 @@ import { setGroceryPageRender } from "../../slices/pageRenderSlice";
 import { Alert } from "../ui/alert";
 import { LuTerminal } from "react-icons/lu";
 
-const Container = styled.form``;
+const Container = styled.form`
+  height: calc(100% - 50px);
+  overflow: scroll;
+  scrollbar-width: none;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 const InputWrap = styled.form``;
 
 export default function WriteAddFood({ onClose }: { onClose: () => void }) {

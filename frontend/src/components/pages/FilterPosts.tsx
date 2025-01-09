@@ -21,6 +21,15 @@ interface FeedData {
 }
 
 const Container = styled.div``;
+const TextDiv = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: 700;
+  color: #a5a5a5;
+`;
 const FeedList = styled.ul`
   margin-top: 20px;
   display: flex;
@@ -213,7 +222,7 @@ export default function FilterPosts() {
               ))}
             </FeedList>
           ) : (
-            <div>찜한 목록이 없습니다.</div>
+            <TextDiv>목록이 없습니다.</TextDiv>
           )
         ) : (
           <div>Loading</div>

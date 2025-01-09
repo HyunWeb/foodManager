@@ -5,7 +5,7 @@ import WriteFeedTab from "./WriteFeedTab";
 import WriteRecipe from "./WriteRecipe";
 
 const Container = styled.div`
-  height: 100%;
+  height: calc(100% - 94px);
 `;
 
 export default function WritePostTab({ onClose }: { onClose: () => void }) {

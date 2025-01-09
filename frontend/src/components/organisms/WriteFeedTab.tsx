@@ -12,6 +12,12 @@ import { RootState } from "@/store";
 import { setFeedPageRender } from "../../slices/pageRenderSlice";
 const Container = styled.form`
   position: relative;
+  height: calc(100% - 40px);
+  overflow: scroll;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export default function WriteFeedTab({ onClose }: { onClose: () => void }) {

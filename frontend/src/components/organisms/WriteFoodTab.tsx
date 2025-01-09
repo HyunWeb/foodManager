@@ -11,11 +11,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setPageRender } from "../../slices/pageRenderSlice";
 
-const Container = styled.form``;
+const Container = styled.form`
+  height: calc(100% - 50px);
+  overflow: scroll;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 const CalenderWrap = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
+  align-self: center;
 `;
 const InputWrap = styled.form``;
 

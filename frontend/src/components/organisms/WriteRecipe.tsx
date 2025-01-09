@@ -14,11 +14,16 @@ import { RootState } from "@/store";
 import { setMainPageRender } from "../../slices/pageRenderSlice";
 
 const Container = styled.form`
-  height: 100%;
+  height: calc(100% - 40px);
   overflow: scroll;
   scrollbar-width: none;
 `;
-const WrapContent = styled.div``;
+const WrapContent = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+const StyledButton = styled(ButtonAtom)``;
 export default function WriteRecipe({ onClose }: { onClose: () => void }) {
   const [titleValue, setTitleValue] = useState("");
   const [recipeData, setrecipeData] = useState({
@@ -132,7 +137,7 @@ export default function WriteRecipe({ onClose }: { onClose: () => void }) {
           value={CookingStep}
           setValue={setCookingStep}
         />
-        <ButtonAtom text="업로드" buttontype="upload" type="submit" />
+        <StyledButton text="업로드" buttontype="upload" type="submit" />
       </WrapContent>
     </Container>
   );

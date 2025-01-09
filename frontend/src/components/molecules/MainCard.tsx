@@ -27,7 +27,8 @@ interface MainCardProps {
 const Container = styled.li`
   background-color: white;
   position: relative;
-  width: 350px;
+  max-width: 350px;
+  width: calc(100vw - 40px);
   height: 240px;
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
