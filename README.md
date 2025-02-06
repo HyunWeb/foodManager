@@ -1,6 +1,19 @@
 # 한끼 출근 (Food Manager)
 **한끼 출근**은 바쁜 현대인을 위한 식단 관리 웹 애플리케이션으로, 사용자가 건강한 식습관을 유지하고 냉장고에 있는 재료를 효율적으로 활용할 수 있도록 돕습니다.
 
+## 🛠️ 사용한 기술 스택
+### 디자인
+<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+
+### 프론트엔드
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"><img src="https://img.shields.io/badge/chakraui-319795?style=for-the-badge&logo=chakraui&logoColor=white"><img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
+### 백엔드
+<img src="https://img.shields.io/badge/nodedotjs-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"><img src="https://img.shields.io/badge/sequelize-52B0E7?style=for-the-badge&logo=sequelize&logoColor=white">
+### 배포
+<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"><img src="https://img.shields.io/badge/pm2-2B037A?style=for-the-badge&logo=pm2&logoColor=white"><img src="https://img.shields.io/badge/filezilla-BF0000?style=for-the-badge&logo=filezilla&logoColor=white">
+
+---
+
 ## 📅 프로젝트 개요
 - **기간**: 2024년 12월 3일 ~ 2024년 12월 24일 (3주)
 - **팀 프로젝트**
@@ -29,30 +42,6 @@
 - **칼로리 조절**을 통해 건강한 식습관을 유지
 - **냉장고 재료 활용도**를 높여 경제적인 이점 제공
 - **간편한 레시피 추천**으로 바쁜 일상에서 빠르게 식사를 준비
-
----
-
-## 🛠️ 사용한 기술 스택
-### 1. 디자인
-- **Figma**: 전체 UI 설계
-- **Illustrator**: 로고 및 일러스트 제작
-
-### 2. 프론트엔드
-- **React**: 사용자 인터페이스 구축
-- **TypeScript**: 코드 안정성 향상
-- **Chakra UI**: UI 컴포넌트 제공
-- **Styled-Components**: 세부 스타일링
-
-### 3. 백엔드
-- **Node.js**: 서버 구현
-- **Express**: 라우팅 및 API 처리
-- **MySQL**: 데이터베이스 관리
-- **Sequelize**: ORM을 활용한 데이터 처리
-
-### 4. 배포 및 기타
-- **AWS EC2**: 서버 배포
-- **PM2**: 서버 프로세스 관리
-- **Git/GitHub**: 코드 버전 관리 및 협업
 
 ---
 
