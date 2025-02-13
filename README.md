@@ -1,7 +1,8 @@
 # 한끼 출근 (Food Manager)
 **한끼 출근**은 바쁜 현대인을 위한 식단 관리 웹 애플리케이션으로, 사용자가 건강한 식습관을 유지하고 냉장고에 있는 재료를 효율적으로 활용할 수 있도록 돕습니다.
 
-<img width="1919" alt="스크린샷 2025-02-11 오후 7 15 45" src="https://github.com/user-attachments/assets/34e6cede-2069-44a3-9efd-ab3cc86427f4" />
+<img width="1531" alt="스크린샷 2025-02-13 오후 6 11 31" src="https://github.com/user-attachments/assets/6563ba64-e7dc-43de-ae6d-8e77c3271bc0" />
+
 
 ## 🛠️ 사용한 기술 스택
 
